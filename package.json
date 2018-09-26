@@ -19,11 +19,11 @@
   },
   "scripts": {
     "test": "yarn lint && jest",
-    "build": "bili",
-    "postbuild": "rm -rf dist/__test__",
+    "build": "yarn lint && bili",
+    "postbuild": "find dist -type d -name __test__ -exec rm -r {} +",
     "prepublishOnly": "yarn build",
     "toc": "markdown-toc -i README.md",
-    "lint": "tslint --fix"
+    "lint": "tslint --project tsconfig.json --fix"
   },
   "repository": "https://github.com/HcySunYang/vuese.git",
   "author": "HcySunYang <HcySunYang@outlook.com>",
