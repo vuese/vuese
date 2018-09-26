@@ -1,0 +1,74 @@
+{
+  "name": "vuese",
+  "version": "1.0.0",
+  "main": "dist/vuese.js",
+  "bin": "bin/cli.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist",
+    "bin"
+  ],
+  "keywords": [
+    "vue",
+    "docs",
+    "document",
+    "vue-cli"
+  ],
+  "engines": {
+    "node": ">=8"
+  },
+  "scripts": {
+    "test": "yarn lint && jest",
+    "build": "bili",
+    "postbuild": "rm -rf dist/__test__",
+    "prepublishOnly": "yarn build",
+    "toc": "markdown-toc -i README.md",
+    "lint": "tslint --fix"
+  },
+  "repository": "https://github.com/HcySunYang/vuese.git",
+  "author": "HcySunYang <HcySunYang@outlook.com>",
+  "license": "MIT",
+  "dependencies": {
+    "@babel/parser": "^7.1.0",
+    "@vue/component-compiler-utils": "^2.2.0",
+    "vue-template-compiler": "^2.5.17"
+  },
+  "devDependencies": {
+    "@types/jest": "^23.3.2",
+    "@types/node": "^10.11.0",
+    "bili": "^3.1.2",
+    "husky": "^1.0.0",
+    "jest": "^23.6.0",
+    "lint-staged": "^7.3.0",
+    "markdown-toc": "^1.2.0",
+    "prettier": "^1.14.3",
+    "prettier-tslint": "^0.4.0",
+    "rollup-plugin-typescript2": "^0.17.0",
+    "ts-jest": "^23.10.1",
+    "tslint": "^5.11.0",
+    "tslint-plugin-prettier": "^2.0.0",
+    "typescript": "^3.0.3"
+  },
+  "bili": {
+    "input": "src/index.ts",
+    "js": "typescript2",
+    "filename": "vuese.js",
+    "typescript2": {
+      "useTsconfigDeclarationDir": true
+    },
+    "externals": [
+      ""
+    ]
+  },
+  "lint-staged": {
+    "*.ts": [
+      "npm run lint",
+      "git add"
+    ]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  }
+}
