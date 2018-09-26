@@ -4,10 +4,6 @@ jobs:
     working_directory: ~/repo
     docker:
       - image: circleci/node:latest
-    branches:
-      ignore:
-        - gh-pages # list of branches to ignore
-        - /release\/.*/ # or ignore regexes
     steps:
       - checkout
       - restore_cache:
