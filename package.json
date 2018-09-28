@@ -18,7 +18,7 @@
     "node": ">=8"
   },
   "scripts": {
-    "test": "yarn lint && jest",
+    "test": "yarn lint && jest --verbose",
     "build": "yarn lint && bili",
     "postbuild": "find dist -type d -name __test__ -exec rm -r {} +",
     "prepublishOnly": "yarn build",

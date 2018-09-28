@@ -1,10 +1,9 @@
 import traverse from '@babel/traverse'
-import { getValueFromGenerate } from './helpers/index'
+import { getValueFromGenerate, isPropsOption } from './helpers'
 
 const mainTraveres = {
   ObjectProperty(path: any) {
-    const keyPath = path.get('key')
-    if (keyPath.node.name === 'props') {
+    if (isPropsOption(path)) {
       const valuePath = path.get('value')
       const propsValue = getValueFromGenerate(valuePath.node)
       const { onProp } = (this as any).options
@@ -19,7 +18,7 @@ export interface ParserOptions {
   }
 }
 
-export default function(ast: object, options: ParserOptions = {}) {
+export default function(ast: any, options: ParserOptions = {}) {
   traverse(ast, {
     ExportDefaultDeclaration(path: any) {
       path.traverse(mainTraveres, {
