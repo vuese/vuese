@@ -29,7 +29,10 @@
   "author": "HcySunYang <HcySunYang@outlook.com>",
   "license": "MIT",
   "dependencies": {
+    "@babel/generator": "^7.0.0",
     "@babel/parser": "^7.1.0",
+    "@babel/traverse": "^7.1.0",
+    "@babel/types": "^7.0.0",
     "@vue/component-compiler-utils": "^2.2.0",
     "vue-template-compiler": "^2.5.17"
   },

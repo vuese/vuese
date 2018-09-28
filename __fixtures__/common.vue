@@ -8,6 +8,9 @@ export default {
     return {
       a: 1
     }
+  },
+  props: {
+    a: String
   }
 }
 </script>
