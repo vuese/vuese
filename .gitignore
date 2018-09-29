@@ -3,3 +3,4 @@ dist
 .rpt2_cache
 .history
 *.log
+*.txt
