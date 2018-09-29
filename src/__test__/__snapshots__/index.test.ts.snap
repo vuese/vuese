@@ -1,0 +1,9 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`The validator function should be used as a string representation 1`] = `
+"function () {
+  return true;
+}"
+`;
+
+exports[`When the \`type\` definition contains \`Function\`, you should get a string representation of the \`default\` function. 1`] = `"function () {}"`;

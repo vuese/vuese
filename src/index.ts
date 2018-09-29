@@ -39,13 +39,10 @@ const mainTraveres = {
             if (propPath.parentPath === valuePath) {
               const name = propPath.node.key.name
               const vPath = propPath.get('value')
-
-              let type: PropType = null
               const result: PropsResult = {
                 name,
                 type: null
               }
-
               if (isAllowPropsType(vPath.node)) {
                 result.type = getTypeByPath(vPath)
               } else if (bt.isObjectExpression(vPath.node)) {
@@ -79,10 +76,9 @@ const mainTraveres = {
 
                 otherNodes.forEach((node: any) => {
                   const n = node.key.name
-
                   if (n === 'default') {
                     if (
-                      !hasFunctionTypeDef(type) &&
+                      !hasFunctionTypeDef(result.type) &&
                       bt.isFunction(node.value)
                     ) {
                       result.default = runFunction(node.value)

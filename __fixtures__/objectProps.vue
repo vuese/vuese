@@ -8,7 +8,7 @@ export default {
     a: String,
     b: [Number, String],
     c: {
-      type: String,
+      type: Object,
       default: function () {
         return {
           val: 1
@@ -19,7 +19,11 @@ export default {
         return true
       }
     },
-    d: 'null'
+    d: 'null',
+    e: {
+      type: Function,
+      default: function() {}
+    }
   }
 }
 </script>

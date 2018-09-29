@@ -56,30 +56,30 @@ export function normalizeProps(props: string[]): PropsResult[] {
 }
 
 const josnCache: [] = []
-export function writeFileSync(str: any) {
-  fs.writeFileSync(
-    __dirname + '/a.txt',
-    JSON.stringify(
-      str,
-      function(key, value: string | number) {
-        if (typeof value === 'object' && value !== null) {
-          if (josnCache.indexOf(value) !== -1) {
-            // Duplicate reference found
-            try {
-              // If this value does not reference a parent it can be deduped
-              return JSON.parse(JSON.stringify(value))
-            } catch (error) {
-              // discard key if value cannot be deduped
-              return
-            }
+export function writeFileSync(str: any, keep?: boolean) {
+  const filePath = __dirname + '/a.txt'
+  const preContent = fs.readFileSync(filePath)
+  const content = JSON.stringify(
+    str,
+    function(key, value: string | number) {
+      if (typeof value === 'object' && value !== null) {
+        if (josnCache.indexOf(value) !== -1) {
+          // Duplicate reference found
+          try {
+            // If this value does not reference a parent it can be deduped
+            return JSON.parse(JSON.stringify(value))
+          } catch (error) {
+            // discard key if value cannot be deduped
+            return
           }
-          // Store value in our collection
-          josnCache.push(value)
-          key
         }
-        return value
-      },
-      2
-    )
+        // Store value in our collection
+        josnCache.push(value)
+        key
+      }
+      return value
+    },
+    2
   )
+  fs.writeFileSync(__dirname + '/a.txt', keep ? preContent + content : content)
 }
