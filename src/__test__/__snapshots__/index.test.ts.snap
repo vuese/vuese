@@ -1,9 +1,23 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`Get comments as a description 1`] = `
+Array [
+  "a string",
+  "For input form
+and something",
+]
+`;
+
+exports[`Gets a description of the default value and a description of the validator 1`] = `
+Array [
+  "'TOP' | 'LEFT'",
+]
+`;
+
 exports[`The validator function should be used as a string representation 1`] = `
 "function () {
   return true;
 }"
 `;
 
-exports[`When the \`type\` definition contains \`Function\`, you should get a string representation of the \`default\` function. 1`] = `"function () {}"`;
+exports[`When the \`type\` definition contains \`Function\`, you should get a string representation of the \`default\` function. 1`] = `""`;

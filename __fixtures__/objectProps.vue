@@ -22,7 +22,7 @@ export default {
     d: 'null',
     e: {
       type: Function,
-      default: function() {}
+      default () {}
     }
   }
 }

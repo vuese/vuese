@@ -1,6 +1,7 @@
 import traverse from '@babel/traverse'
 import generate from '@babel/generator'
 import * as bt from '@babel/types'
+import { getComments } from './comments'
 import {
   getValueFromGenerate,
   isPropsOption,
@@ -15,9 +16,13 @@ type PropType = string | string[] | null
 export interface PropsResult {
   type: PropType
   name: string
+  typeDesc?: string[]
   required?: boolean
   default?: string
+  defaultDesc?: string[]
   validator?: string
+  validatorDesc?: string[]
+  describe?: string[]
 }
 
 const mainTraveres = {
@@ -41,8 +46,10 @@ const mainTraveres = {
               const vPath = propPath.get('value')
               const result: PropsResult = {
                 name,
-                type: null
+                type: null,
+                describe: getComments(propPath)
               }
+
               if (isAllowPropsType(vPath.node)) {
                 result.type = getTypeByPath(vPath)
               } else if (bt.isObjectExpression(vPath.node)) {
@@ -72,6 +79,11 @@ const mainTraveres = {
                   result.type = getTypeByPath(
                     typeNode[0].$$selfPath.get('value')
                   )
+                  // Get descriptions of the type
+                  const typeDesc: string[] = getComments(typeNode[0].$$selfPath)
+                  if (typeDesc.length > 0) {
+                    result.typeDesc = typeDesc
+                  }
                 }
 
                 otherNodes.forEach((node: any) => {
@@ -85,12 +97,24 @@ const mainTraveres = {
                     } else {
                       result.default = generate(node.value).code
                     }
+
+                    // Get descriptions of the default value
+                    const defaultDesc: string[] = getComments(node.$$selfPath)
+                    if (defaultDesc.length > 0) {
+                      result.defaultDesc = defaultDesc
+                    }
                   } else if (n === 'required') {
                     if (bt.isBooleanLiteral(node.value)) {
                       result.required = node.value.value
                     }
                   } else if (n === 'validator') {
                     result.validator = generate(node.value).code
+
+                    // Get descriptions of the validator
+                    const validatorDesc: string[] = getComments(node.$$selfPath)
+                    if (validatorDesc.length > 0) {
+                      result.validatorDesc = validatorDesc
+                    }
                   }
                 })
               }

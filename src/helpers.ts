@@ -8,8 +8,16 @@ import * as fs from 'fs'
  * 1. It is a default export
  * 2. others...
  */
-export function isVueComponent(node: object): boolean {
+export function isVueComponent(node: any): boolean {
   return bt.isExportDefaultDeclaration(node)
+}
+
+export function isCommentLine(node: any): boolean {
+  return node.type === 'CommentLine'
+}
+
+export function isCommentBlock(node: any): boolean {
+  return node.type === 'CommentBlock'
 }
 
 export function runFunction(fnCode: string): any {
@@ -58,6 +66,7 @@ export function normalizeProps(props: string[]): PropsResult[] {
 const josnCache: [] = []
 export function writeFileSync(str: any, keep?: boolean) {
   const filePath = __dirname + '/a.txt'
+  if (!fs.existsSync(filePath)) return
   const preContent = fs.readFileSync(filePath)
   const content = JSON.stringify(
     str,
