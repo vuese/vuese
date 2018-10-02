@@ -1,8 +1,17 @@
-import vuese, { ParserOptions, PropsResult } from '../index'
-import { getAST } from './utils'
+import parseJavascript from '../parseJavascript'
+import { ParserOptions, PropsResult } from '../index'
+import * as path from 'path'
+import * as fs from 'fs'
+import sfcToAST, { AstResult } from '../sfcToAST'
+
+function getAST(fileName: string): object {
+  const p = path.resolve(__dirname, `../../../__fixtures__/${fileName}`)
+  const source = fs.readFileSync(p, 'utf-8')
+  return sfcToAST(source)
+}
 
 test('Ability to correctly handle props that is an array of string', () => {
-  const ast = getAST('arrayProps.vue')
+  const sfc: AstResult = getAST('arrayProps.vue')
   const options: ParserOptions = {
     onProp: (propsRes?: PropsResult[]) => {
       expect((propsRes as PropsResult[])[0]).toEqual({
@@ -11,10 +20,10 @@ test('Ability to correctly handle props that is an array of string', () => {
       })
     }
   }
-  vuese(ast, options)
+  parseJavascript(sfc.jsAst, options)
 })
 
-const ast1 = getAST('objectProps.vue')
+const sfc1: AstResult = getAST('objectProps.vue')
 test('Is a prop using a shorthand type', () => {
   const options: ParserOptions = {
     onProp: (propsRes?: PropsResult[]) => {
@@ -25,7 +34,7 @@ test('Is a prop using a shorthand type', () => {
       })
     }
   }
-  vuese(ast1, options)
+  parseJavascript(sfc1.jsAst, options)
 })
 
 test('`prop` defined using a type array', () => {
@@ -38,7 +47,7 @@ test('`prop` defined using a type array', () => {
       })
     }
   }
-  vuese(ast1, options)
+  parseJavascript(sfc1.jsAst, options)
 })
 
 test('Execute the default function and get the default value correctly', () => {
@@ -51,7 +60,7 @@ test('Execute the default function and get the default value correctly', () => {
       })
     }
   }
-  vuese(ast1, options)
+  parseJavascript(sfc1.jsAst, options)
 })
 
 test('Get the `required` value correctly', () => {
@@ -61,7 +70,7 @@ test('Get the `required` value correctly', () => {
       expect(propRes.required).toBe(true)
     }
   }
-  vuese(ast1, options)
+  parseJavascript(sfc1.jsAst, options)
 })
 
 test('The validator function should be used as a string representation', () => {
@@ -71,7 +80,7 @@ test('The validator function should be used as a string representation', () => {
       expect(propRes.validator).toMatchSnapshot()
     }
   }
-  vuese(ast1, options)
+  parseJavascript(sfc1.jsAst, options)
 })
 
 test('The `prop` that does not satisfy the `prop` writing specification should be treated as no type', () => {
@@ -84,7 +93,7 @@ test('The `prop` that does not satisfy the `prop` writing specification should b
       })
     }
   }
-  vuese(ast1, options)
+  parseJavascript(sfc1.jsAst, options)
 })
 
 test('When the `type` definition contains `Function`, you should get a string representation of the `default` function.', () => {
@@ -95,11 +104,11 @@ test('When the `type` definition contains `Function`, you should get a string re
       expect(propRes.default).toMatchSnapshot()
     }
   }
-  vuese(ast1, options)
+  parseJavascript(sfc1.jsAst, options)
 })
 
 test('Get comments as a description', () => {
-  const ast = getAST('commentProps.vue')
+  const sfc: AstResult = getAST('commentProps.vue')
   const options: ParserOptions = {
     onProp: (propsRes?: PropsResult[]) => {
       const propRes = (propsRes as PropsResult[])[0]
@@ -107,11 +116,11 @@ test('Get comments as a description', () => {
       expect(propRes.describe).toMatchSnapshot()
     }
   }
-  vuese(ast, options)
+  parseJavascript(sfc.jsAst, options)
 })
 
 test('Gets a description of the default value and a description of the validator', () => {
-  const ast = getAST('propFieldComment.vue')
+  const sfc: AstResult = getAST('propFieldComment.vue')
   const options: ParserOptions = {
     onProp: (propsRes?: PropsResult[]) => {
       let propRes = (propsRes as PropsResult[])[0]
@@ -127,5 +136,5 @@ test('Gets a description of the default value and a description of the validator
       expect(propRes.typeDesc).toMatchSnapshot()
     }
   }
-  vuese(ast, options)
+  parseJavascript(sfc.jsAst, options)
 })

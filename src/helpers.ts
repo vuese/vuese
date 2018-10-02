@@ -1,6 +1,5 @@
 import generate from '@babel/generator'
 import * as bt from '@babel/types'
-import { PropsResult } from './index'
 import * as fs from 'fs'
 
 /**
@@ -54,13 +53,6 @@ export function isPropsOption(path: any): boolean {
     return keyPath.node.name === 'props'
   }
   return false
-}
-
-export function normalizeProps(props: string[]): PropsResult[] {
-  return props.map(prop => ({
-    type: null,
-    name: prop
-  }))
 }
 
 const josnCache: [] = []

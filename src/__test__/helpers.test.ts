@@ -1,13 +1,21 @@
 import traverse from '@babel/traverse'
-import { getAST } from './utils'
+import * as path from 'path'
+import * as fs from 'fs'
 import { isVueComponent, isPropsOption } from '../helpers'
+import sfcToAST, { AstResult } from '../parse/sfcToAST'
+
+function getAST(fileName: string): object {
+  const p = path.resolve(__dirname, `../../__fixtures__/${fileName}`)
+  const source = fs.readFileSync(p, 'utf-8')
+  return sfcToAST(source)
+}
 
 describe('helpers', () => {
-  const ast1 = getAST('validProps.vue')
-  const ast2 = getAST('invalidProps.vue')
+  const sfc1: AstResult = getAST('validProps.vue')
+  const sfc2: AstResult = getAST('invalidProps.vue')
 
   test('The default export should be a Vue component', () => {
-    traverse(ast1, {
+    traverse(sfc1.jsAst, {
       ExportDefaultDeclaration(path: any) {
         expect(isVueComponent(path.node)).toBe(true)
       }
@@ -15,7 +23,7 @@ describe('helpers', () => {
   })
 
   test('The props property is a Vue component option', () => {
-    traverse(ast1, {
+    traverse(sfc1.jsAst, {
       ObjectProperty(path: any) {
         if (path.node.key.name === 'props') {
           expect(isPropsOption(path)).toBe(true)
@@ -25,7 +33,7 @@ describe('helpers', () => {
   })
 
   test('The props property is not a Vue component option', () => {
-    traverse(ast2, {
+    traverse(sfc2.jsAst, {
       ObjectProperty(path: any) {
         if (path.node.key.name === 'props') {
           expect(isPropsOption(path)).toBe(false)

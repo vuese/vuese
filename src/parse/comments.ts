@@ -1,4 +1,4 @@
-import { isCommentLine, isCommentBlock } from './helpers'
+import { isCommentLine, isCommentBlock } from '../helpers'
 
 const commentRE = /\n\s*\*\s*/g
 

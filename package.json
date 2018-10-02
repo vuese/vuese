@@ -34,6 +34,7 @@
     "@babel/traverse": "^7.1.0",
     "@babel/types": "^7.0.0",
     "@vue/component-compiler-utils": "^2.2.0",
+    "lru-cache": "^4.1.3",
     "vue-template-compiler": "^2.5.17"
   },
   "devDependencies": {
@@ -60,7 +61,12 @@
       "useTsconfigDeclarationDir": true
     },
     "externals": [
-      ""
+      "@babel/generator",
+      "@babel/parser",
+      "@babel/traverse",
+      "@babel/types",
+      "@vue/component-compiler-utils",
+      "vue-template-compiler"
     ]
   },
   "lint-staged": {
