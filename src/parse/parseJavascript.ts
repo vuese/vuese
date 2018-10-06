@@ -1,7 +1,7 @@
 import traverse from '@babel/traverse'
 import generate from '@babel/generator'
 import * as bt from '@babel/types'
-import { getComments } from './comments'
+import { getComments } from './jscomments'
 import { PropsResult, PropType, ParserOptions } from './index'
 import { getValueFromGenerate, isPropsOption, runFunction } from '../helpers'
 import { isArray } from 'util'

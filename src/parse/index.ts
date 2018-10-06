@@ -1,5 +1,6 @@
 import sfcToAST from './sfcToAST'
 import parseJavascript from './parseJavascript'
+import parseTemplate from './parseTemplate'
 
 export type PropType = string | string[] | null
 
@@ -25,5 +26,8 @@ export default function(source: string, options: ParserOptions) {
   const astRes = sfcToAST(source)
   if (astRes.jsAst) {
     parseJavascript(astRes.jsAst, options)
+  }
+  if (astRes.templateAst) {
+    parseTemplate(astRes.templateAst)
   }
 }
