@@ -1,8 +1,8 @@
 import traverse from '@babel/traverse'
 import generate from '@babel/generator'
 import * as bt from '@babel/types'
-import { getComments } from './jscomments'
-import { PropsResult, PropType, ParserOptions } from './index'
+import { getComments, CommentResult } from './jscomments'
+import { PropsResult, PropType, ParserOptions, EventResult } from './index'
 import { getValueFromGenerate, isPropsOption, runFunction } from '../helpers'
 import { isArray } from 'util'
 
@@ -28,7 +28,7 @@ const mainTraveres = {
               const result: PropsResult = {
                 name,
                 type: null,
-                describe: getComments(propPath)
+                describe: getComments(propPath).default
               }
 
               if (isAllowPropsType(vPath.node)) {
@@ -62,6 +62,7 @@ const mainTraveres = {
                   )
                   // Get descriptions of the type
                   const typeDesc: string[] = getComments(typeNode[0].$$selfPath)
+                    .default
                   if (typeDesc.length > 0) {
                     result.typeDesc = typeDesc
                   }
@@ -76,11 +77,16 @@ const mainTraveres = {
                     ) {
                       result.default = runFunction(node.value)
                     } else {
-                      result.default = generate(node.value).code
+                      if (bt.isObjectMethod(node)) {
+                        result.default = generate(node).code
+                      } else {
+                        result.default = generate(node.value).code
+                      }
                     }
 
                     // Get descriptions of the default value
                     const defaultDesc: string[] = getComments(node.$$selfPath)
+                      .default
                     if (defaultDesc.length > 0) {
                       result.defaultDesc = defaultDesc
                     }
@@ -89,10 +95,15 @@ const mainTraveres = {
                       result.required = node.value.value
                     }
                   } else if (n === 'validator') {
-                    result.validator = generate(node.value).code
+                    if (bt.isObjectMethod(node)) {
+                      result.validator = generate(node).code
+                    } else {
+                      result.validator = generate(node.value).code
+                    }
 
                     // Get descriptions of the validator
                     const validatorDesc: string[] = getComments(node.$$selfPath)
+                      .default
                     if (validatorDesc.length > 0) {
                       result.validatorDesc = validatorDesc
                     }
@@ -105,6 +116,32 @@ const mainTraveres = {
         })
       }
       if (onProp) onProp(res)
+    }
+  },
+  CallExpression(path: any) {
+    const node = path.node
+    // this.$emit()
+    if (
+      bt.isMemberExpression(node.callee) &&
+      bt.isThisExpression(node.callee.object) &&
+      bt.isIdentifier(node.callee.property) &&
+      node.callee.property.name === '$emit' &&
+      bt.isExpressionStatement(path.parentPath.node)
+    ) {
+      const { onEvent } = (this as any).options
+      const args = node.arguments
+      const result: EventResult = {
+        name: ''
+      }
+      if (args.length && bt.isStringLiteral(args[0])) {
+        result.name = args[0].value
+      }
+
+      const allComments: CommentResult = getComments(path.parentPath)
+      result.describe = allComments.default
+      result.argumentsDesc = allComments.arg
+
+      if (onEvent) onEvent(result)
     }
   }
 }

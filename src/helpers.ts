@@ -58,7 +58,9 @@ export function isPropsOption(path: any): boolean {
 const josnCache: [] = []
 export function writeFileSync(str: any, keep?: boolean) {
   const filePath = __dirname + '/a.txt'
-  if (!fs.existsSync(filePath)) return
+  if (!fs.existsSync(filePath)) {
+    fs.writeFileSync(__dirname + '/a.txt', '')
+  }
   const preContent = fs.readFileSync(filePath)
   const content = JSON.stringify(
     str,

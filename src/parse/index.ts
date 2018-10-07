@@ -16,9 +16,18 @@ export interface PropsResult {
   describe?: string[]
 }
 
+export interface EventResult {
+  name: string
+  describe?: string[]
+  argumentsDesc?: string[]
+}
+
 export interface ParserOptions {
   onProp?: {
     (propsRes?: PropsResult[]): any
+  }
+  onEvent?: {
+    (eventRes?: EventResult): any
   }
 }
 
