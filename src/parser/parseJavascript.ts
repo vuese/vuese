@@ -159,6 +159,9 @@ const mainTraveres = {
         result.name = args[0].value
       }
 
+      if (!result.name || (this as any).seenEvent.has(result.name)) return
+      ;(this as any).seenEvent.add(result.name)
+
       const allComments: CommentResult = getComments(path.parentPath.node)
       result.describe = allComments.default
       result.argumentsDesc = allComments.arg
@@ -204,10 +207,12 @@ function hasFunctionTypeDef(type: PropType): boolean {
 }
 
 export default function(ast: any, options: ParserOptions = {}) {
+  const seenEvent = new Set()
   traverse(ast, {
     ExportDefaultDeclaration(path: any) {
       path.traverse(mainTraveres, {
-        options
+        options,
+        seenEvent
       })
     }
   })

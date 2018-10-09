@@ -12,161 +12,183 @@ function getAST(fileName: string): object {
 
 test('Ability to correctly handle props that is an array of string', () => {
   const sfc: AstResult = getAST('arrayProps.vue')
+  const mockOnProp = jest.fn(() => {})
   const options: ParserOptions = {
-    onProp: (propsRes?: PropsResult[]) => {
-      expect((propsRes as PropsResult[])[0]).toEqual({
-        type: null,
-        name: 'a'
-      })
-    }
+    onProp: mockOnProp
   }
   parseJavascript(sfc.jsAst, options)
+  const arg = mockOnProp.mock.calls[0][0]
+
+  expect(mockOnProp.mock.calls.length).toBe(1)
+  expect((arg as PropsResult[])[0]).toEqual({
+    type: null,
+    name: 'a'
+  })
 })
 
 const sfc1: AstResult = getAST('objectProps.vue')
 test('Is a prop using a shorthand type', () => {
+  const mockOnProp = jest.fn(() => {})
   const options: ParserOptions = {
-    onProp: (propsRes?: PropsResult[]) => {
-      expect((propsRes as PropsResult[])[0]).toEqual({
-        name: 'a',
-        type: 'String',
-        describe: []
-      })
-    }
+    onProp: mockOnProp
   }
   parseJavascript(sfc1.jsAst, options)
+  const arg = mockOnProp.mock.calls[0][0]
+
+  expect(mockOnProp.mock.calls.length).toBe(1)
+  expect((arg as PropsResult[])[0]).toEqual({
+    name: 'a',
+    type: 'String',
+    describe: []
+  })
 })
 
 test('`prop` defined using a type array', () => {
+  const mockOnProp = jest.fn(() => {})
   const options: ParserOptions = {
-    onProp: (propsRes?: PropsResult[]) => {
-      expect((propsRes as PropsResult[])[1]).toEqual({
-        name: 'b',
-        type: ['Number', 'String'],
-        describe: []
-      })
-    }
+    onProp: mockOnProp
   }
   parseJavascript(sfc1.jsAst, options)
+  const arg = mockOnProp.mock.calls[0][0]
+
+  expect(mockOnProp.mock.calls.length).toBe(1)
+  expect((arg as PropsResult[])[1]).toEqual({
+    name: 'b',
+    type: ['Number', 'String'],
+    describe: []
+  })
 })
 
 test('Execute the default function and get the default value correctly', () => {
+  const mockOnProp = jest.fn(() => {})
   const options: ParserOptions = {
-    onProp: (propsRes?: PropsResult[]) => {
-      const propRes = (propsRes as PropsResult[])[2]
-      expect(propRes.name).toBe('c')
-      expect(propRes.default).toEqual({
-        val: 1
-      })
-    }
+    onProp: mockOnProp
   }
   parseJavascript(sfc1.jsAst, options)
+  const arg = mockOnProp.mock.calls[0][0]
+
+  expect(mockOnProp.mock.calls.length).toBe(1)
+  expect(arg[2].name).toBe('c')
+  expect(arg[2].default).toEqual({
+    val: 1
+  })
 })
 
 test('Get the `required` value correctly', () => {
+  const mockOnProp = jest.fn(() => {})
   const options: ParserOptions = {
-    onProp: (propsRes?: PropsResult[]) => {
-      const propRes = (propsRes as PropsResult[])[2]
-      expect(propRes.required).toBe(true)
-    }
+    onProp: mockOnProp
   }
   parseJavascript(sfc1.jsAst, options)
+  const arg = mockOnProp.mock.calls[0][0]
+
+  expect(mockOnProp.mock.calls.length).toBe(1)
+  expect(arg[2].required).toBe(true)
 })
 
 test('The validator function should be used as a string representation', () => {
+  const mockOnProp = jest.fn(() => {})
   const options: ParserOptions = {
-    onProp: (propsRes?: PropsResult[]) => {
-      const propRes = (propsRes as PropsResult[])[2]
-      expect(propRes.validator).toMatchSnapshot()
-    }
+    onProp: mockOnProp
   }
   parseJavascript(sfc1.jsAst, options)
+  const arg = mockOnProp.mock.calls[0][0]
+
+  expect(mockOnProp.mock.calls.length).toBe(1)
+  expect(arg[2].validator).toMatchSnapshot()
 })
 
 test('The `prop` that does not satisfy the `prop` writing specification should be treated as no type', () => {
+  const mockOnProp = jest.fn(() => {})
   const options: ParserOptions = {
-    onProp: (propsRes?: PropsResult[]) => {
-      expect((propsRes as PropsResult[])[3]).toEqual({
-        name: 'd',
-        type: null,
-        describe: []
-      })
-    }
+    onProp: mockOnProp
   }
   parseJavascript(sfc1.jsAst, options)
+  const arg = mockOnProp.mock.calls[0][0]
+
+  expect(mockOnProp.mock.calls.length).toBe(1)
+  expect((arg as PropsResult[])[3]).toEqual({
+    name: 'd',
+    type: null,
+    describe: []
+  })
 })
 
 test('When the `type` definition contains `Function`, should get a string representation of the `default` function.', () => {
+  const mockOnProp = jest.fn(() => {})
   const options: ParserOptions = {
-    onProp: (propsRes?: PropsResult[]) => {
-      const propRes = (propsRes as PropsResult[])[4]
-      expect(propRes.name).toBe('e')
-      expect(propRes.default).toMatchSnapshot()
-    }
+    onProp: mockOnProp
   }
   parseJavascript(sfc1.jsAst, options)
+  const arg = mockOnProp.mock.calls[0][0]
+
+  expect(mockOnProp.mock.calls.length).toBe(1)
+  expect(arg[4].name).toBe('e')
+  expect(arg[4].default).toMatchSnapshot()
 })
 
 test('Get comments as a description', () => {
   const sfc: AstResult = getAST('commentProps.vue')
+  const mockOnProp = jest.fn(() => {})
   const options: ParserOptions = {
-    onProp: (propsRes?: PropsResult[]) => {
-      const propRes = (propsRes as PropsResult[])[0]
-      expect((propRes.describe as []).length).toBe(3)
-      expect(propRes.describe).toMatchSnapshot()
-    }
+    onProp: mockOnProp
   }
   parseJavascript(sfc.jsAst, options)
+  const arg = mockOnProp.mock.calls[0][0]
+
+  expect(mockOnProp.mock.calls.length).toBe(1)
+  expect((arg[0].describe as []).length).toBe(3)
+  expect(arg[0].describe).toMatchSnapshot()
 })
 
 test('Gets a description of the default value and a description of the validator', () => {
   const sfc: AstResult = getAST('propFieldComment.vue')
+  const mockOnProp = jest.fn(() => {})
   const options: ParserOptions = {
-    onProp: (propsRes?: PropsResult[]) => {
-      let propRes = (propsRes as PropsResult[])[0]
-      expect((propRes.defaultDesc as string[]).length).toBe(1)
-      expect(propRes.defaultDesc).toEqual(['An empty function'])
-
-      propRes = (propsRes as PropsResult[])[1]
-      expect((propRes.validatorDesc as string[]).length).toBe(1)
-      expect(propRes.validatorDesc).toEqual(['Must be a number greater than 0'])
-
-      propRes = (propsRes as PropsResult[])[2]
-      expect((propRes.typeDesc as string[]).length).toBe(1)
-      expect(propRes.typeDesc).toMatchSnapshot()
-    }
+    onProp: mockOnProp
   }
   parseJavascript(sfc.jsAst, options)
+  const arg = mockOnProp.mock.calls[0][0]
+
+  expect(mockOnProp.mock.calls.length).toBe(1)
+  expect((arg[0].defaultDesc as string[]).length).toBe(1)
+  expect(arg[0].defaultDesc).toEqual(['An empty function'])
+  expect((arg[1].validatorDesc as string[]).length).toBe(1)
+  expect(arg[1].validatorDesc).toEqual(['Must be a number greater than 0'])
+  expect((arg[2].typeDesc as string[]).length).toBe(1)
+  expect(arg[2].typeDesc).toMatchSnapshot()
 })
 
 test('Correct handling of events', () => {
   const sfc: AstResult = getAST('emit.vue')
+  const mockOnEvent = jest.fn(() => {})
   const options: ParserOptions = {
-    onEvent(eventRes?: EventResult) {
-      expect((eventRes as EventResult).name).toBe('click')
-      expect(((eventRes as EventResult).describe as string[]).length).toBe(1)
-      expect(((eventRes as EventResult).argumentsDesc as string[]).length).toBe(
-        1
-      )
-      expect((eventRes as EventResult).describe).toMatchSnapshot()
-      expect((eventRes as EventResult).argumentsDesc).toMatchSnapshot()
-    }
+    onEvent: mockOnEvent
   }
   parseJavascript(sfc.jsAst, options)
+  const arg = mockOnEvent.mock.calls[0][0]
+
+  expect(mockOnEvent.mock.calls.length).toBe(1)
+  expect((arg as EventResult).name).toBe('click')
+  expect(((arg as EventResult).describe as string[]).length).toBe(1)
+  expect(((arg as EventResult).argumentsDesc as string[]).length).toBe(1)
+  expect((arg as EventResult).describe).toMatchSnapshot()
+  expect((arg as EventResult).argumentsDesc).toMatchSnapshot()
 })
 
 test('Correct handling of methods', () => {
   const sfc: AstResult = getAST('methods.vue')
+  const mockOnMethod = jest.fn(() => {})
   const options: ParserOptions = {
-    onMethod(methodRes?: MethodResult) {
-      expect((methodRes as MethodResult).name).toBe('fn')
-      expect(((methodRes as MethodResult).describe as string[]).length).toBe(1)
-      expect(
-        ((methodRes as MethodResult).argumentsDesc as string[]).length
-      ).toBe(1)
-      expect((methodRes as MethodResult).describe).toMatchSnapshot()
-      expect((methodRes as MethodResult).argumentsDesc).toMatchSnapshot()
-    }
+    onMethod: mockOnMethod
   }
   parseJavascript(sfc.jsAst, options)
+  const arg = mockOnMethod.mock.calls[0][0]
+
+  expect(mockOnMethod.mock.calls.length).toBe(1)
+  expect((arg as MethodResult).name).toBe('fn')
+  expect(((arg as MethodResult).describe as string[]).length).toBe(1)
+  expect(((arg as MethodResult).argumentsDesc as string[]).length).toBe(1)
+  expect((arg as MethodResult).describe).toMatchSnapshot()
+  expect((arg as MethodResult).argumentsDesc).toMatchSnapshot()
 })
