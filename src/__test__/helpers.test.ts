@@ -2,7 +2,7 @@ import traverse from '@babel/traverse'
 import * as path from 'path'
 import * as fs from 'fs'
 import { isVueComponent, isVueOption } from '../helpers'
-import sfcToAST, { AstResult } from '../parse/sfcToAST'
+import sfcToAST, { AstResult } from '../parser/sfcToAST'
 
 function getAST(fileName: string): object {
   const p = path.resolve(__dirname, `../../__fixtures__/${fileName}`)
