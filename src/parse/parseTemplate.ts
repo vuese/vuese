@@ -1,13 +1,7 @@
-export interface SlotResult {
-  name: string
-  describe: string
-  backerDesc: string
-  bindings: AttrsMap
-}
+import { ParserOptions, SlotResult, AttrsMap } from './index'
 
-export default function traverse(templateAst: any): SlotResult[] {
+export default function traverse(templateAst: any, options: ParserOptions) {
   const parent = templateAst.parent
-  let res: SlotResult[] = []
   if (templateAst.type === 1) {
     if (templateAst.tag === 'slot') {
       const slot: SlotResult = {
@@ -58,19 +52,14 @@ export default function traverse(templateAst: any): SlotResult[] {
           }
         }
       }
-      res.push(slot)
+      if (options.onSlot) options.onSlot(slot)
     }
     for (let i = 0; i < templateAst.children.length; i++) {
-      res = res.concat(traverse(templateAst.children[i]))
+      traverse(templateAst.children[i], options)
     }
   }
-
-  return res
 }
 
-type AttrsMap = {
-  [key: string]: string
-}
 const dirRE = /^(v-|:|@)/
 const allowRE = /^(v-bind|:)/
 function extractAndFilterAttr(attrsMap: AttrsMap): AttrsMap {

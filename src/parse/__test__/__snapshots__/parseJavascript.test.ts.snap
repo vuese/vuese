@@ -12,6 +12,18 @@ Array [
 ]
 `;
 
+exports[`Correct handling of methods 1`] = `
+Array [
+  "Do something",
+]
+`;
+
+exports[`Correct handling of methods 2`] = `
+Array [
+  "The first parameter is a Boolean value that represents...",
+]
+`;
+
 exports[`Get comments as a description 1`] = `
 Array [
   "a string",

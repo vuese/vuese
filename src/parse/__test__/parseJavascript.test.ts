@@ -1,5 +1,5 @@
 import parseJavascript from '../parseJavascript'
-import { ParserOptions, PropsResult, EventResult } from '../index'
+import { ParserOptions, PropsResult, EventResult, MethodResult } from '../index'
 import * as path from 'path'
 import * as fs from 'fs'
 import sfcToAST, { AstResult } from '../sfcToAST'
@@ -150,6 +150,22 @@ test('Correct handling of events', () => {
       )
       expect((eventRes as EventResult).describe).toMatchSnapshot()
       expect((eventRes as EventResult).argumentsDesc).toMatchSnapshot()
+    }
+  }
+  parseJavascript(sfc.jsAst, options)
+})
+
+test('Correct handling of methods', () => {
+  const sfc: AstResult = getAST('methods.vue')
+  const options: ParserOptions = {
+    onMethod(methodRes?: MethodResult) {
+      expect((methodRes as MethodResult).name).toBe('fn')
+      expect(((methodRes as MethodResult).describe as string[]).length).toBe(1)
+      expect(
+        ((methodRes as MethodResult).argumentsDesc as string[]).length
+      ).toBe(1)
+      expect((methodRes as MethodResult).describe).toMatchSnapshot()
+      expect((methodRes as MethodResult).argumentsDesc).toMatchSnapshot()
     }
   }
   parseJavascript(sfc.jsAst, options)

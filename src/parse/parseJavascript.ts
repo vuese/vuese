@@ -2,14 +2,20 @@ import traverse from '@babel/traverse'
 import generate from '@babel/generator'
 import * as bt from '@babel/types'
 import { getComments, CommentResult } from './jscomments'
-import { PropsResult, PropType, ParserOptions, EventResult } from './index'
-import { getValueFromGenerate, isPropsOption, runFunction } from '../helpers'
+import {
+  PropsResult,
+  PropType,
+  ParserOptions,
+  EventResult,
+  MethodResult
+} from './index'
+import { getValueFromGenerate, isVueOption, runFunction } from '../helpers'
 import { isArray } from 'util'
 
 const mainTraveres = {
   ObjectProperty(path: any) {
     // Processing props
-    if (isPropsOption(path)) {
+    if (isVueOption(path, 'props')) {
       const valuePath = path.get('value')
       const { onProp } = (this as any).options
       let res: PropsResult[] = []
@@ -28,7 +34,7 @@ const mainTraveres = {
               const result: PropsResult = {
                 name,
                 type: null,
-                describe: getComments(propPath).default
+                describe: getComments(propPath.node).default
               }
 
               if (isAllowPropsType(vPath.node)) {
@@ -61,8 +67,7 @@ const mainTraveres = {
                     typeNode[0].$$selfPath.get('value')
                   )
                   // Get descriptions of the type
-                  const typeDesc: string[] = getComments(typeNode[0].$$selfPath)
-                    .default
+                  const typeDesc: string[] = getComments(typeNode[0]).default
                   if (typeDesc.length > 0) {
                     result.typeDesc = typeDesc
                   }
@@ -85,8 +90,7 @@ const mainTraveres = {
                     }
 
                     // Get descriptions of the default value
-                    const defaultDesc: string[] = getComments(node.$$selfPath)
-                      .default
+                    const defaultDesc: string[] = getComments(node).default
                     if (defaultDesc.length > 0) {
                       result.defaultDesc = defaultDesc
                     }
@@ -102,8 +106,7 @@ const mainTraveres = {
                     }
 
                     // Get descriptions of the validator
-                    const validatorDesc: string[] = getComments(node.$$selfPath)
-                      .default
+                    const validatorDesc: string[] = getComments(node).default
                     if (validatorDesc.length > 0) {
                       result.validatorDesc = validatorDesc
                     }
@@ -116,6 +119,25 @@ const mainTraveres = {
         })
       }
       if (onProp) onProp(res)
+    }
+
+    // Processing methods
+    if (isVueOption(path, 'methods')) {
+      const result: MethodResult = {
+        name: ''
+      }
+      const { onMethod } = (this as any).options
+      const properties = path.node.value.properties
+      properties.forEach((node: any) => {
+        const commentsRes: CommentResult = getComments(node)
+        // Collect only methods that have @vuese annotations
+        if (commentsRes.vuese) {
+          result.name = node.key.name
+          result.describe = commentsRes.default
+          result.argumentsDesc = commentsRes.arg
+          if (onMethod) onMethod(result)
+        }
+      })
     }
   },
   CallExpression(path: any) {
@@ -137,7 +159,7 @@ const mainTraveres = {
         result.name = args[0].value
       }
 
-      const allComments: CommentResult = getComments(path.parentPath)
+      const allComments: CommentResult = getComments(path.parentPath.node)
       result.describe = allComments.default
       result.argumentsDesc = allComments.arg
 

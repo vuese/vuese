@@ -1,18 +1,17 @@
-import { isCommentLine, isCommentBlock, writeFileSync } from '../helpers'
+import { isCommentLine, isCommentBlock } from '../helpers'
 
 export type CommentResult = {
   default: string[]
   [key: string]: string[]
 }
 const commentRE = /\n\s*\*?\s*/g
-const leadRE = /^@(\w+)\s+/
+const leadRE = /^@(\w+)\b/
 
-export function getComments(path: any): CommentResult {
+export function getComments(cnode: any): CommentResult {
   const res: CommentResult = {
     default: []
   }
-  const commentNodes: [] | undefined = path.node.leadingComments
-  writeFileSync(commentNodes)
+  const commentNodes: [] | undefined = cnode.leadingComments
   if (!commentNodes || !commentNodes.length) return res
 
   let comments: string = '',
@@ -38,7 +37,7 @@ export function getComments(path: any): CommentResult {
         if ((matchs = c.match(leadRE))) {
           currentKey = matchs[1]
           res[currentKey] = res[currentKey] || []
-          res[currentKey].push(comments.replace(leadRE, ''))
+          res[currentKey].push(comments.replace(leadRE, '').trim())
         } else {
           res.default.push(c)
         }

@@ -1,7 +1,7 @@
 import traverse from '@babel/traverse'
 import * as path from 'path'
 import * as fs from 'fs'
-import { isVueComponent, isPropsOption } from '../helpers'
+import { isVueComponent, isVueOption } from '../helpers'
 import sfcToAST, { AstResult } from '../parse/sfcToAST'
 
 function getAST(fileName: string): object {
@@ -26,7 +26,7 @@ describe('helpers', () => {
     traverse(sfc1.jsAst, {
       ObjectProperty(path: any) {
         if (path.node.key.name === 'props') {
-          expect(isPropsOption(path)).toBe(true)
+          expect(isVueOption(path, 'props')).toBe(true)
         }
       }
     })
@@ -36,7 +36,7 @@ describe('helpers', () => {
     traverse(sfc2.jsAst, {
       ObjectProperty(path: any) {
         if (path.node.key.name === 'props') {
-          expect(isPropsOption(path)).toBe(false)
+          expect(isVueOption(path, 'props')).toBe(false)
         }
       }
     })

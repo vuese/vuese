@@ -22,12 +22,35 @@ export interface EventResult {
   argumentsDesc?: string[]
 }
 
+export interface MethodResult {
+  name: string
+  describe?: string[]
+  argumentsDesc?: string[]
+}
+
+export type AttrsMap = {
+  [key: string]: string
+}
+
+export interface SlotResult {
+  name: string
+  describe: string
+  backerDesc: string
+  bindings: AttrsMap
+}
+
 export interface ParserOptions {
   onProp?: {
     (propsRes?: PropsResult[]): any
   }
   onEvent?: {
     (eventRes?: EventResult): any
+  }
+  onMethod?: {
+    (methodRes?: MethodResult): any
+  }
+  onSlot?: {
+    (slotRes?: SlotResult): any
   }
 }
 
@@ -37,6 +60,6 @@ export default function(source: string, options: ParserOptions) {
     parseJavascript(astRes.jsAst, options)
   }
   if (astRes.templateAst) {
-    parseTemplate(astRes.templateAst)
+    parseTemplate(astRes.templateAst, options)
   }
 }

@@ -42,7 +42,7 @@ export function getValueFromGenerate(node: any) {
   }
 }
 
-export function isPropsOption(path: any): boolean {
+export function isVueOption(path: any, optionsName: string): boolean {
   if (
     bt.isObjectProperty(path.node) &&
     path.parentPath &&
@@ -50,7 +50,7 @@ export function isPropsOption(path: any): boolean {
     isVueComponent(path.parentPath.parentPath.node)
   ) {
     const keyPath = path.get('key')
-    return keyPath.node.name === 'props'
+    return keyPath.node.name === optionsName
   }
   return false
 }

@@ -1,7 +1,8 @@
 import * as path from 'path'
 import * as fs from 'fs'
 import sfcToAST, { AstResult } from '../sfcToAST'
-import parseTemplate, { SlotResult } from '../parseTemplate'
+import parseTemplate from '../parseTemplate'
+import { SlotResult, ParserOptions } from '../index'
 
 function getAST(fileName: string): object {
   const p = path.resolve(__dirname, `../../../__fixtures__/${fileName}`)
@@ -11,33 +12,42 @@ function getAST(fileName: string): object {
 
 test('Default slot with slot description', () => {
   const sfc: AstResult = getAST('defaultSlot.vue')
-  const slotRes: SlotResult[] = parseTemplate(sfc.templateAst)
-  expect(slotRes.length).toBe(1)
-  expect(slotRes[0].name).toBe('default')
-  expect(slotRes[0].describe).toBe('default slot')
-  expect(slotRes[0].backerDesc).toBe('Default Slot Content')
-  expect(slotRes[0].bindings).toEqual({})
+  const options: ParserOptions = {
+    onSlot(slotRes) {
+      expect((slotRes as SlotResult).name).toBe('default')
+      expect((slotRes as SlotResult).describe).toBe('default slot')
+      expect((slotRes as SlotResult).backerDesc).toBe('Default Slot Content')
+      expect((slotRes as SlotResult).bindings).toEqual({})
+    }
+  }
+  parseTemplate(sfc.templateAst, options)
 })
 
 test('Named slot with slot description', () => {
   const sfc: AstResult = getAST('namedSlot.vue')
-  const slotRes: SlotResult[] = parseTemplate(sfc.templateAst)
-  expect(slotRes.length).toBe(1)
-  expect(slotRes[0].name).toBe('header')
-  expect(slotRes[0].describe).toBe('head slot')
-  expect(slotRes[0].backerDesc).toBe('Default Slot Content')
-  expect(slotRes[0].bindings).toEqual({})
+  const options: ParserOptions = {
+    onSlot(slotRes) {
+      expect((slotRes as SlotResult).name).toBe('header')
+      expect((slotRes as SlotResult).describe).toBe('head slot')
+      expect((slotRes as SlotResult).backerDesc).toBe('Default Slot Content')
+      expect((slotRes as SlotResult).bindings).toEqual({})
+    }
+  }
+  parseTemplate(sfc.templateAst, options)
 })
 
 test('Named slot with slot description and bingdings', () => {
   const sfc: AstResult = getAST('slotWithBindings.vue')
-  const slotRes: SlotResult[] = parseTemplate(sfc.templateAst)
-  expect(slotRes.length).toBe(1)
-  expect(slotRes[0].name).toBe('header')
-  expect(slotRes[0].describe).toBe('Named slot')
-  expect(slotRes[0].backerDesc).toBe('Default Slot Content')
-  expect(slotRes[0].bindings).toEqual({
-    a: 'someData',
-    b: 'str'
-  })
+  const options: ParserOptions = {
+    onSlot(slotRes) {
+      expect((slotRes as SlotResult).name).toBe('header')
+      expect((slotRes as SlotResult).describe).toBe('Named slot')
+      expect((slotRes as SlotResult).backerDesc).toBe('Default Slot Content')
+      expect((slotRes as SlotResult).bindings).toEqual({
+        a: 'someData',
+        b: 'str'
+      })
+    }
+  }
+  parseTemplate(sfc.templateAst, options)
 })
