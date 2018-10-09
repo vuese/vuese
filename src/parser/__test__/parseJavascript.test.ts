@@ -176,6 +176,17 @@ test('Correct handling of events', () => {
   expect((arg as EventResult).argumentsDesc).toMatchSnapshot()
 })
 
+test('Only call onEvent once for the same event', () => {
+  const sfc: AstResult = getAST('repeatEmit.vue')
+  const mockOnEvent = jest.fn(() => {})
+  const options: ParserOptions = {
+    onEvent: mockOnEvent
+  }
+  parseJavascript(sfc.jsAst, options)
+
+  expect(mockOnEvent.mock.calls.length).toBe(1)
+})
+
 test('Correct handling of methods', () => {
   const sfc: AstResult = getAST('methods.vue')
   const mockOnMethod = jest.fn(() => {})
