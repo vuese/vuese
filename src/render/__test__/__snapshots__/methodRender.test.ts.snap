@@ -1,8 +1,0 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
-
-exports[`Proper rendering of props 1`] = `
-"|Method|Description|Parameters|
-================================
-|clear|clear user selection|-|
-"
-`;

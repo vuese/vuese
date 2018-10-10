@@ -54,12 +54,49 @@ export interface ParserOptions {
   }
 }
 
-export default function(source: string, options: ParserOptions) {
+export interface ParserResult {
+  props?: PropsResult[]
+  events?: EventResult[]
+  slots?: SlotResult[]
+  methods?: MethodResult[]
+}
+
+export default function(
+  source: string,
+  options: ParserOptions = {}
+): ParserResult {
   const astRes = sfcToAST(source)
+  const res: ParserResult = {}
+  const defaultOptions: ParserOptions = {
+    onProp(propsRes?: PropsResult[]) {
+      if (propsRes) {
+        res.props = propsRes
+      }
+    },
+    onEvent(eventsRes?: EventResult) {
+      if (eventsRes) {
+        ;(res.events || (res.events = [])).push(eventsRes)
+      }
+    },
+    onSlot(slotRes?: SlotResult) {
+      if (slotRes) {
+        ;(res.slots || (res.slots = [])).push(slotRes)
+      }
+    },
+    onMethod(methodRes?: MethodResult) {
+      if (methodRes) {
+        ;(res.methods || (res.methods = [])).push(methodRes)
+      }
+    }
+  }
+
+  const finallyOptions: ParserOptions = Object.assign(defaultOptions, options)
   if (astRes.jsAst) {
-    parseJavascript(astRes.jsAst, options)
+    parseJavascript(astRes.jsAst, finallyOptions)
   }
   if (astRes.templateAst) {
-    parseTemplate(astRes.templateAst, options)
+    parseTemplate(astRes.templateAst, finallyOptions)
   }
+
+  return res
 }

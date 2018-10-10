@@ -1,0 +1,22 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Proper rendering of the table header 1`] = `
+Object {
+  "events": "|Event Name|Description|Parameters|
+====================================
+|click|Triggered when clicked|a boolean value|
+",
+  "methods": "|Method|Description|Parameters|
+================================
+|clear|Clear form|a boolean value|
+",
+  "props": "|Name|Description|Type|Required|Default|
+=========================================
+|someProp|Represents the direction of the arrow|\`TOP\` / \`BOTTOM\`|\`true\`|\`TOP\`|
+",
+  "slots": "|Name|Description|Default Slot Content|
+========================================
+|header|Table header|\`<th>{{title}}</th>\`|
+",
+}
+`;

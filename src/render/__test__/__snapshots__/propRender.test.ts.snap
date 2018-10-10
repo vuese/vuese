@@ -1,8 +1,0 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
-
-exports[`Proper rendering of props 1`] = `
-"|Name|Description|Type|Required|Default|
-=========================================
-|propName|Direction of the arrow|\`TOP\` | \`BOTTOM\`|\`true\`|\`TOP\`|
-"
-`;
