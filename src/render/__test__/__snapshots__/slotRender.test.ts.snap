@@ -1,0 +1,8 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Proper rendering of props 1`] = `
+"|Name|Description|Default Slot Content|
+========================================
+|header|Custom table header|\`<th>{{title}}</th>\`|
+"
+`;

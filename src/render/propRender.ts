@@ -52,6 +52,8 @@ export default function(propsRes: PropsResult[]) {
         } else {
           row.push('-')
         }
+      } else {
+        row.push('-')
       }
     }
   })
