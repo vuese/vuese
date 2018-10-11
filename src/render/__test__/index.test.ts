@@ -1,5 +1,6 @@
 import Render, { RenderResult } from '../index'
 import { ParserResult } from '../../parser'
+
 test('Proper rendering of the table header', () => {
   const res: ParserResult = {
     props: [

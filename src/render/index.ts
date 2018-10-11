@@ -80,7 +80,7 @@ export default class Render {
           } else if (Array.isArray(prop.type)) {
             row.push(
               prop.type
-                .map(t => `\`${t}\` | `)
+                .map(t => `\`${t}\` / `)
                 .join('')
                 .slice(0, -3)
             )
@@ -205,7 +205,7 @@ export default class Render {
 
   renderTabelHeader(header: string[]): string {
     const headerString = this.renderTabelRow(header)
-    const splitLine = this.renderSplitLine(headerString.length)
+    const splitLine = this.renderSplitLine(header.length)
     return headerString + splitLine + '\n'
   }
 
@@ -216,8 +216,8 @@ export default class Render {
   renderSplitLine(num: number): string {
     let line = ''
     for (let i = 0; i < num; i++) {
-      line += '='
+      line += '|---'
     }
-    return line
+    return line + '|'
   }
 }
