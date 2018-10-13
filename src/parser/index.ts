@@ -52,6 +52,9 @@ export interface ParserOptions {
   onSlot?: {
     (slotRes?: SlotResult): any
   }
+  onName?: {
+    (name: string): any
+  }
 }
 
 export interface ParserResult {
@@ -59,6 +62,7 @@ export interface ParserResult {
   events?: EventResult[]
   slots?: SlotResult[]
   methods?: MethodResult[]
+  name?: string
 }
 
 export default function(
@@ -68,6 +72,9 @@ export default function(
   const astRes = sfcToAST(source)
   const res: ParserResult = {}
   const defaultOptions: ParserOptions = {
+    onName(name: string) {
+      res.name = name
+    },
     onProp(propsRes?: PropsResult[]) {
       if (propsRes) {
         res.props = propsRes

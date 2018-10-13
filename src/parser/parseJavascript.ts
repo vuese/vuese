@@ -14,10 +14,15 @@ import { isArray } from 'util'
 
 const mainTraveres = {
   ObjectProperty(path: any) {
+    const { onProp, onMethod, onName } = (this as any).options
+    // Processing name
+    if (isVueOption(path, 'name')) {
+      if (onName) onName(path.node.value.value)
+    }
+
     // Processing props
     if (isVueOption(path, 'props')) {
       const valuePath = path.get('value')
-      const { onProp } = (this as any).options
       let res: PropsResult[] = []
       if (bt.isArrayExpression(valuePath.node)) {
         // An array of strings
@@ -126,7 +131,6 @@ const mainTraveres = {
       const result: MethodResult = {
         name: ''
       }
-      const { onMethod } = (this as any).options
       const properties = path.node.value.properties
       properties.forEach((node: any) => {
         const commentsRes: CommentResult = getComments(node)

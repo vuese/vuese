@@ -34,6 +34,10 @@
     "@babel/traverse": "^7.1.0",
     "@babel/types": "^7.0.0",
     "@vue/component-compiler-utils": "^2.2.0",
+    "cac": "^5.0.13",
+    "fast-glob": "^2.2.3",
+    "joycon": "^2.1.2",
+    "majo": "^0.6.2",
     "vue-template-compiler": "^2.5.17"
   },
   "devDependencies": {

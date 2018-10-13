@@ -62,7 +62,7 @@ export default class Render {
         if (propConfig[i] === 'Name') {
           row.push(prop.name)
         } else if (propConfig[i] === 'Description') {
-          let desc: string[] = []
+          let desc: string[] = ['-']
           if (prop.describe) {
             desc = prop.describe
             if (prop.validatorDesc) {

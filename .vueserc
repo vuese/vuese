@@ -1,0 +1,5 @@
+{
+  "include": ["**/all.vue"],
+  "exclude": [],
+  "outDir": "website"
+}

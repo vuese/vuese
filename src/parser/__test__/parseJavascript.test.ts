@@ -10,6 +10,19 @@ function getAST(fileName: string): object {
   return sfcToAST(source)
 }
 
+test('Get the component name correctly', () => {
+  const sfc: AstResult = getAST('name.vue')
+  const mockOnName = jest.fn(() => {})
+  const options: ParserOptions = {
+    onName: mockOnName
+  }
+  parseJavascript(sfc.jsAst, options)
+  const arg = mockOnName.mock.calls[0][0]
+
+  expect(mockOnName.mock.calls.length).toBe(1)
+  expect(arg).toBe('compName')
+})
+
 test('Ability to correctly handle props that is an array of string', () => {
   const sfc: AstResult = getAST('arrayProps.vue')
   const mockOnProp = jest.fn(() => {})
