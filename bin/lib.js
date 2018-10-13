@@ -2,15 +2,19 @@ const fg = require('fast-glob')
 const path = require('path')
 const majo = require('majo')
 
-module.exports = async function(config) {
-  let { include, exclude, outDir } = config
+module.exports = async ({
+  include = '**/*.vue',
+  exclude = [],
+  outDir = 'website'
+} = config) => {
   if (typeof include === 'string') include = [include]
   if (typeof exclude === 'string') exclude = [exclude]
+  exclude = exclude.concat('node_modules/**/*.vue')
 
   const files = await fg(include.concat(exclude.map(p => `!${p}`)))
   const mdTemplate = await majo.fs.readFile(path.resolve(__dirname, './templates/md.md'), 'utf-8')
   const nameRE = /\[name\]/g
-  const htmlCommentRE = /<!--\s*@vuese:(\w+):(\w+)\s*-->/
+  const htmlCommentRE = /<!--\s*@vuese:(\w+):(\w+):start\s*-->[^]*<!--\s*@vuese:\1:\2:end\s*-->/
   
   const { parser, Render } = require('../dist/vuese')
   files.forEach(async p => {
@@ -31,10 +35,19 @@ module.exports = async function(config) {
       if (res) {
         const matchText = res[0]
         const type = res[2]
-        const insertText = matchText + '\n' + (renderRes[type] || '')
         const i = stream.indexOf(matchText)
-
-        str = str.replace(matchText, insertText)
+        const currentHtmlCommentRE = new RegExp(
+          `<!--\\s*@vuese:(${compName}):(${type}):start\\s*-->[^]*<!--\\s*@vuese:\\1:\\2:end\\s*-->`
+        )
+        str = str.replace(currentHtmlCommentRE, (s, c1, c2) => {
+          if (renderRes[type]) {
+            let code = `<!-- @vuese:${c1}:${c2}:start -->\n`
+            code += renderRes[type]
+            code += `<!-- @vuese:${c1}:${c2}:end -->\n`
+            return code
+          }
+          return s
+        })
         index = i + matchText.length
       } else {
         index = stream.length

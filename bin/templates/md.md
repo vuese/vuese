@@ -2,16 +2,20 @@
 
 ## Props
 
-<!-- @vuese:[name]:props -->
+<!-- @vuese:[name]:props:start -->
+<!-- @vuese:[name]:props:end -->
 
 ## Events
 
-<!-- @vuese:[name]:events -->
+<!-- @vuese:[name]:events:start -->
+<!-- @vuese:[name]:events:end -->
 
 ## Slots
 
-<!-- @vuese:[name]:slots -->
+<!-- @vuese:[name]:slots:start -->
+<!-- @vuese:[name]:slots:end -->
 
 ## Methods
 
-<!-- @vuese:[name]:methods -->
+<!-- @vuese:[name]:methods:start -->
+<!-- @vuese:[name]:methods:end -->

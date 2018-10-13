@@ -1,5 +1,5 @@
 {
-  "include": ["**/all.vue"],
+  "include": ["**/*.vue"],
   "exclude": [],
-  "outDir": "website"
+  "outDir": "test-website"
 }
