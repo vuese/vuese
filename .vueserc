@@ -1,5 +1,6 @@
 {
   "include": ["**/*.vue"],
   "exclude": [],
-  "outDir": "test-website"
+  "outDir": "test-website",
+  "markdownDir": "components"
 }
