@@ -37,6 +37,7 @@
     "@vue/component-compiler-utils": "^2.2.0",
     "cac": "^5.0.13",
     "fast-glob": "^2.2.3",
+    "get-port": "^4.0.0",
     "inquirer": "^6.2.0",
     "joycon": "^2.1.2",
     "log-horizon": "^0.1.2",
