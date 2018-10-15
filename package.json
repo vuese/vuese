@@ -42,6 +42,7 @@
     "joycon": "^2.1.2",
     "log-horizon": "^0.1.2",
     "majo": "^0.6.2",
+    "opn": "^5.4.0",
     "sao": "^0.22.17",
     "serve-handler": "^5.0.5",
     "vue-template-compiler": "^2.5.17"
