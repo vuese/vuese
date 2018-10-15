@@ -1,6 +1,7 @@
 import sfcToAST from './sfcToAST'
 import parseJavascript from './parseJavascript'
 import parseTemplate from './parseTemplate'
+import { ParserPlugin } from '@babel/parser'
 
 export type PropType = string | string[] | null
 
@@ -55,6 +56,7 @@ export interface ParserOptions {
   onName?: {
     (name: string): any
   }
+  babelParserPlugins?: ParserPlugin[]
 }
 
 export interface ParserResult {
@@ -69,7 +71,7 @@ export default function(
   source: string,
   options: ParserOptions = {}
 ): ParserResult {
-  const astRes = sfcToAST(source)
+  const astRes = sfcToAST(source, options.babelParserPlugins)
   const res: ParserResult = {}
   const defaultOptions: ParserOptions = {
     onName(name: string) {
@@ -94,7 +96,8 @@ export default function(
       if (methodRes) {
         ;(res.methods || (res.methods = [])).push(methodRes)
       }
-    }
+    },
+    babelParserPlugins: ['objectRestSpread', 'dynamicImport']
   }
 
   const finallyOptions: ParserOptions = Object.assign(defaultOptions, options)

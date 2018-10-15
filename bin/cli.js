@@ -28,7 +28,7 @@ async function getConfig (flags) {
   return config
 }
 
-cli.command('*', 'vuese cli', async (input, flags) => {
+cli.command('*', 'vuese cli', () => {
   cli.showHelp()
 })
 

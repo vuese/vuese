@@ -1,13 +1,16 @@
 import { parse as vueSFCParse } from '@vue/component-compiler-utils'
 import * as vueTemplateCompiler from 'vue-template-compiler'
-import { parse as babelParse } from '@babel/parser'
+import { parse as babelParse, ParserPlugin } from '@babel/parser'
 
 export interface AstResult {
   jsAst?: object
   templateAst?: object
 }
 
-export default function(source: string): AstResult {
+export default function(
+  source: string,
+  babelParserPlugins?: ParserPlugin[]
+): AstResult {
   const sfc = vueSFCParse({
     source: source,
     compiler: vueTemplateCompiler,
@@ -16,7 +19,8 @@ export default function(source: string): AstResult {
   const res: AstResult = {}
   if (sfc.script && sfc.script.content) {
     res.jsAst = babelParse(sfc.script.content, {
-      sourceType: 'module'
+      sourceType: 'module',
+      plugins: babelParserPlugins || ['objectRestSpread', 'dynamicImport']
     })
   }
   if (sfc.template && sfc.template.content) {
