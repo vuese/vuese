@@ -37,7 +37,7 @@ export function getComments(cnode: any): CommentResult {
         if ((matchs = c.match(leadRE))) {
           currentKey = matchs[1]
           res[currentKey] = res[currentKey] || []
-          res[currentKey].push(comments.replace(leadRE, '').trim())
+          res[currentKey].push(c.replace(leadRE, '').trim())
         } else {
           res.default.push(c)
         }

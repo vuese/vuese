@@ -1,4 +1,4 @@
-# vuese (processing)
+# vuese
 
 *Your vue `SFC` is your document* - Parsing Vue `SFC` and generating documentation.
 

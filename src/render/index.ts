@@ -56,14 +56,14 @@ export default class Render {
   propRender(propsRes: PropsResult[]) {
     const propConfig = (this.options as RenderOptions).props
     let code = this.renderTabelHeader(propConfig)
-    const row: string[] = []
     propsRes.forEach((prop: PropsResult) => {
+      const row: string[] = []
       for (let i = 0; i < propConfig.length; i++) {
         if (propConfig[i] === 'Name') {
           row.push(prop.name)
         } else if (propConfig[i] === 'Description') {
           let desc: string[] = ['-']
-          if (prop.describe) {
+          if (prop.describe && prop.describe.length) {
             desc = prop.describe
             if (prop.validatorDesc) {
               desc = prop.describe.concat(prop.validatorDesc)
@@ -107,17 +107,17 @@ export default class Render {
           row.push('-')
         }
       }
+      code += this.renderTabelRow(row)
     })
 
-    code += this.renderTabelRow(row)
     return code
   }
 
   slotRender(slotsRes: SlotResult[]) {
     const slotConfig = (this.options as RenderOptions).slots
     let code = this.renderTabelHeader(slotConfig)
-    const row: string[] = []
     slotsRes.forEach((slot: SlotResult) => {
+      const row: string[] = []
       for (let i = 0; i < slotConfig.length; i++) {
         if (slotConfig[i] === 'Name') {
           row.push(slot.name)
@@ -137,22 +137,22 @@ export default class Render {
           row.push('-')
         }
       }
+      code += this.renderTabelRow(row)
     })
 
-    code += this.renderTabelRow(row)
     return code
   }
 
   eventRender(propsRes: EventResult[]) {
     const eventConfig = (this.options as RenderOptions).events
     let code = this.renderTabelHeader(eventConfig)
-    const row: string[] = []
     propsRes.forEach((event: EventResult) => {
+      const row: string[] = []
       for (let i = 0; i < eventConfig.length; i++) {
         if (eventConfig[i] === 'Event Name') {
           row.push(event.name)
         } else if (eventConfig[i] === 'Description') {
-          if (event.describe) {
+          if (event.describe && event.describe.length) {
             row.push(event.describe.join(''))
           } else {
             row.push('-')
@@ -167,17 +167,17 @@ export default class Render {
           row.push('-')
         }
       }
+      code += this.renderTabelRow(row)
     })
 
-    code += this.renderTabelRow(row)
     return code
   }
 
   methodRender(slotsRes: MethodResult[]) {
     const methodConfig = (this.options as RenderOptions).methods
     let code = this.renderTabelHeader(methodConfig)
-    const row: string[] = []
     slotsRes.forEach((method: MethodResult) => {
+      const row: string[] = []
       for (let i = 0; i < methodConfig.length; i++) {
         if (methodConfig[i] === 'Method') {
           row.push(method.name)
@@ -197,9 +197,9 @@ export default class Render {
           row.push('-')
         }
       }
+      code += this.renderTabelRow(row)
     })
 
-    code += this.renderTabelRow(row)
     return code
   }
 
