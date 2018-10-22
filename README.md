@@ -97,7 +97,7 @@ vuese gen --include="components/*.vue"
 
 Then you can choose which type of document to generate: just markdown or generate a [docute](https://docute.org/) document:
 
-![](https://raw.githubusercontent.com/HcySunYang/vuese/master/imags/vuese-cli-gen.jepg)
+![](https://github.com/HcySunYang/vuese/blob/master/imgs/vuese-cli-gen.jpeg)
 
 If you choose to generate a [docute](https://docute.org/) document, the directory will be output in the directory where the command is executed. At this point you can execute the following command:
 
@@ -107,7 +107,7 @@ vuese serve --open
 
 It will launch a document server and automatically open the browser, as shown below:
 
-![](https://raw.githubusercontent.com/HcySunYang/vuese/master/imags/vuese-cli-serve.jepg)
+![](https://github.com/HcySunYang/vuese/blob/master/imgs/vuese-cli-serve.jepg)
 
 ### Use configuration file
 
