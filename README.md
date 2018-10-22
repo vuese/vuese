@@ -246,6 +246,227 @@ interface RenderResult {
 }
 ```
 
+### Write a document for your component
+
+The process of writing a document is to write a comment for your code.
+
+#### props
+
+Assume we have a prop called `name`:
+
+```js
+props: {
+  name: {
+    type: String
+  }
+}
+```
+
+When there are no comments, the generated document is as follows:
+
+|Name|Description|Type|Required|Default|
+|---|---|---|---|---|
+|name|-|`String`|`false`|-|
+
+We noticed that the prop named `name` is not described, in this case, we only need to add leading comments to the name attribute:
+
+```js
+props: {
+  // The name of the form
+  name: {
+    type: String
+  }
+}
+```
+
+In this way, the description of the prop will be included in the document, as shown below:
+
+|Name|Description|Type|Required|Default|
+|---|---|---|---|---|
+|name|The name of the form|`String`|`false`|-|
+
+In addition, we also notice that the `type` of prop called `name` is automatically obtained from the `type` attribute, but sometimes we need to show the user a more explicit choice, then we only need to add leading comments to the type attribute, as shown below:
+
+```js
+// The name of the form
+props: {
+  name: {
+    // `'TOP'` / `'BOTTOM'`
+    type: String
+  }
+}
+```
+
+The generated document is as follows:
+
+|Name|Description|Type|Required|Default|
+|---|---|---|---|---|
+|name|The name of the form|`'TOP'` / `'BOTTOM'`|`false`|-|
+
+Similarly, we can specify default values:
+
+```js
+// The name of the form
+props: {
+  name: {
+    // `'TOP'` / `'BOTTOM'`
+    type: String,
+    required: true,
+    default: 'TOP'
+  }
+}
+```
+
+Then we get:
+
+|Name|Description|Type|Required|Default|
+|---|---|---|---|---|
+|name|The name of the form|`'TOP'` / `'BOTTOM'`|`true`|'TOP'|
+
+**Note: You can also add leading comments to the `default` attribute.**
+
+#### slots
+
+Assume we have the following template which contains a named slot and default slot content:
+
+```html
+<slot name="header">
+  <th>title</th>
+</slot>
+```
+
+The generated document is as follows:
+
+|Name|Description|Default Slot Content|
+|---|---|---|
+|header|-|-|
+
+We can see that the slot called `header` is not described, and there is no description of the default slot content.
+
+Then we add a comment to it:
+
+```html
+<!-- Form header -->
+<slot name="header">
+  <!-- `<th>title</th>` -->
+  <th>title</th>
+</slot>
+```
+
+Then we get:
+
+|Name|Description|Default Slot Content|
+|---|---|---|
+|header|Form header|`<th>title</th>`|
+
+Sometimes we will encounter nested slots:
+
+```html
+<!-- Form header -->
+<slot name="header">
+  <!-- `<th>title</th>` -->
+  <slot name="defaultHeader"></slot>
+</slot>
+```
+
+**Note: At this point, the comment content ``<!-- `<th>title</th>` -->`` is not a description of the slot called `defaultHeader`. It is still a description of the default slot contents of the slot called `header`.**
+
+In order to add a description to the slot called `defaultHeader`, we need to add another comment:
+
+```html
+<!-- Form header -->
+<slot name="header">
+  <!-- `<th>title</th>` -->
+  <!-- Custom form header -->
+  <slot name="defaultHeader"></slot>
+</slot>
+```
+
+Then we get:
+
+|Name|Description|Default Slot Content|
+|---|---|---|
+|header|Form header|`<th>title</th>`|
+|defaultHeader|Custom form header|-|
+
+#### events
+
+**Note: Vuese only treats `this.$emit()` as an event**
+
+Assume we have the following code:
+
+```js
+methods: {
+  clear () {
+    this.$emit('onclear')
+  }
+}
+```
+
+The generated document is as follows:
+
+|Event Name|Description|Parameters|
+|---|---|---|
+|onclear|-|-|
+
+Just add leading comments to it:
+
+```js
+methods: {
+  clear () {
+    // Fire when the form is cleared
+    this.$emit('onclear', true)
+  }
+}
+```
+
+Then we get:
+
+|Event Name|Description|Parameters|
+|---|---|---|
+|onclear|Fire when the form is cleared|-|
+
+If you want to describe the parameters further, you need to use the `@arg` identifier:
+
+```js
+methods: {
+  clear () {
+    // Fire when the form is cleared
+    // @arg The argument is a boolean value representing xxx
+    this.$emit('onclear', true)
+  }
+}
+```
+
+Then we get:
+
+|Event Name|Description|Parameters|
+|---|---|---|
+|onclear|Fire when the form is cleared| The argument is a boolean value representing xxx|
+
+#### methods
+
+Similar to events, but with one difference, since not all methods need to be exposed to the developer, you need to use the `@vuese` flag to tell vuese which methods are needed to generate the document:
+
+```js
+methods: {
+  /**
+   * @vuese
+   * Used to manually clear the form
+   * @arg The argument is a boolean value representing xxx
+   */
+  clear (bol) {
+    // ...
+  }
+}
+```
+
+Then we get:
+
+|Method|Description|Parameters|
+|---|---|---|
+|clear|Used to manually clear the form|The argument is a boolean value representing xxx|
+
 ## Contributing
 
 1. Fork it!
