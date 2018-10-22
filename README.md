@@ -104,7 +104,7 @@ Then you can choose which type of document to generate: just markdown or generat
 
 ![](https://github.com/HcySunYang/vuese/blob/master/imgs/vuese-cli-gen.jpeg)
 
-If you choose to generate a [docute](https://docute.org/) document, the directory will be output in the directory where the command is executed. At this point you can execute the following command:
+If you choose to generate a [docute](https://docute.org/) document, the document will be output in your command execution directory. At this point you can execute the following command:
 
 ```sh
 vuese serve --open
