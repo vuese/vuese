@@ -30,6 +30,8 @@ yarn global add vuese
       - [ParserOptions](#parseroptions)
     + [Render](#render)
       - [RenderResult](#renderresult)
+- [Contributing](#contributing)
+- [Author](#author)
 
 <!-- tocstop -->
 
@@ -244,3 +246,17 @@ interface RenderResult {
 }
 ```
 
+## Contributing
+
+1. Fork it!
+2. Create your feature branch: `git checkout -b my-new-feature`
+3. Commit your changes: `git commit -am 'Add some feature'`
+4. Push to the branch: `git push origin my-new-feature`
+5. Submit a pull request :D
+
+## Author
+
+**vuese** © [HcySunYang](https://github.com/HcySunYang), Released under the [MIT](./LICENSE) License.<br>
+Authored and maintained by HcySunYang.
+
+> [hcysun.me](https://hcysun.me) · GitHub [@HcySunYang](https://github.com/HcySunYang) · Twitter [@HcySunYang](https://twitter.com/HcySunYang)
