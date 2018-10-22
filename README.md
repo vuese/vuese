@@ -30,6 +30,11 @@ yarn global add vuese
       - [ParserOptions](#parseroptions)
     + [Render](#render)
       - [RenderResult](#renderresult)
+  * [Write a document for your component](#write-a-document-for-your-component)
+    + [props](#props)
+    + [slots](#slots)
+    + [events](#events)
+    + [methods](#methods)
 - [Contributing](#contributing)
 - [Author](#author)
 
