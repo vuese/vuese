@@ -1,6 +1,6 @@
 <template>
   <div>
-    <!-- 表单头部 -->
+    <!-- Form header -->
     <slot name="header">
       <!-- `<th>title</th>` -->
       <th>title</th>
@@ -11,7 +11,7 @@
 <script>
 export default {
   props: {
-    // 表单的名称，最多8个字符
+    // The name of the form, up to 8 characters
     name: {
       type: [String, Number],
       required: true,
@@ -20,10 +20,10 @@ export default {
   },
   methods: {
     // @vuese
-    // 用来手动清空表单
+    // Used to manually clear the form
     clear () {
-      // 清空表单时触发
-      // @arg 参数是一个布尔值，代表xxx
+      // Fire when the form is cleared
+      // @arg The argument is a boolean value representing xxx
       this.$emit('onclear', true)
     }
   }
