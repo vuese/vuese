@@ -293,8 +293,8 @@ In this way, the description of the prop will be included in the document, as sh
 In addition, we also notice that the `type` of prop called `name` is automatically obtained from the `type` attribute, but sometimes we need to show the user a more explicit choice, then we only need to add leading comments to the type attribute, as shown below:
 
 ```js
-// The name of the form
 props: {
+  // The name of the form
   name: {
     // `'TOP'` / `'BOTTOM'`
     type: String
@@ -311,8 +311,8 @@ The generated document is as follows:
 Similarly, we can specify default values:
 
 ```js
-// The name of the form
 props: {
+  // The name of the form
   name: {
     // `'TOP'` / `'BOTTOM'`
     type: String,
