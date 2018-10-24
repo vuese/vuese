@@ -128,17 +128,16 @@ const mainTraveres = {
 
     // Processing methods
     if (isVueOption(path, 'methods')) {
-      const result: MethodResult = {
-        name: ''
-      }
       const properties = path.node.value.properties
       properties.forEach((node: any) => {
         const commentsRes: CommentResult = getComments(node)
         // Collect only methods that have @vuese annotations
         if (commentsRes.vuese) {
-          result.name = node.key.name
-          result.describe = commentsRes.default
-          result.argumentsDesc = commentsRes.arg
+          const result: MethodResult = {
+            name: node.key.name,
+            describe: commentsRes.default,
+            argumentsDesc: commentsRes.arg
+          }
           if (onMethod) onMethod(result)
         }
       })
