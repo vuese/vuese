@@ -5,6 +5,8 @@
 ## Status
 
 [![build status](https://badgen.net/circleci/github/HcySunYang/vuese/master)](https://circleci.com/gh/HcySunYang/vuese/tree/master)
+[![](https://img.shields.io/npm/v/vuese.svg)](https://www.npmjs.com/package/vuese)
+[![](https://img.shields.io/npm/l/vuese.svg)](https://www.npmjs.com/package/vuese)
 
 ## Install
 
