@@ -35,7 +35,7 @@ cli.command('*', 'vuese cli', () => {
 cli.command('gen', 'Generate target resources', async (input, flags) => {
   const config = await getConfig(flags)
   const questions = require('./questions')
-  if (["docute", "markdown"].indexOf(config.genType) < 0) {
+  if (['docute', 'markdown'].indexOf(config.genType) < 0) {
     const {genType} = await require('inquirer').prompt(questions)
     config.genType = genType
   }
