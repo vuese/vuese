@@ -148,20 +148,6 @@ Output directory of the [docute](https://docute.org/) document.
 
 The output directory of the markdown file, note: `markdownDir` is based on `outdir`, which means that the markdown file will be output to the `website/components` directory.
 
-#### genType
-
-* Type: `string`
-* Default: `''`
-
-Select the target to generate, can be either `'docute'` or `'markdown'`, if you don't specify `genType`, vuese will ask you 😋.
-
-#### title
-
-* Type: `string`
-* Default: `''`
-
-If you want to generate a `docute` document, you need to specify the sidbar title, if you don't specify `title`, vuese will ask you too 😋.
-
 ### Used in nodejs
 
 `vuese` exposes two modules: `parser` and `Render`.
