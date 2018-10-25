@@ -151,16 +151,16 @@ The output directory of the markdown file, note: `markdownDir` is based on `outd
 #### genType
 
 * Type: `string`
-* Default: ``
+* Default: `''`
 
-Select the target to generate.
+Select the target to generate, can be either `'docute'` or `'markdown'`, if you don't specify `genType`, vuese will ask you 😋.
 
 #### title
 
 * Type: `string`
-* Default: ``
+* Default: `''`
 
-Sidbar title, note: when `genType === 'docute'` can optionally.
+If you want to generate a `docute` document, you need to specify the sidbar title, if you don't specify `title`, vuese will ask you too 😋.
 
 ### Used in nodejs
 
