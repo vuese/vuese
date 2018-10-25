@@ -4,6 +4,8 @@
   "main": "dist/vuese.js",
   "bin": "bin/cli.js",
   "types": "dist/index.d.ts",
+  "unpkg": "dist/vuese.js",
+  "jsdelivr": "dist/vuese.js",
   "files": [
     "dist",
     "bin",
