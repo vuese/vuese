@@ -26,6 +26,8 @@ yarn global add vuese
     + [exclude](#exclude)
     + [outDir](#outdir)
     + [markdownDir](#markdowndir)
+    + [genType](#gentype)
+    + [title](#title)
   * [Used in nodejs](#used-in-nodejs)
     + [parser](#parser)
       - [ParserResult](#parserresult)
