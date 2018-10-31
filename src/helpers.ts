@@ -49,8 +49,7 @@ export function isVueOption(path: any, optionsName: string): boolean {
     path.parentPath.parentPath &&
     isVueComponent(path.parentPath.parentPath.node)
   ) {
-    const keyPath = path.get('key')
-    return keyPath.node.name === optionsName
+    return path.node.key.name === optionsName
   }
   return false
 }
