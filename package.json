@@ -21,8 +21,8 @@
     "node": ">=8"
   },
   "scripts": {
-    "test": "yarn lint && jest --verbose",
-    "build": "yarn lint && bili",
+    "test": "yarn lint:ts && jest --verbose",
+    "build": "yarn lint:ts && bili",
     "postbuild": "find dist -type d -name __test__ -exec rm -r {} +",
     "prepublishOnly": "yarn build",
     "toc": "markdown-toc -i README.md",
