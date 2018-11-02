@@ -36,6 +36,16 @@ cli.command('*', 'vuese cli', () => {
   cli.showHelp()
 })
 
+cli.command(
+  'preview',
+  'Preview a vue component as a document',
+  async (input, flags) => {
+    const config = await getConfig(flags)
+    config.include = input
+    require('../lib/preview')(config)
+  }
+)
+
 cli.command('gen', 'Generate target resources', async (input, flags) => {
   const config = await getConfig(flags)
   const questions = require('./questions')

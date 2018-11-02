@@ -5,3 +5,4 @@ dist
 *.log
 *.txt
 test-website
+.profile
