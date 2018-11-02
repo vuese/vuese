@@ -26,7 +26,8 @@
     "postbuild": "find dist -type d -name __test__ -exec rm -r {} +",
     "prepublishOnly": "yarn build",
     "toc": "markdown-toc -i README.md",
-    "lint": "tslint --project tsconfig.json --fix"
+    "lint:ts": "tslint --project tsconfig.json --fix",
+    "lint:js": "eslint --fix"
   },
   "repository": "https://github.com/HcySunYang/vuese.git",
   "author": "HcySunYang <HcySunYang@outlook.com>",
@@ -53,6 +54,9 @@
     "@types/jest": "^23.3.2",
     "@types/node": "^10.11.0",
     "bili": "^3.1.2",
+    "eslint": "^5.8.0",
+    "eslint-config-prettier": "^3.1.0",
+    "eslint-plugin-prettier": "^3.0.0",
     "husky": "^1.0.0",
     "jest": "^23.6.0",
     "lint-staged": "^7.3.0",
@@ -83,7 +87,15 @@
   },
   "lint-staged": {
     "*.ts": [
-      "npm run lint",
+      "npm run lint:ts --",
+      "git add"
+    ],
+    "bin/**/*.js": [
+      "npm run lint:js --",
+      "git add"
+    ],
+    "lib/**/*.js": [
+      "npm run lint:js --",
       "git add"
     ]
   },

@@ -6,7 +6,8 @@ module.exports = [
     default: 'docute',
     choices: [
       {
-        name: 'Docute - The fastest way to create a documentation site for your project.',
+        name:
+          'Docute - The fastest way to create a documentation site for your project.',
         value: 'docute'
       },
       {

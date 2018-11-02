@@ -16,8 +16,12 @@ joycon.addLoader({
   }
 })
 
-async function getConfig (flags) {
-  const { path, data } = await joycon.load(['vuese.config.js', '.vueserc', 'package.json'])
+async function getConfig(flags) {
+  const { path, data } = await joycon.load([
+    'vuese.config.js',
+    '.vueserc',
+    'package.json'
+  ])
   const config = {
     include: '**/*.vue',
     exclude: [],
