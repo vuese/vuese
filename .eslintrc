@@ -1,9 +1,7 @@
 {
   "parserOptions": {
-    "ecmaVersion": 8,
-    "sourceType": "module"
+    "ecmaVersion": 8
   },
-  "parser": "typescript-eslint-parser",
   "extends": ["plugin:prettier/recommended"],
   "plugins": ["prettier"],
   "rules": {
