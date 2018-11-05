@@ -1,4 +1,5 @@
 import generate from '@babel/generator'
+import { NodePath } from '@babel/traverse'
 import * as bt from '@babel/types'
 import * as fs from 'fs'
 
@@ -7,19 +8,19 @@ import * as fs from 'fs'
  * 1. It is a default export
  * 2. others...
  */
-export function isVueComponent(node: any): boolean {
+export function isVueComponent(node: bt.Node): boolean {
   return bt.isExportDefaultDeclaration(node)
 }
 
-export function isCommentLine(node: any): boolean {
+export function isCommentLine(node: { type: string }): boolean {
   return node.type === 'CommentLine'
 }
 
-export function isCommentBlock(node: any): boolean {
+export function isCommentBlock(node: { type: string }): boolean {
   return node.type === 'CommentBlock'
 }
 
-export function runFunction(fnCode: string): any {
+export function runFunction(fnCode: bt.Node): any {
   const { code: genCode } = generate(fnCode)
   const code = `return (${genCode})()`
   const fn = new Function(code)
@@ -42,7 +43,10 @@ export function getValueFromGenerate(node: any) {
   }
 }
 
-export function isVueOption(path: any, optionsName: string): boolean {
+export function isVueOption(
+  path: NodePath<bt.ObjectProperty | bt.ObjectMethod>,
+  optionsName: string
+): boolean {
   if (
     bt.isObjectProperty(path.node) &&
     path.parentPath &&
@@ -84,4 +88,12 @@ export function writeFileSync(str: any, keep?: boolean) {
     2
   )
   fs.writeFileSync(__dirname + '/a.txt', keep ? preContent + content : content)
+}
+
+export function getFirstPropContainer(path: NodePath, propName: string) {
+  const propPath = path.get(`${propName}.0`) as NodePath<bt.Node>
+
+  return Array.isArray(propPath.container)
+    ? propPath.container
+    : [propPath.container]
 }

@@ -1,4 +1,5 @@
 import { isCommentLine, isCommentBlock } from '../helpers'
+import * as bt from '@babel/types'
 
 export type CommentResult = {
   default: string[]
@@ -7,16 +8,16 @@ export type CommentResult = {
 const commentRE = /\n\s*\*?\s*/g
 const leadRE = /^@(\w+)\b/
 
-export function getComments(cnode: any): CommentResult {
+export function getComments(cnode: bt.Node): CommentResult {
   const res: CommentResult = {
     default: []
   }
-  const commentNodes: [] | undefined = cnode.leadingComments
+  const commentNodes = cnode.leadingComments || []
   if (!commentNodes || !commentNodes.length) return res
 
   let comments: string = '',
     matchs: RegExpMatchArray | null
-  ;(commentNodes as []).forEach((node: any) => {
+  ;(commentNodes as []).forEach((node: bt.Comment) => {
     if (isCommentLine(node)) {
       comments = node.value.trim()
       matchs = comments.match(leadRE)
