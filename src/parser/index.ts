@@ -2,6 +2,7 @@ import sfcToAST from './sfcToAST'
 import parseJavascript from './parseJavascript'
 import parseTemplate from './parseTemplate'
 import { ParserPlugin } from '@babel/parser'
+import * as bt from '@babel/types'
 
 export type PropType = string | string[] | null
 

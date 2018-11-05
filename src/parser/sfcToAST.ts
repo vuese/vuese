@@ -1,9 +1,10 @@
 import { parse as vueSFCParse } from '@vue/component-compiler-utils'
 import * as vueTemplateCompiler from 'vue-template-compiler'
 import { parse as babelParse, ParserPlugin } from '@babel/parser'
+import * as bt from '@babel/types'
 
 export interface AstResult {
-  jsAst?: object
+  jsAst?: bt.File
   templateAst?: object
 }
 
