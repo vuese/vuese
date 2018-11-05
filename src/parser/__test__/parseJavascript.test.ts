@@ -3,6 +3,7 @@ import { ParserOptions, PropsResult, EventResult, MethodResult } from '../index'
 import * as path from 'path'
 import * as fs from 'fs'
 import sfcToAST, { AstResult } from '../sfcToAST'
+import * as bt from '@babel/types'
 
 function getAST(fileName: string): object {
   const p = path.resolve(__dirname, `../../../__fixtures__/${fileName}`)
@@ -16,7 +17,7 @@ test('Get the component name correctly', () => {
   const options: ParserOptions = {
     onName: mockOnName
   }
-  parseJavascript(sfc.jsAst, options)
+  parseJavascript(sfc.jsAst as bt.File, options)
   const arg = mockOnName.mock.calls[0][0]
 
   expect(mockOnName.mock.calls.length).toBe(1)
@@ -29,7 +30,7 @@ test('Ability to correctly handle props that is an array of string', () => {
   const options: ParserOptions = {
     onProp: mockOnProp
   }
-  parseJavascript(sfc.jsAst, options)
+  parseJavascript(sfc.jsAst as bt.File, options)
   const arg = mockOnProp.mock.calls[0][0]
 
   expect(mockOnProp.mock.calls.length).toBe(1)
@@ -45,7 +46,7 @@ test('Is a prop using a shorthand type', () => {
   const options: ParserOptions = {
     onProp: mockOnProp
   }
-  parseJavascript(sfc1.jsAst, options)
+  parseJavascript(sfc1.jsAst as bt.File, options)
   const arg = mockOnProp.mock.calls[0][0]
 
   expect(mockOnProp.mock.calls.length).toBe(1)
@@ -61,7 +62,7 @@ test('`prop` defined using a type array', () => {
   const options: ParserOptions = {
     onProp: mockOnProp
   }
-  parseJavascript(sfc1.jsAst, options)
+  parseJavascript(sfc1.jsAst as bt.File, options)
   const arg = mockOnProp.mock.calls[0][0]
 
   expect(mockOnProp.mock.calls.length).toBe(1)
@@ -77,7 +78,7 @@ test('Execute the default function and get the default value correctly', () => {
   const options: ParserOptions = {
     onProp: mockOnProp
   }
-  parseJavascript(sfc1.jsAst, options)
+  parseJavascript(sfc1.jsAst as bt.File, options)
   const arg = mockOnProp.mock.calls[0][0]
 
   expect(mockOnProp.mock.calls.length).toBe(1)
@@ -92,7 +93,7 @@ test('Get the `required` value correctly', () => {
   const options: ParserOptions = {
     onProp: mockOnProp
   }
-  parseJavascript(sfc1.jsAst, options)
+  parseJavascript(sfc1.jsAst as bt.File, options)
   const arg = mockOnProp.mock.calls[0][0]
 
   expect(mockOnProp.mock.calls.length).toBe(1)
@@ -104,7 +105,7 @@ test('The validator function should be used as a string representation', () => {
   const options: ParserOptions = {
     onProp: mockOnProp
   }
-  parseJavascript(sfc1.jsAst, options)
+  parseJavascript(sfc1.jsAst as bt.File, options)
   const arg = mockOnProp.mock.calls[0][0]
 
   expect(mockOnProp.mock.calls.length).toBe(1)
@@ -116,7 +117,7 @@ test('The `prop` that does not satisfy the `prop` writing specification should b
   const options: ParserOptions = {
     onProp: mockOnProp
   }
-  parseJavascript(sfc1.jsAst, options)
+  parseJavascript(sfc1.jsAst as bt.File, options)
   const arg = mockOnProp.mock.calls[0][0]
 
   expect(mockOnProp.mock.calls.length).toBe(1)
@@ -132,7 +133,7 @@ test('When the `type` definition contains `Function`, should get a string repres
   const options: ParserOptions = {
     onProp: mockOnProp
   }
-  parseJavascript(sfc1.jsAst, options)
+  parseJavascript(sfc1.jsAst as bt.File, options)
   const arg = mockOnProp.mock.calls[0][0]
 
   expect(mockOnProp.mock.calls.length).toBe(1)
@@ -146,7 +147,7 @@ test('Get comments as a description', () => {
   const options: ParserOptions = {
     onProp: mockOnProp
   }
-  parseJavascript(sfc.jsAst, options)
+  parseJavascript(sfc.jsAst as bt.File, options)
   const arg = mockOnProp.mock.calls[0][0]
 
   expect(mockOnProp.mock.calls.length).toBe(1)
@@ -160,7 +161,7 @@ test('Gets a description of the default value and a description of the validator
   const options: ParserOptions = {
     onProp: mockOnProp
   }
-  parseJavascript(sfc.jsAst, options)
+  parseJavascript(sfc.jsAst as bt.File, options)
   const arg = mockOnProp.mock.calls[0][0]
 
   expect(mockOnProp.mock.calls.length).toBe(1)
@@ -178,7 +179,7 @@ test('Correct handling of events', () => {
   const options: ParserOptions = {
     onEvent: mockOnEvent
   }
-  parseJavascript(sfc.jsAst, options)
+  parseJavascript(sfc.jsAst as bt.File, options)
   const arg = mockOnEvent.mock.calls[0][0]
 
   expect(mockOnEvent.mock.calls.length).toBe(1)
@@ -195,7 +196,7 @@ test('Only call onEvent once for the same event', () => {
   const options: ParserOptions = {
     onEvent: mockOnEvent
   }
-  parseJavascript(sfc.jsAst, options)
+  parseJavascript(sfc.jsAst as bt.File, options)
 
   expect(mockOnEvent.mock.calls.length).toBe(1)
 })
@@ -206,7 +207,7 @@ test('Correct handling of methods', () => {
   const options: ParserOptions = {
     onMethod: mockOnMethod
   }
-  parseJavascript(sfc.jsAst, options)
+  parseJavascript(sfc.jsAst as bt.File, options)
   const arg = mockOnMethod.mock.calls[0][0]
 
   expect(mockOnMethod.mock.calls.length).toBe(1)
