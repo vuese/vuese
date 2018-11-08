@@ -490,6 +490,20 @@ Then we get:
 |---|---|---|
 |clear|Used to manually clear the form|The argument is a boolean value representing xxx|
 
+### Preview the vue component as a document
+
+`vuese` also allows you to preview a vue component directly as a document, use the `preview` command:
+
+```sh
+vuese preview path-to-your-component.vue
+```
+
+`vuese` uses [carlo](https://github.com/GoogleChromeLabs/carlo), the preview will be updated in real time when you modify the component.
+
+As an example:
+
+![preview](https://github.com/HcySunYang/vuese/blob/master/imgs/preview.gif)
+
 ## Contributing
 
 1. Fork it!
