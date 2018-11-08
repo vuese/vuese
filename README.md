@@ -39,6 +39,7 @@ yarn global add vuese
     + [slots](#slots)
     + [events](#events)
     + [methods](#methods)
+  * [Preview the vue component as a document](#preview-the-vue-component-as-a-document)
 - [Contributing](#contributing)
 - [Author](#author)
 
