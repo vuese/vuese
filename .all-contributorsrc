@@ -1,0 +1,37 @@
+{
+  "projectName": "vuese",
+  "projectOwner": "HcySunYang",
+  "contributors": [
+    {
+      "login": "HcySunYang",
+      "name": "HcySunYang",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/14146560?v=4",
+      "profile": "http://hcysun.me",
+      "contributions": [
+        "code",
+        "test",
+        "doc",
+        "example"
+      ]
+    },
+    {
+      "login": "wulunyi",
+      "name": "wulunyi",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/15170275?v=4",
+      "profile": "https://github.com/wulunyi",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "Estelle00",
+      "name": "Estelle00",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/5432828?v=4",
+      "profile": "https://github.com/Estelle00",
+      "contributions": [
+        "code"
+      ]
+    }
+  ],
+  "repoType": "github"
+}

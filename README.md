@@ -515,6 +515,16 @@ As an example:
 4. Push to the branch: `git push origin my-new-feature`
 5. Submit a pull request :D
 
+## Contributors
+
+Thanks goes to these wonderful people:
+
+<!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
+<!-- prettier-ignore -->
+| [<img src="https://avatars2.githubusercontent.com/u/14146560?v=4" width="100px;"/><br /><sub><b>HcySunYang</b></sub>](http://hcysun.me)<br />[💻](https://github.com/HcySunYang/vuese/commits?author=HcySunYang "Code") [⚠️](https://github.com/HcySunYang/vuese/commits?author=HcySunYang "Tests") [📖](https://github.com/HcySunYang/vuese/commits?author=HcySunYang "Documentation") [💡](#example-HcySunYang "Examples") | [<img src="https://avatars3.githubusercontent.com/u/15170275?v=4" width="100px;"/><br /><sub><b>wulunyi</b></sub>](https://github.com/wulunyi)<br />[💻](https://github.com/HcySunYang/vuese/commits?author=wulunyi "Code") | [<img src="https://avatars2.githubusercontent.com/u/5432828?v=4" width="100px;"/><br /><sub><b>Estelle00</b></sub>](https://github.com/Estelle00)<br />[💻](https://github.com/HcySunYang/vuese/commits?author=Estelle00 "Code") |
+| :---: | :---: | :---: |
+<!-- ALL-CONTRIBUTORS-LIST:END -->
+
 ## Author
 
 **vuese** © [HcySunYang](https://github.com/HcySunYang), Released under the [MIT](./LICENSE) License.<br>

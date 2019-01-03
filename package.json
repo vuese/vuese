@@ -27,7 +27,9 @@
     "prepublishOnly": "yarn build",
     "toc": "markdown-toc -i README.md",
     "lint:ts": "tslint --project tsconfig.json --fix",
-    "lint:js": "eslint --fix"
+    "lint:js": "eslint --fix",
+    "contributors:add": "all-contributors add",
+    "contributors:generate": "all-contributors generate"
   },
   "repository": "https://github.com/HcySunYang/vuese.git",
   "author": "HcySunYang <HcySunYang@outlook.com>",
@@ -59,6 +61,7 @@
     "@types/babel__traverse": "^7.0.0",
     "@types/jest": "^23.3.2",
     "@types/node": "^10.11.0",
+    "all-contributors-cli": "^5.6.0",
     "bili": "^3.1.2",
     "eslint": "^5.8.0",
     "eslint-config-prettier": "^3.1.0",
