@@ -9,6 +9,7 @@
 [![](https://img.shields.io/npm/dm/vuese.svg)](https://www.npmjs.com/package/vuese)
 [![](https://img.shields.io/npm/l/vuese.svg)](https://www.npmjs.com/package/vuese)
 [![](https://badgen.net/badge/support%20me/donate/ff00ff)](https://www.patreon.com/HcySunYang)
+[![](https://img.shields.io/badge/all_contributors-3-orange.svg)](#contributing)
 
 ## Install
 
