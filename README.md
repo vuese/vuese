@@ -44,6 +44,7 @@ yarn global add vuese
     + [methods](#methods)
   * [Preview the vue component as a document](#preview-the-vue-component-as-a-document)
 - [Contributing](#contributing)
+- [Contributors](#contributors)
 - [Author](#author)
 
 <!-- tocstop -->

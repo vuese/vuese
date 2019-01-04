@@ -24,7 +24,7 @@
     "test": "yarn lint:ts && jest --verbose",
     "build": "yarn lint:ts && bili",
     "postbuild": "find dist -type d -name __test__ -exec rm -r {} +",
-    "prepublishOnly": "yarn build",
+    "prepublishOnly": "yarn toc && yarn build",
     "toc": "markdown-toc -i README.md",
     "lint:ts": "tslint --project tsconfig.json --fix",
     "lint:js": "eslint --fix",
