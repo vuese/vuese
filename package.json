@@ -28,6 +28,9 @@
     "toc": "markdown-toc -i README.md",
     "lint:ts": "tslint --project tsconfig.json --fix",
     "lint:js": "eslint --fix",
+    "commit": "git-cz",
+    "changelog": "conventional-changelog -i CHANGELOG.md -s",
+    "release": "release-it --no-git.requireCleanWorkingDir",
     "contributors:add": "all-contributors add",
     "contributors:generate": "all-contributors generate"
   },
@@ -63,6 +66,8 @@
     "@types/node": "^10.11.0",
     "all-contributors-cli": "^5.6.0",
     "bili": "^3.1.2",
+    "conventional-changelog-cli": "^2.0.11",
+    "cz-conventional-changelog": "2.1.0",
     "eslint": "^5.8.0",
     "eslint-config-prettier": "^3.1.0",
     "eslint-plugin-prettier": "^3.0.0",
@@ -111,6 +116,11 @@
   "husky": {
     "hooks": {
       "pre-commit": "lint-staged"
+    }
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
     }
   }
 }
