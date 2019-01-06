@@ -73,11 +73,13 @@ export default function(ast: bt.File, options: ParserOptions = {}) {
             if (isVueOption(path, 'props')) {
               const valuePath = path.get('value')
 
-              let res: PropsResult[] = []
               if (bt.isArrayExpression(valuePath.node)) {
                 // An array of strings
                 const propsValue: [] = getValueFromGenerate(valuePath.node)
-                res = normalizeProps(propsValue)
+                const propsRes: PropsResult[] = normalizeProps(propsValue)
+                propsRes.forEach(prop => {
+                  if (onProp) onProp(prop)
+                })
               } else if (bt.isObjectExpression(valuePath.node)) {
                 // An object
                 valuePath.traverse({
@@ -177,12 +179,11 @@ export default function(ast: bt.File, options: ParserOptions = {}) {
                           }
                         })
                       }
-                      res.push(result)
+                      if (onProp) onProp(result)
                     }
                   }
                 })
               }
-              if (onProp) onProp(res)
             }
 
             // Processing methods

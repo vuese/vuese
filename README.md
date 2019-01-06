@@ -206,7 +206,7 @@ You can pass the second argument as a parsing option:
 ```js
 interface ParserOptions {
   onProp?: {
-    (propsRes?: PropsResult[]): any
+    (propsRes?: PropsResult): any
   }
   onEvent?: {
     (eventRes?: EventResult): any
@@ -231,9 +231,9 @@ const defaultOptions: ParserOptions = {
   onName(name: string) {
     res.name = name
   },
-  onProp(propsRes?: PropsResult[]) {
+  onProp(propsRes?: PropsResult) {
     if (propsRes) {
-      res.props = propsRes
+      ;(res.props || (res.props = [])).push(propsRes)
     }
   },
   onEvent(eventsRes?: EventResult) {

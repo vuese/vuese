@@ -42,7 +42,7 @@ export interface SlotResult {
 
 export interface ParserOptions {
   onProp?: {
-    (propsRes?: PropsResult[]): any
+    (propsRes?: PropsResult): any
   }
   onEvent?: {
     (eventRes?: EventResult): any
@@ -77,9 +77,9 @@ export default function(
     onName(name: string) {
       res.name = name
     },
-    onProp(propsRes?: PropsResult[]) {
+    onProp(propsRes?: PropsResult) {
       if (propsRes) {
-        res.props = propsRes
+        ;(res.props || (res.props = [])).push(propsRes)
       }
     },
     onEvent(eventsRes?: EventResult) {

@@ -34,7 +34,7 @@ test('Ability to correctly handle props that is an array of string', () => {
   const arg = mockOnProp.mock.calls[0][0]
 
   expect(mockOnProp.mock.calls.length).toBe(1)
-  expect((arg as PropsResult[])[0]).toEqual({
+  expect(arg as PropsResult).toEqual({
     type: null,
     name: 'a'
   })
@@ -49,8 +49,8 @@ test('Is a prop using a shorthand type', () => {
   parseJavascript(sfc1.jsAst as bt.File, options)
   const arg = mockOnProp.mock.calls[0][0]
 
-  expect(mockOnProp.mock.calls.length).toBe(1)
-  expect((arg as PropsResult[])[0]).toEqual({
+  expect(mockOnProp.mock.calls.length).toBe(5)
+  expect(arg as PropsResult).toEqual({
     name: 'a',
     type: 'String',
     describe: []
@@ -63,10 +63,10 @@ test('`prop` defined using a type array', () => {
     onProp: mockOnProp
   }
   parseJavascript(sfc1.jsAst as bt.File, options)
-  const arg = mockOnProp.mock.calls[0][0]
+  const arg = mockOnProp.mock.calls[1][0]
 
-  expect(mockOnProp.mock.calls.length).toBe(1)
-  expect((arg as PropsResult[])[1]).toEqual({
+  expect(mockOnProp.mock.calls.length).toBe(5)
+  expect(arg as PropsResult).toEqual({
     name: 'b',
     type: ['Number', 'String'],
     describe: []
@@ -79,11 +79,11 @@ test('Execute the default function and get the default value correctly', () => {
     onProp: mockOnProp
   }
   parseJavascript(sfc1.jsAst as bt.File, options)
-  const arg = mockOnProp.mock.calls[0][0]
+  const arg = mockOnProp.mock.calls[2][0]
 
-  expect(mockOnProp.mock.calls.length).toBe(1)
-  expect(arg[2].name).toBe('c')
-  expect(arg[2].default).toEqual({
+  expect(mockOnProp.mock.calls.length).toBe(5)
+  expect(arg.name).toBe('c')
+  expect(arg.default).toEqual({
     val: 1
   })
 })
@@ -94,10 +94,10 @@ test('Get the `required` value correctly', () => {
     onProp: mockOnProp
   }
   parseJavascript(sfc1.jsAst as bt.File, options)
-  const arg = mockOnProp.mock.calls[0][0]
+  const arg = mockOnProp.mock.calls[2][0]
 
-  expect(mockOnProp.mock.calls.length).toBe(1)
-  expect(arg[2].required).toBe(true)
+  expect(mockOnProp.mock.calls.length).toBe(5)
+  expect(arg.required).toBe(true)
 })
 
 test('The validator function should be used as a string representation', () => {
@@ -106,10 +106,10 @@ test('The validator function should be used as a string representation', () => {
     onProp: mockOnProp
   }
   parseJavascript(sfc1.jsAst as bt.File, options)
-  const arg = mockOnProp.mock.calls[0][0]
+  const arg = mockOnProp.mock.calls[2][0]
 
-  expect(mockOnProp.mock.calls.length).toBe(1)
-  expect(arg[2].validator).toMatchSnapshot()
+  expect(mockOnProp.mock.calls.length).toBe(5)
+  expect(arg.validator).toMatchSnapshot()
 })
 
 test('The `prop` that does not satisfy the `prop` writing specification should be treated as no type', () => {
@@ -118,10 +118,10 @@ test('The `prop` that does not satisfy the `prop` writing specification should b
     onProp: mockOnProp
   }
   parseJavascript(sfc1.jsAst as bt.File, options)
-  const arg = mockOnProp.mock.calls[0][0]
+  const arg = mockOnProp.mock.calls[3][0]
 
-  expect(mockOnProp.mock.calls.length).toBe(1)
-  expect((arg as PropsResult[])[3]).toEqual({
+  expect(mockOnProp.mock.calls.length).toBe(5)
+  expect(arg as PropsResult).toEqual({
     name: 'd',
     type: null,
     describe: []
@@ -134,11 +134,11 @@ test('When the `type` definition contains `Function`, should get a string repres
     onProp: mockOnProp
   }
   parseJavascript(sfc1.jsAst as bt.File, options)
-  const arg = mockOnProp.mock.calls[0][0]
+  const arg = mockOnProp.mock.calls[4][0]
 
-  expect(mockOnProp.mock.calls.length).toBe(1)
-  expect(arg[4].name).toBe('e')
-  expect(arg[4].default).toMatchSnapshot()
+  expect(mockOnProp.mock.calls.length).toBe(5)
+  expect(arg.name).toBe('e')
+  expect(arg.default).toMatchSnapshot()
 })
 
 test('Get comments as a description', () => {
@@ -151,8 +151,8 @@ test('Get comments as a description', () => {
   const arg = mockOnProp.mock.calls[0][0]
 
   expect(mockOnProp.mock.calls.length).toBe(1)
-  expect((arg[0].describe as []).length).toBe(3)
-  expect(arg[0].describe).toMatchSnapshot()
+  expect((arg.describe as []).length).toBe(3)
+  expect(arg.describe).toMatchSnapshot()
 })
 
 test('Gets a description of the default value and a description of the validator', () => {
@@ -162,15 +162,17 @@ test('Gets a description of the default value and a description of the validator
     onProp: mockOnProp
   }
   parseJavascript(sfc.jsAst as bt.File, options)
-  const arg = mockOnProp.mock.calls[0][0]
+  const arg1 = mockOnProp.mock.calls[0][0]
+  const arg2 = mockOnProp.mock.calls[1][0]
+  const arg3 = mockOnProp.mock.calls[2][0]
 
-  expect(mockOnProp.mock.calls.length).toBe(1)
-  expect((arg[0].defaultDesc as string[]).length).toBe(1)
-  expect(arg[0].defaultDesc).toEqual(['An empty function'])
-  expect((arg[1].validatorDesc as string[]).length).toBe(1)
-  expect(arg[1].validatorDesc).toEqual(['Must be a number greater than 0'])
-  expect((arg[2].typeDesc as string[]).length).toBe(1)
-  expect(arg[2].typeDesc).toMatchSnapshot()
+  expect(mockOnProp.mock.calls.length).toBe(3)
+  expect((arg1.defaultDesc as string[]).length).toBe(1)
+  expect(arg1.defaultDesc).toEqual(['An empty function'])
+  expect((arg2.validatorDesc as string[]).length).toBe(1)
+  expect(arg2.validatorDesc).toEqual(['Must be a number greater than 0'])
+  expect((arg3.typeDesc as string[]).length).toBe(1)
+  expect(arg3.typeDesc).toMatchSnapshot()
 })
 
 test('Correct handling of events', () => {
@@ -249,5 +251,5 @@ test('The options in @Component should be parsed correctly', () => {
   const arg2 = mockOnProp.mock.calls[0][0]
 
   expect(mockOnProp.mock.calls.length).toBe(1)
-  expect((arg2 as PropsResult[])[0]).toMatchSnapshot()
+  expect(arg2 as PropsResult).toMatchSnapshot()
 })
