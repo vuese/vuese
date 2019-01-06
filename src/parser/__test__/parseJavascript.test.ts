@@ -217,3 +217,37 @@ test('Correct handling of methods', () => {
   expect((arg as MethodResult).describe).toMatchSnapshot()
   expect((arg as MethodResult).argumentsDesc).toMatchSnapshot()
 })
+
+test('The options in @Component should be parsed correctly', () => {
+  const sfc: AstResult = getAST('tsBase.vue')
+  const mockOnMethod = jest.fn(() => {})
+  const mockOnEvent = jest.fn(() => {})
+  const mockOnProp = jest.fn(() => {})
+  const options: ParserOptions = {
+    onMethod: mockOnMethod,
+    onEvent: mockOnEvent,
+    onProp: mockOnProp
+  }
+  parseJavascript(sfc.jsAst as bt.File, options)
+
+  const arg = mockOnMethod.mock.calls[0][0]
+  expect(mockOnMethod.mock.calls.length).toBe(1)
+  expect((arg as MethodResult).name).toBe('clear')
+  expect(((arg as MethodResult).describe as string[]).length).toBe(1)
+  expect(((arg as MethodResult).argumentsDesc as string[]).length).toBe(1)
+  expect((arg as MethodResult).describe).toMatchSnapshot()
+  expect((arg as MethodResult).argumentsDesc).toMatchSnapshot()
+
+  const arg1 = mockOnEvent.mock.calls[0][0]
+  expect(mockOnEvent.mock.calls.length).toBe(1)
+  expect((arg1 as EventResult).name).toBe('onclear')
+  expect(((arg1 as EventResult).describe as string[]).length).toBe(1)
+  expect(((arg1 as EventResult).argumentsDesc as string[]).length).toBe(1)
+  expect((arg1 as EventResult).describe).toMatchSnapshot()
+  expect((arg1 as EventResult).argumentsDesc).toMatchSnapshot()
+
+  const arg2 = mockOnProp.mock.calls[0][0]
+
+  expect(mockOnProp.mock.calls.length).toBe(1)
+  expect((arg2 as PropsResult[])[0]).toMatchSnapshot()
+})

@@ -4,6 +4,7 @@ import { parse as babelParse, ParserPlugin } from '@babel/parser'
 import * as bt from '@babel/types'
 
 export interface AstResult {
+  sourceType?: string
   jsAst?: bt.File
   templateAst?: object
 }
@@ -19,9 +20,14 @@ export default function(
   })
   const res: AstResult = {}
   if (sfc.script && sfc.script.content) {
+    res.sourceType = sfc.script.lang || 'js'
     res.jsAst = babelParse(sfc.script.content, {
       sourceType: 'module',
-      plugins: babelParserPlugins || ['objectRestSpread', 'dynamicImport']
+      plugins: babelParserPlugins || [
+        'objectRestSpread',
+        'dynamicImport',
+        'decorators-legacy'
+      ]
     })
   }
   if (sfc.template && sfc.template.content) {

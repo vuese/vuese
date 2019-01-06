@@ -54,6 +54,18 @@ export function isVueOption(
     isVueComponent(path.parentPath.parentPath.node)
   ) {
     return path.node.key.name === optionsName
+  } else if (
+    bt.isObjectProperty(path.node) &&
+    path.parentPath &&
+    path.parentPath.parentPath &&
+    bt.isCallExpression(path.parentPath.parentPath.node) &&
+    (path.parentPath.parentPath.node.callee as bt.Identifier).name ===
+      'Component' &&
+    path.parentPath.parentPath.parentPath &&
+    bt.isDecorator(path.parentPath.parentPath.parentPath.node)
+  ) {
+    // options in ts @Component({...})
+    return path.node.key.name === optionsName
   }
   return false
 }

@@ -12,6 +12,7 @@ function getAST(fileName: string): AstResult {
 test('The type of `jsAst` should be File', () => {
   const sfc = getAST('common.vue')
   expect(bt.isFile(sfc.jsAst as object)).toBe(true)
+  expect(sfc.sourceType).toBe('js')
   expect((sfc.templateAst as any).type).toBe(1)
   expect((sfc.templateAst as any).tag).toBe('div')
 })

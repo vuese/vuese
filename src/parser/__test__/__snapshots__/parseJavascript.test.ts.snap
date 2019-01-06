@@ -38,6 +38,45 @@ Array [
 ]
 `;
 
+exports[`The options in @Component should be parsed correctly 1`] = `
+Array [
+  "Used to manually clear the form",
+]
+`;
+
+exports[`The options in @Component should be parsed correctly 2`] = `
+Array [
+  "The first parameter is a Boolean value that represents...",
+]
+`;
+
+exports[`The options in @Component should be parsed correctly 3`] = `
+Array [
+  "Fire when the form is cleared",
+]
+`;
+
+exports[`The options in @Component should be parsed correctly 4`] = `
+Array [
+  " The argument is a boolean value representing xxx",
+]
+`;
+
+exports[`The options in @Component should be parsed correctly 5`] = `
+Object {
+  "describe": Array [
+    "The name of the form, up to 8 characters",
+  ],
+  "name": "name",
+  "required": true,
+  "type": Array [
+    "String",
+    "Number",
+  ],
+  "validator": "validator() {}",
+}
+`;
+
 exports[`The validator function should be used as a string representation 1`] = `
 "function () {
   return true;
