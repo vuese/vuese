@@ -1,3 +1,12 @@
+## 1.4.0 (2019-01-07)
+
+* feat: Support typescript ([a442da8](https://github.com/HcySunYang/vuese/commit/a442da8)), closes [#13](https://github.com/HcySunYang/vuese/issues/13)
+* chore: add logo ([f074bf3](https://github.com/HcySunYang/vuese/commit/f074bf3))
+* chore: tweak docs style ([195fa2f](https://github.com/HcySunYang/vuese/commit/195fa2f))
+* docs: For vue-class-component ([1c2e726](https://github.com/HcySunYang/vuese/commit/1c2e726))
+
+
+
 ## 1.3.0 (2019-01-07)
 
 * refactor: all options are configurable ([bf897e8](https://github.com/HcySunYang/vuese/commit/bf897e8))
