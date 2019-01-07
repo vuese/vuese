@@ -1,10 +1,9 @@
-# vuese
-
-*Your vue `SFC` is your document* - Parsing Vue `SFC` and generating documentation.
+<h1 align="center">vuese</h1>
 
 <p align="center">
   <img src="https://github.com/HcySunYang/vuese/blob/master/imgs/vuese.png" />
 </p>
+<p align="center">Your vue `SFC` is your document - Parsing Vue `SFC` and generating documentation.</p>
 
 ## Status
 
