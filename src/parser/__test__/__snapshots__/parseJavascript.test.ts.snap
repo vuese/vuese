@@ -1,5 +1,41 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`@Emit decorator 1`] = `
+Array [
+  "Fire when the form is cleared",
+]
+`;
+
+exports[`@Emit decorator 2`] = `
+Array [
+  " The argument is a boolean value representing xxx",
+]
+`;
+
+exports[`@Prop decorator 1`] = `
+Array [
+  "Description of prop",
+]
+`;
+
+exports[`@Prop decorator 2`] = `
+Array [
+  "The default value is 1",
+]
+`;
+
+exports[`Class method 1`] = `
+Array [
+  "This is a function exposed as an interface",
+]
+`;
+
+exports[`Class method 2`] = `
+Array [
+  "The first parameter is a Boolean value that represents...",
+]
+`;
+
 exports[`Correct handling of events 1`] = `
 Array [
   "Triggered when clicked",

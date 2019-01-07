@@ -47,6 +47,11 @@ yarn global add vuese
     + [events](#events)
     + [methods](#methods)
     + [vue-class-component](#vue-class-component)
+      - [@Component](#component)
+      - [Class Method](#class-method)
+    + [vue-property-decorator](#vue-property-decorator)
+      - [@Prop](#prop)
+      - [@Emit](#emit)
   * [Preview the vue component as a document](#preview-the-vue-component-as-a-document)
 - [Contributing](#contributing)
 - [Contributors](#contributors)
@@ -63,7 +68,7 @@ yarn global add vuese
 - [x] `cli` & `Core module` for nodejs.
 
 - [x] Support `ts` & [vue-class-component](https://github.com/vuejs/vue-class-component)
-- [ ] Support [vue-property-decorator](https://github.com/kaorun343/vue-property-decorator)
+- [x] Support [vue-property-decorator](https://github.com/kaorun343/vue-property-decorator)
 - [ ] Support for `slots` in `render` function.
 - [ ] Identify `v-model`
 
@@ -503,6 +508,8 @@ Then we get:
 
 #### vue-class-component
 
+##### @Component
+
 If you use [vue-class-component](https://github.com/vuejs/vue-class-component), all the options in the `@Component` decorator will be parsed, the parsing rules are the same as above, e.g:
 
 ```js
@@ -532,6 +539,92 @@ export default class Child extends Vue {}
 ```
 
 It will be parsed correctly 😁.
+
+##### Class Method
+
+Similar to the method in the methods option mentioned above:
+
+```js
+@Component
+export default class Child extends Vue {
+  /**
+   * @vuese
+   * This is a function exposed as an interface
+   * 
+   * @arg The first parameter is a Boolean value that represents...
+   */
+  someMethod(a) {
+
+  }
+}
+```
+
+Then we get:
+
+|Method|Description|Parameters|
+|---|---|---|
+|someMethod|This is a function exposed as an interface|The first parameter is a Boolean value that represents...|
+
+#### vue-property-decorator
+
+##### @Prop
+
+Add leading comments to the `@Prop` decorator as a description of the prop, other aspects are the same as [prop mentioned above](#prop), an example is shown below:
+
+```js
+@Component
+export default class Child extends Vue {
+  // Description of prop
+  @Prop(Number)
+  a: number
+
+  @Prop([Number, String])
+  b: number | string
+
+  @Prop({
+    type: Number,
+    // The default value is 1
+    default: 1,
+    required: true
+  })
+  c: number
+}
+```
+
+Then we get:
+
+|Name|Description|Type|Required|Default|
+|---|---|---|---|---|
+|a|Description of prop|`Number`|`false`|-|
+|b|-|`Number` / `String`|`false`|-|
+|c|-|`Number`|`true`|The default value is 1|
+
+##### @Emit
+
+Add leading comments to the `@Emit` decorator as a description of the prop, other aspects are the same as [events mentioned above](#events), an example is shown below:
+
+```js
+@Component
+export default class Child extends Vue {
+  
+  // Fire when the form is cleared
+  // @arg The argument is a boolean value representing xxx
+  @Emit()
+  onClick() {}
+
+  @Emit('reset')
+  resetHandle() {}
+}
+```
+
+Then we get:
+
+|Event Name|Description|Parameters|
+|---|---|---|
+|on-click|Fire when the form is cleared| The argument is a boolean value representing xxx|
+|reset|-|-|
+
+Note that if no arguments are passed for the `@Emit()` decorator, the function name is converted to a hyphen and used as the name of the event.
 
 ### Preview the vue component as a document
 

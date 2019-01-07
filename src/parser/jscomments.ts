@@ -5,7 +5,7 @@ export type CommentResult = {
   default: string[]
   [key: string]: string[]
 }
-const commentRE = /\n\s*\*?\s*/g
+const commentRE = /\s*\*\s*/g
 const leadRE = /^@(\w+)\b/
 
 export function getComments(cnode: bt.Node): CommentResult {
@@ -32,6 +32,9 @@ export function getComments(cnode: bt.Node): CommentResult {
       comments = node.value
         .replace(commentRE, '\n')
         .replace(/^\*/, '')
+        .split('\n')
+        .filter(t => t)
+        .join('\n')
         .trim()
       let currentKey = 'default'
       comments.split('\n').forEach(c => {

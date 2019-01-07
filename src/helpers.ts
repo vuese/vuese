@@ -70,6 +70,47 @@ export function isVueOption(
   return false
 }
 
+export function getEmitDecorator(
+  decorators: bt.Decorator[] | null
+): bt.Decorator | null {
+  if (!decorators || !decorators.length) return null
+  for (let i = 0; i < decorators.length; i++) {
+    const exp = decorators[i].expression
+    if (
+      bt.isCallExpression(exp) &&
+      bt.isIdentifier(exp.callee) &&
+      exp.callee.name === 'Emit'
+    ) {
+      return decorators[i]
+    }
+  }
+  return null
+}
+
+type PropDecoratorArgument =
+  | bt.Identifier
+  | bt.ArrayExpression
+  | bt.ObjectExpression
+  | null
+export function getArgumentFromPropDecorator(
+  classPropertyNode: bt.ClassProperty
+): PropDecoratorArgument {
+  const decorators = classPropertyNode.decorators
+  if (decorators) {
+    for (let i = 0; i < decorators.length; i++) {
+      const deco = decorators[i]
+      if (
+        bt.isCallExpression(deco.expression) &&
+        bt.isIdentifier(deco.expression.callee) &&
+        deco.expression.callee.name === 'Prop'
+      ) {
+        return deco.expression.arguments[0] as PropDecoratorArgument
+      }
+    }
+  }
+  return null
+}
+
 const josnCache: [] = []
 export function writeFileSync(str: any, keep?: boolean) {
   const filePath = __dirname + '/a.txt'
@@ -100,12 +141,4 @@ export function writeFileSync(str: any, keep?: boolean) {
     2
   )
   fs.writeFileSync(__dirname + '/a.txt', keep ? preContent + content : content)
-}
-
-export function getFirstPropContainer(path: NodePath, propName: string) {
-  const propPath = path.get(`${propName}.0`) as NodePath<bt.Node>
-
-  return Array.isArray(propPath.container)
-    ? propPath.container
-    : [propPath.container]
 }

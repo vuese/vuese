@@ -26,7 +26,8 @@ export default function(
       plugins: babelParserPlugins || [
         'objectRestSpread',
         'dynamicImport',
-        'decorators-legacy'
+        'decorators-legacy',
+        'typescript'
       ]
     })
   }

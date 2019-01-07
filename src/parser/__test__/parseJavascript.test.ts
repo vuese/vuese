@@ -253,3 +253,67 @@ test('The options in @Component should be parsed correctly', () => {
   expect(mockOnProp.mock.calls.length).toBe(1)
   expect(arg2 as PropsResult).toMatchSnapshot()
 })
+
+test('@Prop decorator', () => {
+  const sfc: AstResult = getAST('tsProp.vue')
+  const mockOnProp = jest.fn(() => {})
+  const options: ParserOptions = {
+    onProp: mockOnProp
+  }
+  parseJavascript(sfc.jsAst as bt.File, options)
+
+  const arg1 = mockOnProp.mock.calls[0][0]
+  const arg2 = mockOnProp.mock.calls[1][0]
+  const arg3 = mockOnProp.mock.calls[2][0]
+
+  expect(mockOnProp.mock.calls.length).toBe(3)
+  expect((arg1 as PropsResult).name).toBe('a')
+  expect((arg1 as PropsResult).type).toBe('Number')
+  expect((arg1 as PropsResult).describe).toMatchSnapshot()
+
+  expect((arg2 as PropsResult).name).toBe('b')
+  expect((arg2 as PropsResult).type).toEqual(['Number', 'String'])
+
+  expect((arg3 as PropsResult).name).toBe('c')
+  expect((arg3 as PropsResult).type).toBe('Number')
+  expect((arg3 as PropsResult).required).toBe(true)
+  expect((arg3 as PropsResult).defaultDesc).toMatchSnapshot()
+})
+
+test('Class method', () => {
+  const sfc: AstResult = getAST('tsMethod.vue')
+  const mockOnMethod = jest.fn(() => {})
+  const options: ParserOptions = {
+    onMethod: mockOnMethod
+  }
+  parseJavascript(sfc.jsAst as bt.File, options)
+
+  const arg = mockOnMethod.mock.calls[0][0]
+  expect(mockOnMethod.mock.calls.length).toBe(1)
+  expect((arg as MethodResult).name).toBe('someMethod')
+  expect(((arg as MethodResult).describe as string[]).length).toBe(1)
+  expect(((arg as MethodResult).argumentsDesc as string[]).length).toBe(1)
+  expect((arg as MethodResult).describe).toMatchSnapshot()
+  expect((arg as MethodResult).argumentsDesc).toMatchSnapshot()
+})
+
+test('@Emit decorator', () => {
+  const sfc: AstResult = getAST('tsEmit.vue')
+  const mockOnEvent = jest.fn(() => {})
+  const options: ParserOptions = {
+    onEvent: mockOnEvent
+  }
+  parseJavascript(sfc.jsAst as bt.File, options)
+
+  const arg1 = mockOnEvent.mock.calls[0][0]
+  const arg2 = mockOnEvent.mock.calls[1][0]
+
+  expect(mockOnEvent.mock.calls.length).toBe(2)
+  expect((arg1 as EventResult).name).toBe('on-click')
+  expect(((arg1 as EventResult).describe as string[]).length).toBe(1)
+  expect(((arg1 as EventResult).argumentsDesc as string[]).length).toBe(1)
+  expect((arg1 as EventResult).describe).toMatchSnapshot()
+  expect((arg1 as EventResult).argumentsDesc).toMatchSnapshot()
+
+  expect((arg2 as EventResult).name).toBe('reset')
+})
