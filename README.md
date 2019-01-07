@@ -43,6 +43,7 @@ yarn global add vuese
     + [slots](#slots)
     + [events](#events)
     + [methods](#methods)
+    + [vue-class-component](#vue-class-component)
   * [Preview the vue component as a document](#preview-the-vue-component-as-a-document)
 - [Contributing](#contributing)
 - [Contributors](#contributors)
@@ -58,7 +59,8 @@ yarn global add vuese
 - [x] Annotation enhancement (`@xxx`).
 - [x] `cli` & `Core module` for nodejs.
 
-- [ ] Support `ts` & [vue-class-component](https://github.com/vuejs/vue-class-component) & [vue-property-decorator](https://github.com/kaorun343/vue-property-decorator)
+- [x] Support `ts` & [vue-class-component](https://github.com/vuejs/vue-class-component)
+- [ ] Support [vue-property-decorator](https://github.com/kaorun343/vue-property-decorator)
 - [ ] Support for `slots` in `render` function.
 - [ ] Identify `v-model`
 
@@ -495,6 +497,38 @@ Then we get:
 |Method|Description|Parameters|
 |---|---|---|
 |clear|Used to manually clear the form|The argument is a boolean value representing xxx|
+
+#### vue-class-component
+
+If you use [vue-class-component](https://github.com/vuejs/vue-class-component), all the options in the `@Component` decorator will be parsed, the parsing rules are the same as above, e.g:
+
+```js
+@Component({
+  props: {
+    // The name of the form, up to 8 characters
+    name: {
+      type: [String, Number],
+      required: true,
+      validator () {}
+    }
+  },
+  methods: {
+    // @vuese
+    // Used to manually clear the form
+    /**
+     * @arg The first parameter is a Boolean value that represents...
+     */
+    clear () {
+      // Fire when the form is cleared
+      // @arg The argument is a boolean value representing xxx
+      this.$emit('onclear', true)
+    }
+  }
+})
+export default class Child extends Vue {}
+```
+
+It will be parsed correctly 😁.
 
 ### Preview the vue component as a document
 
