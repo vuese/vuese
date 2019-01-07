@@ -2,6 +2,10 @@
 
 *Your vue `SFC` is your document* - Parsing Vue `SFC` and generating documentation.
 
+<p align="center">
+  <img src="https://github.com/HcySunYang/vuese/blob/master/imgs/vuese.png" />
+</p>
+
 ## Status
 
 [![build status](https://img.shields.io/circleci/project/github/HcySunYang/vuese.svg)](https://circleci.com/gh/HcySunYang/vuese/tree/master)
