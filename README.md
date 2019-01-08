@@ -4,6 +4,7 @@
   <img src="https://github.com/HcySunYang/vuese/blob/master/imgs/vuese.png" />
 </p>
 <p align="center">Your vue `SFC` is your document - Parsing Vue `SFC` and generating documentation.</p>
+<p align="center" style="font-weight: bold;">This project is supported by our <a href="./BACKERS.md">Backers</a></p>
 
 ## Status
 
