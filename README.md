@@ -607,7 +607,7 @@ Then we get:
 
 ##### @Emit
 
-Add leading comments to the `@Emit` decorator as a description of the prop, other aspects are the same as [events mentioned above](#events), an example is shown below:
+Add leading comments to the `@Emit` decorator as a description of the event, other aspects are the same as [events mentioned above](#events), an example is shown below:
 
 ```js
 @Component
@@ -650,7 +650,7 @@ As an example:
 
 1. Fork it!
 2. Create your feature branch: `git checkout -b my-new-feature`
-3. Commit your changes: `git commit -am 'Add some feature'`
+3. Commit your changes: `yarn commit -am 'Add some feature'`
 4. Push to the branch: `git push origin my-new-feature`
 5. Submit a pull request :D
 
