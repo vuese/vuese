@@ -179,7 +179,7 @@ Select the target to generate, can be either `'docute'` or `'markdown'`, if you 
 * Type: `string`
 * Default: `''`
 
-If you want to generate a `docute` document, you need to specify the sidbar title, if you don't specify `title`, vuese will ask you too 😋.
+If you want to generate a `docute` document, you need to specify the sidebar title, if you don't specify `title`, vuese will ask you too 😋.
 
 ### Used in nodejs
 
