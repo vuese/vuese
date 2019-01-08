@@ -133,7 +133,7 @@ vuese serve --open
 
 It will launch a document server and automatically open the browser, as shown below:
 
-![](https://github.com/HcySunYang/vuese/blob/master/imgs/vuese-cli-serve.jpeg)
+![](https://user-images.githubusercontent.com/14146560/50810454-af399080-1344-11e9-8a4e-3f59744b8844.png)
 
 ### Use configuration file
 
