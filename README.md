@@ -670,3 +670,12 @@ Thanks goes to these wonderful people:
 Authored and maintained by HcySunYang.
 
 > [homepage](http://hcysun.me/homepage/) · GitHub [@HcySunYang](https://github.com/HcySunYang) · Twitter [@HcySunYang](https://twitter.com/HcySunYang)
+
+### Code Visualization:
+
+Here is a cool visualization of the code evolution
+
+ [![Watch the video](https://img.youtube.com/vi/vrUpoS6TU3E/0.jpg)](https://www.youtube.com/watch?v=vrUpoS6TU3E)
+
+ [https://www.youtube.com/watch?v=vrUpoS6TU3E](https://www.youtube.com/watch?v=vrUpoS6TU3E)
+
