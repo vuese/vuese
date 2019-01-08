@@ -1,3 +1,12 @@
+## <small>1.4.1 (2019-01-08)</small>
+
+* fix: Supplement the default babel parser plugin ([bafafa9](https://github.com/HcySunYang/vuese/commit/bafafa9))
+* docs: Add sponsor link to README ([c7140ee](https://github.com/HcySunYang/vuese/commit/c7140ee))
+* docs: Update screenshot ([51ef7dd](https://github.com/HcySunYang/vuese/commit/51ef7dd))
+* chore: Add sponsor ([a313f09](https://github.com/HcySunYang/vuese/commit/a313f09))
+
+
+
 ## 1.4.0 (2019-01-07)
 
 * feat: Support typescript ([a442da8](https://github.com/HcySunYang/vuese/commit/a442da8)), closes [#13](https://github.com/HcySunYang/vuese/issues/13)
