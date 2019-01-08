@@ -1,3 +1,9 @@
+## <small>1.4.2 (2019-01-08)</small>
+
+* feat: Avoid generating documents with empty content ([ab7c3e3](https://github.com/HcySunYang/vuese/commit/ab7c3e3)), closes [#18](https://github.com/HcySunYang/vuese/issues/18)
+
+
+
 ## <small>1.4.1 (2019-01-08)</small>
 
 * fix: Supplement the default babel parser plugin ([bafafa9](https://github.com/HcySunYang/vuese/commit/bafafa9))
