@@ -262,7 +262,12 @@ const defaultOptions: ParserOptions = {
       ;(res.methods || (res.methods = [])).push(methodRes)
     }
   },
-  babelParserPlugins: ['objectRestSpread', 'dynamicImport']
+  babelParserPlugins: [
+    'objectRestSpread',
+    'dynamicImport',
+    'decorators-legacy',
+    'typescript'
+  ]
 }
 ```
 

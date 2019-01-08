@@ -97,7 +97,12 @@ export default function(
         ;(res.methods || (res.methods = [])).push(methodRes)
       }
     },
-    babelParserPlugins: ['objectRestSpread', 'dynamicImport']
+    babelParserPlugins: [
+      'objectRestSpread',
+      'dynamicImport',
+      'decorators-legacy',
+      'typescript'
+    ]
   }
 
   const finallyOptions: ParserOptions = Object.assign(defaultOptions, options)
