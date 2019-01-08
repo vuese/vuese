@@ -1,3 +1,11 @@
+## <small>1.4.3 (2019-01-08)</small>
+
+* chore: typo ([38f90c7](https://github.com/HcySunYang/vuese/commit/38f90c7))
+* chore: Update link ([018a8c6](https://github.com/HcySunYang/vuese/commit/018a8c6))
+* fix: Avoid blank rows on the markdown table ([dd534f1](https://github.com/HcySunYang/vuese/commit/dd534f1)), closes [#20](https://github.com/HcySunYang/vuese/issues/20)
+
+
+
 ## <small>1.4.2 (2019-01-08)</small>
 
 * feat: Avoid generating documents with empty content ([ab7c3e3](https://github.com/HcySunYang/vuese/commit/ab7c3e3)), closes [#18](https://github.com/HcySunYang/vuese/issues/18)
