@@ -1,3 +1,11 @@
+## <small>1.4.4 (2019-01-09)</small>
+
+* chore: tweak ([69eb8dd](https://github.com/HcySunYang/vuese/commit/69eb8dd))
+* chore: Update badge ([7d11d61](https://github.com/HcySunYang/vuese/commit/7d11d61))
+* docs: tweak ([2a1e145](https://github.com/HcySunYang/vuese/commit/2a1e145))
+
+
+
 ## <small>1.4.3 (2019-01-08)</small>
 
 * chore: typo ([38f90c7](https://github.com/HcySunYang/vuese/commit/38f90c7))
