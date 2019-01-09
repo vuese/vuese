@@ -9,6 +9,7 @@
 ## Status
 
 [![build status](https://img.shields.io/circleci/project/github/vuese/vuese.svg)](https://circleci.com/gh/HcySunYang/vuese/tree/master)
+[![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](http://commitizen.github.io/cz-cli/)
 [![](https://img.shields.io/npm/v/vuese.svg)](https://www.npmjs.com/package/vuese)
 [![](https://img.shields.io/npm/dm/vuese.svg)](https://www.npmjs.com/package/vuese)
 [![](https://img.shields.io/npm/l/vuese.svg)](https://www.npmjs.com/package/vuese)
