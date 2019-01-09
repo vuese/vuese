@@ -8,7 +8,7 @@
 
 ## Status
 
-[![build status](https://img.shields.io/circleci/project/github/HcySunYang/vuese.svg)](https://circleci.com/gh/HcySunYang/vuese/tree/master)
+[![build status](https://img.shields.io/circleci/project/github/vuese/vuese.svg)](https://circleci.com/gh/HcySunYang/vuese/tree/master)
 [![](https://img.shields.io/npm/v/vuese.svg)](https://www.npmjs.com/package/vuese)
 [![](https://img.shields.io/npm/dm/vuese.svg)](https://www.npmjs.com/package/vuese)
 [![](https://img.shields.io/npm/l/vuese.svg)](https://www.npmjs.com/package/vuese)
