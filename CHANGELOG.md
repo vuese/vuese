@@ -1,3 +1,9 @@
+## <small>1.4.5 (2019-01-09)</small>
+
+* fix: Avoid abnormal exits ([ddea68a](https://github.com/HcySunYang/vuese/commit/ddea68a)), closes [#22](https://github.com/HcySunYang/vuese/issues/22)
+
+
+
 ## <small>1.4.4 (2019-01-09)</small>
 
 * chore: tweak ([69eb8dd](https://github.com/HcySunYang/vuese/commit/69eb8dd))
