@@ -1,3 +1,9 @@
+## <small>1.4.6 (2019-01-09)</small>
+
+* refactor: Remove @vue/component-compiler-utils ([c58fe71](https://github.com/HcySunYang/vuese/commit/c58fe71))
+
+
+
 ## <small>1.4.5 (2019-01-09)</small>
 
 * fix: Avoid abnormal exits ([ddea68a](https://github.com/HcySunYang/vuese/commit/ddea68a)), closes [#22](https://github.com/HcySunYang/vuese/issues/22)
