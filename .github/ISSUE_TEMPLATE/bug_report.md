@@ -24,5 +24,5 @@ If applicable, add screenshots to help explain your problem.
 
 **Which version do you use:**
 
-**Additional context**
-Add any other context about the problem here.
+**Additional information**
+Add any other information about the problem here.
