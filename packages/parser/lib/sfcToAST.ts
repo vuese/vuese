@@ -8,7 +8,7 @@ export interface AstResult {
   templateAst?: object
 }
 
-export default function(
+export function sfcToAST(
   source: string,
   babelParserPlugins?: ParserPlugin[]
 ): AstResult {

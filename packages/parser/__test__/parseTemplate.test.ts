@@ -1,11 +1,15 @@
 import * as path from 'path'
 import * as fs from 'fs'
-import sfcToAST, { AstResult } from '../sfcToAST'
-import parseTemplate from '../parseTemplate'
-import { SlotResult, ParserOptions } from '../index'
+import {
+  sfcToAST,
+  parseTemplate,
+  AstResult,
+  SlotResult,
+  ParserOptions
+} from '@vuese/parser'
 
 function getAST(fileName: string): object {
-  const p = path.resolve(__dirname, `../../../__fixtures__/${fileName}`)
+  const p = path.resolve(__dirname, `./__fixtures__/${fileName}`)
   const source = fs.readFileSync(p, 'utf-8')
   return sfcToAST(source)
 }

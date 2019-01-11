@@ -1,20 +1,19 @@
 import traverse from '@babel/traverse'
 import * as path from 'path'
 import * as fs from 'fs'
-import { isVueComponent, isVueOption } from '../helpers'
-import sfcToAST, { AstResult } from '../parser/sfcToAST'
+import { isVueComponent, isVueOption } from '@vuese/utils'
+import { sfcToAST, AstResult } from '@vuese/parser'
 import * as bt from '@babel/types'
 
 function getAST(fileName: string): object {
-  const p = path.resolve(__dirname, `../../__fixtures__/${fileName}`)
+  const p = path.resolve(__dirname, `./__fixtures__/${fileName}`)
   const source = fs.readFileSync(p, 'utf-8')
   return sfcToAST(source)
 }
 
-describe('helpers', () => {
+describe('utils', () => {
   const sfc1: AstResult = getAST('validProps.vue')
   const sfc2: AstResult = getAST('invalidProps.vue')
-
   test('The default export should be a Vue component', () => {
     traverse(sfc1.jsAst as bt.File, {
       ExportDefaultDeclaration(path: any) {

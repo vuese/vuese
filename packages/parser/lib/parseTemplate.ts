@@ -1,6 +1,6 @@
 import { ParserOptions, SlotResult, AttrsMap } from './index'
 
-export default function traverse(templateAst: any, options: ParserOptions) {
+export function parseTemplate(templateAst: any, options: ParserOptions) {
   const parent = templateAst.parent
   if (templateAst.type === 1) {
     if (templateAst.tag === 'slot') {
@@ -55,7 +55,7 @@ export default function traverse(templateAst: any, options: ParserOptions) {
       if (options.onSlot) options.onSlot(slot)
     }
     for (let i = 0; i < templateAst.children.length; i++) {
-      traverse(templateAst.children[i], options)
+      parseTemplate(templateAst.children[i], options)
     }
   }
 }

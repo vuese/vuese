@@ -15,10 +15,10 @@ import {
   runFunction,
   getArgumentFromPropDecorator,
   getEmitDecorator
-} from '../helpers'
+} from '@vuese/utils'
 import { isArray } from 'util'
 
-export default function(ast: bt.File, options: ParserOptions = {}) {
+export function parseJavascript(ast: bt.File, options: ParserOptions = {}) {
   const seenEvent = new Set()
 
   traverse(ast, {

@@ -1,5 +1,5 @@
-import Render, { RenderResult } from '../index'
-import { ParserResult } from '../../parser'
+import Render, { RenderResult } from '@vuese/markdown-render'
+import { ParserResult } from '@vuese/parser'
 
 test('Proper rendering of the table header', () => {
   const res: ParserResult = {

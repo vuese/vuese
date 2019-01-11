@@ -1,29 +1,34 @@
 
 {
   "compilerOptions": {
-    "target": "es2017",
-    "declaration": true,
-    "declarationDir": "dist",
-    "esModuleInterop": true,
-    "pretty": true,
-    "moduleResolution": "node",
-    "lib": [
-      "es2015",
-      "es2016.array.include"
-    ],
-    "allowSyntheticDefaultImports": true,
-    "stripInternal": true,
-    "noImplicitAny": true,
-    "noImplicitReturns": true,
-    "noImplicitThis": true,
+    "baseUrl": ".",
+    "outDir": "dist",
+    "sourceMap": false,
+    "target": "esnext",
+    "module": "esnext",
+    "allowJs": false,
     "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    "noFallthroughCasesInSwitch": true,
+    "noImplicitAny": true,
+    "experimentalDecorators": true,
+    "allowSyntheticDefaultImports": true,
     "strictNullChecks": true,
-    "strictFunctionTypes": true,
-    "alwaysStrict": true
+    "removeComments": false,
+    "moduleResolution": "node",
+    "jsx": "preserve",
+    "lib": [
+      "esnext",
+      "dom"
+    ],
+    "rootDir": ".",
+    "paths": {
+      "@vuese/parser": ["packages/parser/lib"],
+      "@vuese/markdown-render": ["packages/markdown-render/lib"],
+      "@vuese/utils": ["packages/utils/lib"]
+    }
   },
   "include": [
-    "src"
+    "packages/declarations.d.ts",
+    "packages/*/lib",
+    "packages/*/__test__"
   ]
 }

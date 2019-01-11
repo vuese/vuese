@@ -4,7 +4,7 @@ import {
   SlotResult,
   EventResult,
   MethodResult
-} from '../parser'
+} from '@vuese/parser'
 
 interface RenderOptions {
   props: string[]

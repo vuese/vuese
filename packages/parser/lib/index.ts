@@ -1,7 +1,11 @@
-import sfcToAST from './sfcToAST'
-import parseJavascript from './parseJavascript'
-import parseTemplate from './parseTemplate'
+import { sfcToAST } from './sfcToAST'
+import { parseJavascript } from './parseJavascript'
+import { parseTemplate } from './parseTemplate'
 import { ParserPlugin } from '@babel/parser'
+
+export * from './sfcToAST'
+export * from './parseJavascript'
+export * from './parseTemplate'
 
 export type PropType = string | string[] | null
 

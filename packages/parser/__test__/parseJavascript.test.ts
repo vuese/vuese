@@ -1,12 +1,17 @@
-import parseJavascript from '../parseJavascript'
-import { ParserOptions, PropsResult, EventResult, MethodResult } from '../index'
+import {
+  parseJavascript,
+  ParserOptions,
+  PropsResult,
+  EventResult,
+  MethodResult
+} from '@vuese/parser'
 import * as path from 'path'
 import * as fs from 'fs'
-import sfcToAST, { AstResult } from '../sfcToAST'
+import { sfcToAST, AstResult } from '@vuese/parser'
 import * as bt from '@babel/types'
 
 function getAST(fileName: string): object {
-  const p = path.resolve(__dirname, `../../../__fixtures__/${fileName}`)
+  const p = path.resolve(__dirname, `./__fixtures__/${fileName}`)
   const source = fs.readFileSync(p, 'utf-8')
   return sfcToAST(source)
 }

@@ -1,0 +1,28 @@
+{
+  "name": "@vuese/markdown-render",
+  "version": "2.0.0",
+  "description": "Render raw markdown string according to AST",
+  "keywords": [
+    "markdown",
+    "render",
+    "document"
+  ],
+  "author": "HcySunYang <HcySunYang@outlook.com>",
+  "homepage": "https://github.com/vuese/vuese/tree/master/packages/markdown-render#readme",
+  "license": "MIT",
+  "main": "dist/index.js",
+  "files": [
+    "lib",
+    "dist"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vuese/vuese.git"
+  },
+  "bugs": {
+    "url": "https://github.com/vuese/vuese/issues"
+  },
+  "dependencies": {
+    "@vuese/parser": "^2.0.0"
+  }
+}
