@@ -71,7 +71,7 @@ export interface ParserResult {
   name?: string
 }
 
-export default function(
+export function parser(
   source: string,
   options: ParserOptions = {}
 ): ParserResult {

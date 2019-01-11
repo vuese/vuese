@@ -14,6 +14,7 @@
     "strictNullChecks": true,
     "removeComments": false,
     "moduleResolution": "node",
+    "declaration": true,
     "jsx": "preserve",
     "lib": [
       "esnext",

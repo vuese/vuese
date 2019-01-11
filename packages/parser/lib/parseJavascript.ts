@@ -16,7 +16,6 @@ import {
   getArgumentFromPropDecorator,
   getEmitDecorator
 } from '@vuese/utils'
-import { isArray } from 'util'
 
 export function parseJavascript(ast: bt.File, options: ParserOptions = {}) {
   const seenEvent = new Set()
@@ -203,7 +202,7 @@ function isAllowPropsType(typeNode: bt.Node): boolean {
 function hasFunctionTypeDef(type: PropType): boolean {
   if (typeof type === 'string') {
     return type.toLowerCase() === 'function'
-  } else if (isArray(type)) {
+  } else if (Array.isArray(type)) {
     return type.map(a => a.toLowerCase()).some(b => b === 'function')
   }
   return false
