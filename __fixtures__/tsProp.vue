@@ -7,7 +7,7 @@
 export default class Child extends Vue {
   // Description of prop
   @Prop(Number)
-  a: number
+  a: number = 1
 
   @Prop([Number, String])
   b: number | string

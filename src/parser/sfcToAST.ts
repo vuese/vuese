@@ -22,6 +22,7 @@ export default function(
         'objectRestSpread',
         'dynamicImport',
         'decorators-legacy',
+        'classProperties',
         'typescript'
       ]
     })
