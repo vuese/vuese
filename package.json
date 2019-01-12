@@ -1,6 +1,6 @@
 {
   "name": "vuese",
-  "version": "1.4.6",
+  "version": "1.4.7",
   "main": "dist/vuese.js",
   "bin": "bin/cli.js",
   "types": "dist/index.d.ts",

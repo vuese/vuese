@@ -1,3 +1,14 @@
+## <small>1.4.7 (2019-01-12)</small>
+
+* fix: Allow use of class attributes ([31547f8](https://github.com/HcySunYang/vuese/commit/31547f8)), closes [#29](https://github.com/HcySunYang/vuese/issues/29)
+* fix: Command line arguments are invalid when the configuration file does not exist ([34678a6](https://github.com/HcySunYang/vuese/commit/34678a6)), closes [#28](https://github.com/HcySunYang/vuese/issues/28)
+* chore: Add commitizen badge ([bbafe4f](https://github.com/HcySunYang/vuese/commit/bbafe4f))
+* chore: Update issue templates ([507b7c3](https://github.com/HcySunYang/vuese/commit/507b7c3))
+* chore: Update issue templates ([1706380](https://github.com/HcySunYang/vuese/commit/1706380))
+* docs: Add an online experience link ([fbe0597](https://github.com/HcySunYang/vuese/commit/fbe0597))
+
+
+
 ## <small>1.4.6 (2019-01-09)</small>
 
 * refactor: Remove @vue/component-compiler-utils ([c58fe71](https://github.com/HcySunYang/vuese/commit/c58fe71))
