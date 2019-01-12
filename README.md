@@ -16,6 +16,7 @@
 [![](https://badgen.net/badge/support%20me/donate/ff00ff)](https://www.patreon.com/HcySunYang)
 [![](https://img.shields.io/badge/all_contributors-3-orange.svg)](#contributing)
 [![](https://img.shields.io/badge/code_style-prettier-ff69b4.svg)](https://github.com/prettier/prettier)
+[![](https://img.shields.io/badge/Gitpod-contribute-blue.svg?longCache=true)](https://gitpod.io#https://github.com/vuese/vuese)
 
 ## Online experience
 
@@ -242,7 +243,7 @@ interface ParserOptions {
 }
 ```
 
-The [default parsing option](https://github.com/HcySunYang/vuese/blob/master/src/parser/index.ts#L76) is: 
+The [default parsing option](https://github.com/HcySunYang/vuese/blob/master/src/parser/index.ts#L76) is:
 
 ```js
 const defaultOptions: ParserOptions = {
@@ -564,7 +565,7 @@ export default class Child extends Vue {
   /**
    * @vuese
    * This is a function exposed as an interface
-   * 
+   *
    * @arg The first parameter is a Boolean value that represents...
    */
   someMethod(a) {
@@ -620,7 +621,7 @@ Add leading comments to the `@Emit` decorator as a description of the event, oth
 ```js
 @Component
 export default class Child extends Vue {
-  
+
   // Fire when the form is cleared
   // @arg The argument is a boolean value representing xxx
   @Emit()
