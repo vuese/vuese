@@ -29,6 +29,7 @@ async function getConfig(flags) {
     markdownDir: 'components'
   }
   if (path) Object.assign(config, data, flags)
+  Object.assign(config, flags || {})
   return config
 }
 
