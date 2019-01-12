@@ -273,6 +273,7 @@ const defaultOptions: ParserOptions = {
     'objectRestSpread',
     'dynamicImport',
     'decorators-legacy',
+    'classProperties',
     'typescript'
   ]
 }
