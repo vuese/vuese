@@ -20,3 +20,54 @@ Object {
 ",
 }
 `;
+
+exports[`Proper rendering of the table header 2`] = `
+Object {
+  "componentName": "MyComponent",
+  "content": "# MyComponent
+
+This is a description of the component
+
+## Props
+
+<!-- @vuese:MyComponent:props:start -->
+|Name|Description|Type|Required|Default|
+|---|---|---|---|---|
+|someProp|Represents the direction of the arrow|\`TOP\` / \`BOTTOM\`|\`true\`|\`TOP\`|
+
+<!-- @vuese:MyComponent:props:end -->
+
+
+## Events
+
+<!-- @vuese:MyComponent:events:start -->
+|Event Name|Description|Parameters|
+|---|---|---|
+|click|Triggered when clicked|a boolean value|
+
+<!-- @vuese:MyComponent:events:end -->
+
+
+## Slots
+
+<!-- @vuese:MyComponent:slots:start -->
+|Name|Description|Default Slot Content|
+|---|---|---|
+|header|Table header|\`<th>{{title}}</th>\`|
+
+<!-- @vuese:MyComponent:slots:end -->
+
+
+## Methods
+
+<!-- @vuese:MyComponent:methods:start -->
+|Method|Description|Parameters|
+|---|---|---|
+|clear|Clear form|a boolean value|
+
+<!-- @vuese:MyComponent:methods:end -->
+
+
+",
+}
+`;

@@ -5,6 +5,9 @@ import {
   EventResult,
   MethodResult
 } from '@vuese/parser'
+import renderMarkdown from './renderMarkdown'
+
+export { MarkdownResult } from './renderMarkdown'
 
 interface RenderOptions {
   props: string[]
@@ -21,7 +24,10 @@ export interface RenderResult {
 }
 
 export default class Render {
-  constructor(public res: ParserResult, public options?: RenderOptions) {
+  constructor(
+    public parserResult: ParserResult,
+    public options?: RenderOptions
+  ) {
     this.options = Object.assign(
       {},
       {
@@ -35,7 +41,7 @@ export default class Render {
   }
 
   render(): RenderResult {
-    const { props, slots, events, methods } = this.res
+    const { props, slots, events, methods } = this.parserResult
     let md: RenderResult = {}
     if (props) {
       md.props = this.propRender(props)
@@ -219,5 +225,9 @@ export default class Render {
       line += '|---'
     }
     return line + '|'
+  }
+
+  renderMarkdown() {
+    return renderMarkdown(this.render(), this.parserResult)
   }
 }

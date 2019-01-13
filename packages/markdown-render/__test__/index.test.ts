@@ -1,8 +1,10 @@
-import Render, { RenderResult } from '@vuese/markdown-render'
+import Render, { RenderResult, MarkdownResult } from '@vuese/markdown-render'
 import { ParserResult } from '@vuese/parser'
 
 test('Proper rendering of the table header', () => {
   const res: ParserResult = {
+    name: 'MyComponent',
+    componentDesc: ['This is a description of the component'],
     props: [
       {
         name: 'someProp',
@@ -16,6 +18,8 @@ test('Proper rendering of the table header', () => {
     events: [
       {
         name: 'click',
+        isSync: false,
+        syncProp: '',
         describe: ['Triggered when clicked'],
         argumentsDesc: ['a boolean value']
       }
@@ -38,5 +42,7 @@ test('Proper rendering of the table header', () => {
   }
   const render = new Render(res)
   const renderRes: RenderResult = render.render()
+  const markdownRes = render.renderMarkdown() as MarkdownResult
   expect(renderRes).toMatchSnapshot()
+  expect(markdownRes).toMatchSnapshot()
 })
