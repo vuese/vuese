@@ -1,8 +1,7 @@
 import traverse from '@babel/traverse'
 import * as path from 'path'
 import * as fs from 'fs'
-import { isVueComponent, isVueOption } from '@vuese/utils'
-import { sfcToAST, AstResult } from '@vuese/parser'
+import { sfcToAST, AstResult, isVueComponent, isVueOption } from '@vuese/parser'
 import * as bt from '@babel/types'
 
 function getAST(fileName: string): object {

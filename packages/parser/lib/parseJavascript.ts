@@ -15,7 +15,7 @@ import {
   runFunction,
   getArgumentFromPropDecorator,
   getEmitDecorator
-} from '@vuese/utils'
+} from './helper'
 
 export function parseJavascript(ast: bt.File, options: ParserOptions = {}) {
   const seenEvent = new Set()

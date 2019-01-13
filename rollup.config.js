@@ -14,9 +14,6 @@ function resolveOnput(projectDir) {
 export default {
   input: resolveInput(process.env.PKG_DIR),
   external(id) {
-    const shouldInternals = ['@vuese/utils']
-    const internal = shouldInternals.some(m => id.includes(m))
-    if (internal) return false
     return id.includes('node_modules') || id.includes('@vuese')
   },
   plugins: [

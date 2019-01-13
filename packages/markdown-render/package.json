@@ -28,8 +28,8 @@
   "buildOptions": {
     "extractDts": true
   },
-  "dependencies": {
-    "@vuese/parser": "^2.0.0"
+  "devDependencies": {
+    "@vuese/parser": "^2.0.0-beta.0"
   },
   "gitHead": "2bc1b0691aaf9480fa6fc0ad59ff1bc991b81efe"
 }

@@ -14,9 +14,13 @@ function logger(msg) {
 
 async function makeBuild() {
   let files = await fs.readdir(packagesDir)
-  files = files.filter(pkgDirName =>
-    isBuildAll ? true : buildTargets.includes(pkgDirName)
-  )
+  files = files.filter(pkgDirName => {
+    const pkgDir = resolve(packagesDir, pkgDirName)
+    const stat = fs.statSync(pkgDir)
+    const isPkg = stat.isDirectory()
+    if (!isPkg) return false
+    return isBuildAll ? true : buildTargets.includes(pkgDirName)
+  })
   if (!files.length) {
     logger(`No matching build targets: ${buildTargets.join(',')}`)
     return
@@ -25,31 +29,26 @@ async function makeBuild() {
 
   files.forEach(async pkgDirName => {
     const pkgDir = resolve(packagesDir, pkgDirName)
-    const stat = await fs.stat(pkgDir)
-    const isPkg = stat.isDirectory()
+    const pkgMeta = require(`${pkgDir}/package.json`)
+    if (pkgMeta.private) return
+    await fs.remove(`${pkgDir}/dist`)
+    await execa('rollup', ['-c', '--environment', `PKG_DIR:${pkgDirName}`], {
+      stdio: 'inherit'
+    })
 
-    if (isPkg) {
-      const pkgMeta = require(`${pkgDir}/package.json`)
-      if (pkgMeta.private) return
-      await fs.remove(`${pkgDir}/dist`)
-      await execa('rollup', ['-c', '--environment', `PKG_DIR:${pkgDirName}`], {
-        stdio: 'inherit'
+    const dtsOutDir = `${pkgDir}/${pkgMeta.types}`
+
+    if (pkgMeta.buildOptions.extractDts) {
+      dts.bundle({
+        name: pkgMeta.name,
+        main: `${pkgDir}/dist/packages/${pkgDirName}/lib/index.d.ts`,
+        out: dtsOutDir
       })
+    }
+    await fs.remove(`${pkgDir}/dist/packages`)
 
-      const dtsOutDir = `${pkgDir}/${pkgMeta.types}`
-
-      if (pkgMeta.buildOptions.extractDts) {
-        dts.bundle({
-          name: pkgMeta.name,
-          main: `${pkgDir}/dist/packages/${pkgDirName}/lib/index.d.ts`,
-          out: dtsOutDir
-        })
-      }
-      await fs.remove(`${pkgDir}/dist/packages`)
-
-      if (pkgDirName === 'cli') {
-        await fs.copy(`${pkgDir}/lib/templates`, `${pkgDir}/dist/templates`)
-      }
+    if (pkgDirName === 'cli') {
+      await fs.copy(`${pkgDir}/lib/templates`, `${pkgDir}/dist/templates`)
     }
   })
 }

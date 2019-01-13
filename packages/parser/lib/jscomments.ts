@@ -1,4 +1,4 @@
-import { isCommentLine, isCommentBlock } from '@vuese/utils'
+import { isCommentLine, isCommentBlock } from './helper'
 import * as bt from '@babel/types'
 
 export type CommentResult = {

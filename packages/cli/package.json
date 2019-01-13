@@ -32,8 +32,8 @@
     "extractDts": false
   },
   "dependencies": {
-    "@vuese/markdown-render": "^2.0.0",
-    "@vuese/parser": "^2.0.0",
+    "@vuese/markdown-render": "^2.0.0-beta.0",
+    "@vuese/parser": "^2.0.0-beta.0",
     "cac": "^6.4.0",
     "carlo": "^0.9.10",
     "chokidar": "^2.0.4",

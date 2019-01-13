@@ -6,6 +6,7 @@ import { ParserPlugin } from '@babel/parser'
 export * from './sfcToAST'
 export * from './parseJavascript'
 export * from './parseTemplate'
+export * from './helper'
 
 export type PropType = string | string[] | null
 

@@ -23,8 +23,7 @@
     "rootDir": ".",
     "paths": {
       "@vuese/parser": ["packages/parser/lib"],
-      "@vuese/markdown-render": ["packages/markdown-render/lib"],
-      "@vuese/utils": ["packages/utils/lib"]
+      "@vuese/markdown-render": ["packages/markdown-render/lib"]
     }
   },
   "include": [
