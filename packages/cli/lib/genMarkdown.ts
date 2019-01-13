@@ -15,7 +15,8 @@ export default async (config: CliOptions) => {
     outDir,
     markdownDir,
     babelParserPlugins,
-    isPreview
+    isPreview,
+    genType
   } = config
 
   if (!isPreview) logger.progress('Start creating markdown files...')
@@ -40,9 +41,18 @@ export default async (config: CliOptions) => {
       let compName = markdownRes.componentName
         ? markdownRes.componentName
         : path.basename(abs, '.vue')
-      console.log(abs)
+
       str = str.replace(/\[name\]/g, compName)
-      const targetDir = path.resolve(outDir, markdownDir)
+      let targetDir = ''
+      if (genType === 'markdown' && markdownDir === '*') {
+        targetDir = path.dirname(abs)
+      } else {
+        targetDir = path.resolve(
+          outDir,
+          markdownDir === '*' ? 'components' : markdownDir
+        )
+      }
+      console.log(targetDir)
       const target = path.resolve(targetDir, compName + '.md')
 
       if (!isPreview) {

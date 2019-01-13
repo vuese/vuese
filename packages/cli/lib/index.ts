@@ -3,12 +3,14 @@ import JoyCon from 'joycon'
 import fs from 'fs-extra'
 import inquirer from 'inquirer'
 import { ParserPlugin } from '@babel/parser'
+import Log from 'log-horizon'
 import preview from './preview'
 import questions from './questions'
 import genDocute from './genDocute'
 import genMarkdown from './genMarkdown'
 import server from './server'
 
+const logger = Log.create()
 const cli = cac()
 const joycon = new JoyCon({
   packageKey: 'vuese'
@@ -51,9 +53,18 @@ async function getConfig(flags: PartialCliOptions) {
   return config
 }
 
+cli.command('').action(() => {
+  cli.outputHelp()
+})
+
 cli
   .command('preview [file]', 'Preview a vue component as a document')
+  .example('vuese preview path-to-the-component.vue')
   .action(async (file, flags) => {
+    if (!file) {
+      logger.error('Missing component path.')
+      cli.outputHelp()
+    }
     const config = await getConfig(flags)
     config.include = file
     config.isPreview = true
@@ -63,7 +74,7 @@ cli
 cli
   .command('gen', 'Generate target resources')
   .allowUnknownOptions()
-  .action(async (input, flags) => {
+  .action(async flags => {
     const config = await getConfig(flags)
     if (['docute', 'markdown'].indexOf(config.genType as string) < 0) {
       const { genType } = await inquirer.prompt(questions)
@@ -73,12 +84,10 @@ cli
     else if (config.genType === 'markdown') genMarkdown(config as CliOptions)
   })
 
-cli
-  .command('serve', 'Serve generated docute website')
-  .action(async (input, flags) => {
-    const config = await getConfig(flags)
-    server(config as CliOptions)
-  })
+cli.command('serve', 'Serve generated docute website').action(async flags => {
+  const config = await getConfig(flags)
+  server(config as CliOptions)
+})
 
 cli.version(require('../package.json').version)
 cli.help()
