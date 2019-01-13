@@ -13,9 +13,11 @@
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "files": [
-    "lib",
     "dist"
   ],
+  "publishConfig": {
+    "access": "public"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/vuese/vuese.git"
@@ -28,5 +30,6 @@
   },
   "dependencies": {
     "@vuese/parser": "^2.0.0"
-  }
+  },
+  "gitHead": "2bc1b0691aaf9480fa6fc0ad59ff1bc991b81efe"
 }
