@@ -5,34 +5,16 @@
     "packages/*"
   ],
   "scripts": {
-    "test": "yarn lint:ts && jest --verbose",
-    "build": "yarn lint:ts && bili",
-    "postbuild": "find dist -type d -name __test__ -exec rm -r {} +",
+    "test": "yarn lint && jest --verbose",
+    "build": "yarn lint && node ./scripts/build.js",
     "prepublishOnly": "yarn toc && yarn build",
     "toc": "markdown-toc -i README.md",
-    "lint:ts": "tslint --project tsconfig.json --fix",
-    "lint:js": "eslint --fix",
+    "lint": "tslint --project tsconfig.json --fix",
     "commit": "git-cz",
     "changelog": "conventional-changelog -i CHANGELOG.md -s",
     "release": "release-it --no-git.requireCleanWorkingDir",
     "contributors:add": "all-contributors add",
     "contributors:generate": "all-contributors generate"
-  },
-  "dependencies": {
-    "cac": "^5.0.13",
-    "carlo": "^0.9.10",
-    "chokidar": "^2.0.4",
-    "fast-glob": "^2.2.3",
-    "get-port": "^4.0.0",
-    "inquirer": "^6.2.0",
-    "joycon": "^2.1.2",
-    "log-horizon": "^0.1.2",
-    "majo": "^0.6.2",
-    "marked": "^0.5.1",
-    "opn": "^5.4.0",
-    "prismjs": "^1.15.0",
-    "sao": "^0.22.17",
-    "serve-handler": "^5.0.5"
   },
   "devDependencies": {
     "@types/babel__generator": "^7.0.0",
@@ -42,9 +24,9 @@
     "all-contributors-cli": "^5.6.0",
     "conventional-changelog-cli": "^2.0.11",
     "cz-conventional-changelog": "2.1.0",
-    "eslint": "^5.8.0",
-    "eslint-config-prettier": "^3.1.0",
-    "eslint-plugin-prettier": "^3.0.0",
+    "dts-bundle": "^0.7.3",
+    "execa": "^1.0.0",
+    "fs-extra": "^7.0.1",
     "husky": "^1.0.0",
     "is-builtin-module": "^3.0.0",
     "jest": "^23.6.0",
@@ -61,33 +43,9 @@
     "tslint-plugin-prettier": "^2.0.0",
     "typescript": "^3.0.3"
   },
-  "bili": {
-    "input": "src/index.ts",
-    "js": "typescript2",
-    "filename": "vuese.js",
-    "typescript2": {
-      "useTsconfigDeclarationDir": true
-    },
-    "externals": [
-      "@babel/generator",
-      "@babel/parser",
-      "@babel/traverse",
-      "@babel/types",
-      "@vue/component-compiler-utils",
-      "vue-template-compiler"
-    ]
-  },
   "lint-staged": {
     "*.ts": [
-      "npm run lint:ts --",
-      "git add"
-    ],
-    "bin/**/*.js": [
-      "npm run lint:js --",
-      "git add"
-    ],
-    "lib/**/*.js": [
-      "npm run lint:js --",
+      "npm run lint",
       "git add"
     ]
   },
@@ -100,5 +58,8 @@
     "commitizen": {
       "path": "./node_modules/cz-conventional-changelog"
     }
+  },
+  "dependencies": {
+    "chalk": "^2.4.2"
   }
 }

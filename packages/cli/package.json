@@ -1,0 +1,49 @@
+{
+  "name": "@vuese/cli",
+  "version": "2.0.0",
+  "description": "Automatically generate markdown documents based on your vue file",
+  "keywords": [
+    "markdown",
+    "vue",
+    "generator",
+    "document",
+    "docute"
+  ],
+  "author": "HcySunYang <HcySunYang@outlook.com>",
+  "homepage": "https://github.com/vuese/vuese/tree/master/packages/cli#readme",
+  "license": "MIT",
+  "bin": {
+    "vuese": "bin/index.js"
+  },
+  "files": [
+    "dist"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vuese/vuese.git"
+  },
+  "bugs": {
+    "url": "https://github.com/vuese/vuese/issues"
+  },
+  "buildOptions": {
+    "extractDts": false
+  },
+  "dependencies": {
+    "@vuese/markdown-render": "^2.0.0",
+    "@vuese/parser": "^2.0.0",
+    "cac": "^6.4.0",
+    "carlo": "^0.9.10",
+    "chokidar": "^2.0.4",
+    "fast-glob": "^2.2.6",
+    "fs-extra": "^7.0.1",
+    "get-port": "^4.1.0",
+    "inquirer": "^6.2.1",
+    "joycon": "^2.2.3",
+    "log-horizon": "^0.1.2",
+    "marked": "^0.6.0",
+    "opn": "^5.4.0",
+    "prismjs": "^1.15.0",
+    "sao": "^0.22.17",
+    "serve-handler": "^5.0.7"
+  }
+}

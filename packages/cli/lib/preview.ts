@@ -1,15 +1,17 @@
-const carlo = require('carlo')
-const { EventEmitter } = require('events')
-const parser = require('./markedParser')
-const path = require('path')
-const fs = require('fs')
-const lib = require('./index')
-const chokidar = require('chokidar')
-const logger = require('log-horizon').create()
+import { EventEmitter } from 'events'
+import path from 'path'
+import carlo from 'carlo'
+import fs from 'fs-extra'
+import parser from './markedParser'
+import genMarkdown from './genMarkdown'
+import chokidar from 'chokidar'
+import Log from 'log-horizon'
+import { CliOptions } from '.'
 
-module.exports = async config => {
-  const sfc = config.include[0]
-  config.isPreview = true
+const logger = Log.create()
+
+export default async (config: CliOptions) => {
+  const sfc = (config.include as string[])[0]
   if (!sfc) {
     logger.error('Must provide the path to the .vue file.')
     process.exit(1)
@@ -18,9 +20,11 @@ module.exports = async config => {
 
   if (fs.existsSync(vueFile)) {
     async function generate() {
-      const componentsPromise = await lib(config)
+      const componentsPromise = await genMarkdown(config)
       const componentsRes = await Promise.all(componentsPromise)
-      const content = componentsRes.map(res => res.content)[0]
+      const content = componentsRes
+        .filter(_ => _)
+        .map((res: any) => res.content)[0]
       return parser(content)
     }
 
@@ -30,7 +34,7 @@ module.exports = async config => {
 
     class Events extends EventEmitter {}
     const event = new Events()
-    await app.exposeObject('event', event)
+    await app.exposeFunction('event', () => event)
     await app.exposeFunction('generate', async () => {
       return await generate()
     })

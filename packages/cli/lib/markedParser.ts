@@ -3,14 +3,13 @@
  * Modified by HcySunYang
  */
 
-const fs = require('fs')
-const markded = require('marked')
-const Prism = require('prismjs')
-const loadLanguages = require('prismjs/components/')
+import markded from 'marked'
+import Prism from 'prismjs'
+import loadLanguages from 'prismjs/components'
 
-function parse(content) {
+function parse(content: string) {
   markded.setOptions({
-    highlight: function(code, lang) {
+    highlight: function(code: any, lang: any) {
       if (!Prism.languages[lang]) {
         loadLanguages([lang])
       }
@@ -21,4 +20,4 @@ function parse(content) {
   return markded(content)
 }
 
-module.exports = parse
+export default parse

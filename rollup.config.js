@@ -12,9 +12,12 @@ function resolveOnput(projectDir) {
 }
 
 export default {
-  input: resolveInput('parser'),
+  input: resolveInput(process.env.PKG_DIR),
   external(id) {
-    return id.includes('node_modules')
+    const shouldInternals = ['@vuese/utils']
+    const internal = shouldInternals.some(m => id.includes(m))
+    if (internal) return false
+    return id.includes('node_modules') || id.includes('@vuese')
   },
   plugins: [
     typescript({
@@ -23,7 +26,7 @@ export default {
     moduleResolve()
   ],
   output: {
-    file: resolveOnput('parser'),
+    file: resolveOnput(process.env.PKG_DIR),
     format: 'cjs'
   },
   onwarn(warning, warn) {

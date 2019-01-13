@@ -1,13 +1,15 @@
-const path = require('path')
-const getPort = require('get-port')
-const opn = require('opn')
-const logger = require('log-horizon').create()
+import path from 'path'
+import getPort from 'get-port'
+import opn from 'opn'
+import Log from 'log-horizon'
+import { CliOptions } from '.'
 
-module.exports = async config => {
-  const servePath = path.resolve(config.outDir)
+const logger = Log.create()
+
+export default async (config: CliOptions) => {
   const http = require('http')
   const handler = require('serve-handler')
-  const server = http.createServer((req, res) => {
+  const server = http.createServer((req: any, res: any) => {
     return handler(req, res, {
       public: path.resolve(config.outDir)
     })

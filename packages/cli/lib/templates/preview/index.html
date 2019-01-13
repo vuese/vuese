@@ -16,7 +16,7 @@
           }
           render()
 
-          const event = await rpc.lookup('event')
+          const event = await window.event()
           event.on('update', () => {
             render()
           })

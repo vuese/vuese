@@ -11,6 +11,7 @@
   "homepage": "https://github.com/vuese/vuese/tree/master/packages/markdown-render#readme",
   "license": "MIT",
   "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "files": [
     "lib",
     "dist"
@@ -21,6 +22,9 @@
   },
   "bugs": {
     "url": "https://github.com/vuese/vuese/issues"
+  },
+  "buildOptions": {
+    "extractDts": true
   },
   "dependencies": {
     "@vuese/parser": "^2.0.0"

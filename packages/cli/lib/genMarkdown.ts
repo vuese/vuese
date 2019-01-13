@@ -1,10 +1,15 @@
-const fg = require('fast-glob')
-const path = require('path')
-const majo = require('majo')
-const logger = require('log-horizon').create()
-const genMarkdownTemplate = require('./genMarkdownTemp')
+import path from 'path'
+import fg from 'fast-glob'
+import fs from 'fs-extra'
+import Log from 'log-horizon'
+import genMarkdownTemplate from './genMarkdownTemp'
+import { CliOptions } from '.'
+import { parser } from '@vuese/parser'
+import Render, { RenderResult } from '@vuese/markdown-render'
 
-module.exports = async config => {
+const logger = Log.create()
+
+export default async (config: CliOptions) => {
   let {
     include,
     exclude,
@@ -25,10 +30,9 @@ module.exports = async config => {
   const nameRE = /\[name\]/g
   const htmlCommentRE = /<!--\s*@vuese:([a-zA-Z_][\w\-\.]*):(\w+):start\s*-->[^]*<!--\s*@vuese:\1:\2:end\s*-->/
 
-  const { parser, Render } = require('../dist/vuese')
-  return files.map(async p => {
+  return files.map(async (p: string) => {
     const abs = path.resolve(p)
-    const source = await majo.fs.readFile(abs, 'utf-8')
+    const source = await fs.readFile(abs, 'utf-8')
     try {
       const parserRes = parser(source, { babelParserPlugins })
       const r = new Render(parserRes)
@@ -54,7 +58,7 @@ module.exports = async config => {
         const res = stream.match(htmlCommentRE)
         if (res) {
           const matchText = res[0]
-          const type = res[2]
+          const type = res[2] as keyof RenderResult
           const i = stream.indexOf(matchText)
           const currentHtmlCommentRE = new RegExp(
             `<!--\\s*@vuese:(${compName}):(${type}):start\\s*-->[^]*<!--\\s*@vuese:\\1:\\2:end\\s*-->`
@@ -75,8 +79,8 @@ module.exports = async config => {
         stream = stream.slice(index)
       }
       if (!isPreview) {
-        await majo.fs.ensureDir(targetDir)
-        await majo.fs.writeFile(target, str)
+        await fs.ensureDir(targetDir)
+        await fs.writeFile(target, str)
         logger.success(`Successfully created: ${target}`)
       }
       return {
