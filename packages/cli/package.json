@@ -16,7 +16,8 @@
     "vuese": "bin/index.js"
   },
   "files": [
-    "dist"
+    "dist",
+    "bin"
   ],
   "publishConfig": {
     "access": "public"
