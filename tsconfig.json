@@ -17,8 +17,7 @@
     "declaration": true,
     "jsx": "preserve",
     "lib": [
-      "esnext",
-      "dom"
+      "esnext"
     ],
     "rootDir": ".",
     "paths": {
