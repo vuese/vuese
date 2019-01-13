@@ -12,9 +12,11 @@
     "lint": "tslint --project tsconfig.json --fix",
     "commit": "git-cz",
     "changelog": "conventional-changelog -i CHANGELOG.md -s",
-    "release": "release-it --no-git.requireCleanWorkingDir",
     "contributors:add": "all-contributors add",
     "contributors:generate": "all-contributors generate"
+  },
+  "publishConfig": {
+    "access": "public"
   },
   "devDependencies": {
     "@types/babel__generator": "^7.0.0",
@@ -22,6 +24,7 @@
     "@types/jest": "^23.3.2",
     "@types/node": "^10.11.0",
     "all-contributors-cli": "^5.6.0",
+    "chalk": "^2.4.2",
     "conventional-changelog-cli": "^2.0.11",
     "cz-conventional-changelog": "2.1.0",
     "dts-bundle": "^0.7.3",
@@ -58,8 +61,5 @@
     "commitizen": {
       "path": "./node_modules/cz-conventional-changelog"
     }
-  },
-  "dependencies": {
-    "chalk": "^2.4.2"
   }
 }
