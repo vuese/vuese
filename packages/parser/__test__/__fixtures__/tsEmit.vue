@@ -13,5 +13,8 @@ export default class Child extends Vue {
 
   @Emit('reset')
   resetHandle() {}
+
+  @Emit('update:some-prop')
+  updateProp() {}
 }
 </script>

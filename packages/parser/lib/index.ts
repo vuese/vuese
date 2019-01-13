@@ -8,6 +8,11 @@ export * from './parseJavascript'
 export * from './parseTemplate'
 export * from './helper'
 
+export interface NameResult {
+  name: string
+  describe: string[]
+}
+
 export type PropType = string | string[] | null
 
 export interface PropsResult {
@@ -24,6 +29,8 @@ export interface PropsResult {
 
 export interface EventResult {
   name: string
+  isSync: boolean
+  syncProp: string
   describe?: string[]
   argumentsDesc?: string[]
 }
@@ -47,19 +54,19 @@ export interface SlotResult {
 
 export interface ParserOptions {
   onProp?: {
-    (propsRes?: PropsResult): any
+    (propsRes?: PropsResult): void
   }
   onEvent?: {
-    (eventRes?: EventResult): any
+    (eventRes?: EventResult): void
   }
   onMethod?: {
-    (methodRes?: MethodResult): any
+    (methodRes?: MethodResult): void
   }
   onSlot?: {
-    (slotRes?: SlotResult): any
+    (slotRes?: SlotResult): void
   }
   onName?: {
-    (name: string): any
+    (nameRes: NameResult): void
   }
   babelParserPlugins?: ParserPlugin[]
 }
@@ -70,6 +77,7 @@ export interface ParserResult {
   slots?: SlotResult[]
   methods?: MethodResult[]
   name?: string
+  componentDesc?: string[]
 }
 
 export function parser(
@@ -79,8 +87,9 @@ export function parser(
   const astRes = sfcToAST(source, options.babelParserPlugins)
   const res: ParserResult = {}
   const defaultOptions: ParserOptions = {
-    onName(name: string) {
-      res.name = name
+    onName(nameRes: NameResult) {
+      res.name = nameRes.name
+      res.componentDesc = nameRes.describe
     },
     onProp(propsRes?: PropsResult) {
       if (propsRes) {

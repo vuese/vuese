@@ -31,5 +31,6 @@
     }
   }
 })
+// This is a description of the component
 export default class Child extends Vue {}
 </script>

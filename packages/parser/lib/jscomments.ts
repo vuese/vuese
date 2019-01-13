@@ -8,11 +8,13 @@ export type CommentResult = {
 const commentRE = /\s*\*\s*/g
 const leadRE = /^@(\w+)\b/
 
-export function getComments(cnode: bt.Node): CommentResult {
+export function getComments(cnode: bt.Node, trailing?: boolean): CommentResult {
   const res: CommentResult = {
     default: []
   }
-  const commentNodes = cnode.leadingComments || []
+  const commentNodes = trailing
+    ? cnode.trailingComments || []
+    : cnode.leadingComments || []
   if (!commentNodes || !commentNodes.length) return res
 
   let comments: string = '',

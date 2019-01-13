@@ -11,6 +11,8 @@ export default {
        * @arg The first parameter is a Boolean value that represents...
        */
       this.$emit('click', someVal)
+      
+      this.$emit('update:some-prop', 1)
     }
   }
 }

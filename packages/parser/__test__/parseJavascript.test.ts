@@ -3,7 +3,8 @@ import {
   ParserOptions,
   PropsResult,
   EventResult,
-  MethodResult
+  MethodResult,
+  NameResult
 } from '@vuese/parser'
 import * as path from 'path'
 import * as fs from 'fs'
@@ -26,7 +27,8 @@ test('Get the component name correctly', () => {
   const arg = mockOnName.mock.calls[0][0]
 
   expect(mockOnName.mock.calls.length).toBe(1)
-  expect(arg).toBe('compName')
+  expect((arg as NameResult).name).toBe('compName')
+  expect((arg as NameResult).describe).toMatchSnapshot()
 })
 
 test('Ability to correctly handle props that is an array of string', () => {
@@ -187,14 +189,24 @@ test('Correct handling of events', () => {
     onEvent: mockOnEvent
   }
   parseJavascript(sfc.jsAst as bt.File, options)
-  const arg = mockOnEvent.mock.calls[0][0]
+  const arg1 = mockOnEvent.mock.calls[0][0]
+  const arg2 = mockOnEvent.mock.calls[1][0]
 
-  expect(mockOnEvent.mock.calls.length).toBe(1)
-  expect((arg as EventResult).name).toBe('click')
-  expect(((arg as EventResult).describe as string[]).length).toBe(1)
-  expect(((arg as EventResult).argumentsDesc as string[]).length).toBe(1)
-  expect((arg as EventResult).describe).toMatchSnapshot()
-  expect((arg as EventResult).argumentsDesc).toMatchSnapshot()
+  expect(mockOnEvent.mock.calls.length).toBe(2)
+  expect((arg1 as EventResult).name).toBe('click')
+  expect(((arg1 as EventResult).describe as string[]).length).toBe(1)
+  expect(((arg1 as EventResult).argumentsDesc as string[]).length).toBe(1)
+  expect((arg1 as EventResult).describe).toMatchSnapshot()
+  expect((arg1 as EventResult).argumentsDesc).toMatchSnapshot()
+
+  // .sync
+  expect((arg2 as EventResult).name).toBe('update:some-prop')
+  expect((arg2 as EventResult).isSync).toBe(true)
+  expect((arg2 as EventResult).syncProp).toBe('some-prop')
+  expect(((arg2 as EventResult).describe as string[]).length).toBe(0)
+  expect((arg2 as EventResult).argumentsDesc).toBe(undefined)
+  expect((arg2 as EventResult).describe).toMatchSnapshot()
+  expect((arg2 as EventResult).argumentsDesc).toMatchSnapshot()
 })
 
 test('Only call onEvent once for the same event', () => {
@@ -230,10 +242,12 @@ test('The options in @Component should be parsed correctly', () => {
   const mockOnMethod = jest.fn(() => {})
   const mockOnEvent = jest.fn(() => {})
   const mockOnProp = jest.fn(() => {})
+  const mockOnName = jest.fn(() => {})
   const options: ParserOptions = {
     onMethod: mockOnMethod,
     onEvent: mockOnEvent,
-    onProp: mockOnProp
+    onProp: mockOnProp,
+    onName: mockOnName
   }
   parseJavascript(sfc.jsAst as bt.File, options)
 
@@ -257,6 +271,10 @@ test('The options in @Component should be parsed correctly', () => {
 
   expect(mockOnProp.mock.calls.length).toBe(1)
   expect(arg2 as PropsResult).toMatchSnapshot()
+
+  const arg3 = mockOnName.mock.calls[0][0]
+  expect((arg3 as NameResult).name).toBe('')
+  expect((arg3 as NameResult).describe).toMatchSnapshot()
 })
 
 test('@Prop decorator', () => {
@@ -312,8 +330,9 @@ test('@Emit decorator', () => {
 
   const arg1 = mockOnEvent.mock.calls[0][0]
   const arg2 = mockOnEvent.mock.calls[1][0]
+  const arg3 = mockOnEvent.mock.calls[2][0]
 
-  expect(mockOnEvent.mock.calls.length).toBe(2)
+  expect(mockOnEvent.mock.calls.length).toBe(3)
   expect((arg1 as EventResult).name).toBe('on-click')
   expect(((arg1 as EventResult).describe as string[]).length).toBe(1)
   expect(((arg1 as EventResult).argumentsDesc as string[]).length).toBe(1)
@@ -321,4 +340,8 @@ test('@Emit decorator', () => {
   expect((arg1 as EventResult).argumentsDesc).toMatchSnapshot()
 
   expect((arg2 as EventResult).name).toBe('reset')
+
+  expect((arg3 as EventResult).name).toBe('update:some-prop')
+  expect((arg3 as EventResult).isSync).toBe(true)
+  expect((arg3 as EventResult).syncProp).toBe('some-prop')
 })

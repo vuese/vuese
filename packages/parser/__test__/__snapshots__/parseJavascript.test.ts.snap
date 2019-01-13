@@ -48,6 +48,10 @@ Array [
 ]
 `;
 
+exports[`Correct handling of events 3`] = `Array []`;
+
+exports[`Correct handling of events 4`] = `undefined`;
+
 exports[`Correct handling of methods 1`] = `
 Array [
   "Do something",
@@ -65,6 +69,12 @@ Array [
   "a string",
   "For input form",
   "and something",
+]
+`;
+
+exports[`Get the component name correctly 1`] = `
+Array [
+  "This is a description of the component",
 ]
 `;
 
@@ -111,6 +121,12 @@ Object {
   ],
   "validator": "validator() {}",
 }
+`;
+
+exports[`The options in @Component should be parsed correctly 6`] = `
+Array [
+  "This is a description of the component",
+]
 `;
 
 exports[`The validator function should be used as a string representation 1`] = `

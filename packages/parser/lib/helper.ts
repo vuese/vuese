@@ -1,6 +1,7 @@
 import generate from '@babel/generator'
 import { NodePath } from '@babel/traverse'
 import * as bt from '@babel/types'
+import { getComments, CommentResult } from './jscomments'
 
 /**
  * If a node satisfies the following conditions, then we will use this node as a Vue component.
@@ -108,4 +109,27 @@ export function getArgumentFromPropDecorator(
     }
   }
   return null
+}
+
+/**
+ * Extract the leading comments of the default export statement
+ * 1、If the default export is a class with a decorator,
+ *    we should find the trailing comments of the last decorator node.
+ * 2、In other cases, directly use the leading commets of the default export statement.
+ */
+export function getComponentDescribe(
+  node: bt.ExportDefaultDeclaration
+): CommentResult {
+  let res: CommentResult = {
+    default: []
+  }
+  if (bt.isClassDeclaration(node.declaration)) {
+    const decorators = node.declaration.decorators
+    if (decorators && decorators.length) {
+      res = getComments(decorators[decorators.length - 1], true /* trailing */)
+    }
+  } else {
+    res = getComments(node)
+  }
+  return res
 }

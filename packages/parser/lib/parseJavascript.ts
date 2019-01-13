@@ -14,20 +14,28 @@ import {
   isVueOption,
   runFunction,
   getArgumentFromPropDecorator,
-  getEmitDecorator
+  getEmitDecorator,
+  getComponentDescribe
 } from './helper'
 
 export function parseJavascript(ast: bt.File, options: ParserOptions = {}) {
   const seenEvent = new Set()
 
   traverse(ast, {
-    ExportDefaultDeclaration(path: NodePath<bt.ExportDefaultDeclaration>) {
-      path.traverse({
+    ExportDefaultDeclaration(rootPath: NodePath<bt.ExportDefaultDeclaration>) {
+      rootPath.traverse({
         ObjectProperty(path: NodePath<bt.ObjectProperty>) {
           const { onProp, onMethod, onName } = options
           // Processing name
+          let componentName = ''
           if (isVueOption(path, 'name')) {
-            if (onName) onName((path.node.value as bt.StringLiteral).value)
+            componentName = (path.node.value as bt.StringLiteral).value
+          }
+          if (onName) {
+            onName({
+              name: componentName,
+              describe: getComponentDescribe(rootPath.node).default
+            })
           }
 
           // Processing props
@@ -98,12 +106,13 @@ export function parseJavascript(ast: bt.File, options: ParserOptions = {}) {
             const { onEvent } = options
             const args = node.arguments
             const result: EventResult = {
-              name: ''
+              name: '',
+              isSync: false,
+              syncProp: ''
             }
             const firstArg = args[0]
-
-            if (args.length && bt.isStringLiteral(firstArg)) {
-              result.name = firstArg.value
+            if (firstArg && bt.isStringLiteral(firstArg)) {
+              processEventName(firstArg.value, result)
             }
 
             if (!result.name || seenEvent.has(result.name)) return
@@ -149,7 +158,9 @@ export function parseJavascript(ast: bt.File, options: ParserOptions = {}) {
       const emitDecorator = getEmitDecorator(node.decorators)
       if (emitDecorator) {
         const result: EventResult = {
-          name: ''
+          name: '',
+          isSync: false,
+          syncProp: ''
         }
         const args = (emitDecorator.expression as bt.CallExpression).arguments
         if (args && args.length && bt.isStringLiteral(args[0])) {
@@ -159,6 +170,7 @@ export function parseJavascript(ast: bt.File, options: ParserOptions = {}) {
             result.name = node.key.name.replace(/([A-Z])/g, '-$1').toLowerCase()
           }
         }
+        if (result.name) processEventName(result.name, result)
 
         if (!result.name || seenEvent.has(result.name)) return
         seenEvent.add(result.name)
@@ -206,6 +218,17 @@ function hasFunctionTypeDef(type: PropType): boolean {
     return type.map(a => a.toLowerCase()).some(b => b === 'function')
   }
   return false
+}
+
+function processEventName(eventName: string, result: EventResult) {
+  const syncRE = /^update:(.+)/
+  const eventNameMatchs = eventName.match(syncRE)
+  result.name = eventName
+  // Mark as .sync
+  if (eventNameMatchs) {
+    result.isSync = true
+    result.syncProp = eventNameMatchs[1]
+  }
 }
 
 function processPropValue(propValueNode: bt.Node, result: PropsResult) {
