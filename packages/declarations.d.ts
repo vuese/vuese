@@ -1,4 +1,4 @@
-declare module 'vue-template-compiler'
+declare module 'vue-template-compiler/build'
 declare module 'strip-ansi'
 declare module 'fs-extra'
 declare module 'log-horizon'

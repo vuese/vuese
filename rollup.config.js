@@ -18,7 +18,8 @@ export default {
   external(id) {
     return (
       (pkgMeta.dependencies && !!pkgMeta.dependencies[id]) ||
-      id === 'prismjs/components'
+      id === 'prismjs/components' ||
+      id === 'vue-template-compiler/build'
     )
   },
   plugins: [
