@@ -9,6 +9,7 @@
 </template>
 
 <script>
+// This is a description of the component
 export default {
   props: {
     // The name of the form, up to 8 characters

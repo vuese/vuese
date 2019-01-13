@@ -4,6 +4,10 @@ export default function(parserRes: ParserResult) {
   let templateStr = '# [name]\n\n'
   let original = templateStr
 
+  if (parserRes.componentDesc && parserRes.componentDesc.length) {
+    templateStr += `${parserRes.componentDesc.join('')}\n\n`
+  }
+
   templateStr += parserRes.props ? genBaseTemplate('props') : ''
   templateStr += parserRes.events ? genBaseTemplate('events') : ''
   templateStr += parserRes.slots ? genBaseTemplate('slots') : ''
