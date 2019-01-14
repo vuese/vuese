@@ -84,10 +84,13 @@ cli
     else if (config.genType === 'markdown') genMarkdown(config as CliOptions)
   })
 
-cli.command('serve', 'Serve generated docute website').action(async flags => {
-  const config = await getConfig(flags)
-  server(config as CliOptions)
-})
+cli
+  .command('serve', 'Serve generated docute website')
+  .option('--open', 'Open the browser automatically')
+  .action(async flags => {
+    const config = await getConfig(flags)
+    server(config as CliOptions)
+  })
 
 cli.version(require('../package.json').version)
 cli.help()
