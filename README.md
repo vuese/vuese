@@ -23,6 +23,10 @@ Visit the following 👇 link to intuitively feel `vuese`:
 
 [An online experience playground for vuese](https://vuese.github.io/vuese-explorer/)
 
+## Roadmap
+
+Planning for vuese2.x: [Read our roadmap](https://github.com/vuese/roadmap)
+
 ## Install
 
 ```sh

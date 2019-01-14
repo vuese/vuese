@@ -25,7 +25,8 @@ export function sfcToAST(
         'dynamicImport',
         'decorators-legacy',
         'classProperties',
-        'typescript'
+        'typescript',
+        'jsx'
       ]
     })
   }
