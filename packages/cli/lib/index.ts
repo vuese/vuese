@@ -1,11 +1,9 @@
 import cac from 'cac'
 import JoyCon from 'joycon'
 import fs from 'fs-extra'
-import inquirer from 'inquirer'
 import { ParserPlugin } from '@babel/parser'
 import Log from 'log-horizon'
 import preview from './preview'
-import questions from './questions'
 import genDocute from './genDocute'
 import genMarkdown from './genMarkdown'
 import server from './server'
@@ -43,6 +41,8 @@ async function getConfig(flags: PartialCliOptions) {
     'package.json'
   ])
   const config: PartialCliOptions = {
+    genType: 'docute',
+    title: 'Components',
     include: '**/*.vue',
     exclude: [],
     outDir: 'website',
@@ -76,9 +76,8 @@ cli
   .allowUnknownOptions()
   .action(async flags => {
     const config = await getConfig(flags)
-    if (['docute', 'markdown'].indexOf(config.genType as string) < 0) {
-      const { genType } = await inquirer.prompt(questions)
-      config.genType = genType
+    if (!['docute', 'markdown'].includes(config.genType as string)) {
+      logger.error(`Please provide the correct genType: ${config.genType}`)
     }
     if (config.genType === 'docute') genDocute(config as CliOptions)
     else if (config.genType === 'markdown') genMarkdown(config as CliOptions)
