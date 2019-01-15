@@ -54,16 +54,16 @@ export interface SlotResult {
 
 export interface ParserOptions {
   onProp?: {
-    (propsRes?: PropsResult): void
+    (propsRes: PropsResult): void
   }
   onEvent?: {
-    (eventRes?: EventResult): void
+    (eventRes: EventResult): void
   }
   onMethod?: {
-    (methodRes?: MethodResult): void
+    (methodRes: MethodResult): void
   }
   onSlot?: {
-    (slotRes?: SlotResult): void
+    (slotRes: SlotResult): void
   }
   onName?: {
     (nameRes: NameResult): void
@@ -91,25 +91,17 @@ export function parser(
       res.name = nameRes.name
       res.componentDesc = nameRes.describe
     },
-    onProp(propsRes?: PropsResult) {
-      if (propsRes) {
-        ;(res.props || (res.props = [])).push(propsRes)
-      }
+    onProp(propsRes: PropsResult) {
+      ;(res.props || (res.props = [])).push(propsRes)
     },
-    onEvent(eventsRes?: EventResult) {
-      if (eventsRes) {
-        ;(res.events || (res.events = [])).push(eventsRes)
-      }
+    onEvent(eventsRes: EventResult) {
+      ;(res.events || (res.events = [])).push(eventsRes)
     },
-    onSlot(slotRes?: SlotResult) {
-      if (slotRes) {
-        ;(res.slots || (res.slots = [])).push(slotRes)
-      }
+    onSlot(slotRes: SlotResult) {
+      ;(res.slots || (res.slots = [])).push(slotRes)
     },
-    onMethod(methodRes?: MethodResult) {
-      if (methodRes) {
-        ;(res.methods || (res.methods = [])).push(methodRes)
-      }
+    onMethod(methodRes: MethodResult) {
+      ;(res.methods || (res.methods = [])).push(methodRes)
     },
     babelParserPlugins: [
       'objectRestSpread',
