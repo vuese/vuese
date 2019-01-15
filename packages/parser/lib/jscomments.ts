@@ -17,7 +17,7 @@ export function getComments(cnode: bt.Node, trailing?: boolean): CommentResult {
     : cnode.leadingComments || []
   if (!commentNodes || !commentNodes.length) return res
 
-  let comments: string = '',
+  let comments: string | string[] = '',
     matchs: RegExpMatchArray | null
   ;(commentNodes as []).forEach((node: bt.Comment) => {
     if (isCommentLine(node)) {
@@ -35,11 +35,10 @@ export function getComments(cnode: bt.Node, trailing?: boolean): CommentResult {
         .replace(commentRE, '\n')
         .replace(/^\*/, '')
         .split('\n')
+        .map(t => t.trim())
         .filter(t => t)
-        .join('\n')
-        .trim()
       let currentKey = 'default'
-      comments.split('\n').forEach(c => {
+      ;(comments as string[]).forEach(c => {
         if ((matchs = c.match(leadRE))) {
           currentKey = matchs[1]
           res[currentKey] = res[currentKey] || []
