@@ -1,12 +1,13 @@
 import { ParserResult } from '@vuese/parser'
 
 export default function(parserRes: ParserResult) {
+  const desc = parserRes.componentDesc
   let templateStr = '# [name]\n\n'
-  let original = templateStr
 
-  if (parserRes.componentDesc && parserRes.componentDesc.length) {
-    templateStr += `${parserRes.componentDesc.join('')}\n\n`
+  if (desc && desc.default.length) {
+    templateStr += `${desc.default.join('')}\n\n`
   }
+  const original = templateStr
 
   templateStr += parserRes.props ? genBaseTemplate('props') : ''
   templateStr += parserRes.events ? genBaseTemplate('events') : ''

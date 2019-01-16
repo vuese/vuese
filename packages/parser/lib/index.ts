@@ -2,16 +2,12 @@ import { sfcToAST } from './sfcToAST'
 import { parseJavascript } from './parseJavascript'
 import { parseTemplate } from './parseTemplate'
 import { ParserPlugin } from '@babel/parser'
+import { CommentResult } from './jscomments'
 
 export * from './sfcToAST'
 export * from './parseJavascript'
 export * from './parseTemplate'
 export * from './helper'
-
-export interface NameResult {
-  name: string
-  describe: string[]
-}
 
 export type PropType = string | string[] | null
 
@@ -66,7 +62,10 @@ export interface ParserOptions {
     (slotRes: SlotResult): void
   }
   onName?: {
-    (nameRes: NameResult): void
+    (name: string): void
+  }
+  onDesc?: {
+    (desc: CommentResult): void
   }
   babelParserPlugins?: ParserPlugin[]
 }
@@ -77,7 +76,7 @@ export interface ParserResult {
   slots?: SlotResult[]
   methods?: MethodResult[]
   name?: string
-  componentDesc?: string[]
+  componentDesc?: CommentResult
 }
 
 export function parser(
@@ -87,9 +86,11 @@ export function parser(
   const astRes = sfcToAST(source, options.babelParserPlugins)
   const res: ParserResult = {}
   const defaultOptions: ParserOptions = {
-    onName(nameRes: NameResult) {
-      res.name = nameRes.name
-      res.componentDesc = nameRes.describe
+    onName(name: string) {
+      res.name = name
+    },
+    onDesc(desc: CommentResult) {
+      res.componentDesc = desc
     },
     onProp(propsRes: PropsResult) {
       ;(res.props || (res.props = [])).push(propsRes)

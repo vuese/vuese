@@ -73,9 +73,11 @@ Array [
 `;
 
 exports[`Get the component name correctly 1`] = `
-Array [
-  "This is a description of the component",
-]
+Object {
+  "default": Array [
+    "This is a description of the component",
+  ],
+}
 `;
 
 exports[`Gets a description of the default value and a description of the validator 1`] = `
@@ -124,9 +126,11 @@ Object {
 `;
 
 exports[`The options in @Component should be parsed correctly 6`] = `
-Array [
-  "This is a description of the component",
-]
+Object {
+  "default": Array [
+    "This is a description of the component",
+  ],
+}
 `;
 
 exports[`The validator function should be used as a string representation 1`] = `

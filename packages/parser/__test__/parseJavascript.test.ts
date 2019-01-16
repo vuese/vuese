@@ -3,8 +3,7 @@ import {
   ParserOptions,
   PropsResult,
   EventResult,
-  MethodResult,
-  NameResult
+  MethodResult
 } from '@vuese/parser'
 import * as path from 'path'
 import * as fs from 'fs'
@@ -20,15 +19,18 @@ function getAST(fileName: string): object {
 test('Get the component name correctly', () => {
   const sfc: AstResult = getAST('name.vue')
   const mockOnName = jest.fn(() => {})
+  const mockOnDesc = jest.fn(() => {})
   const options: ParserOptions = {
-    onName: mockOnName
+    onName: mockOnName,
+    onDesc: mockOnDesc
   }
   parseJavascript(sfc.jsAst as bt.File, options)
-  const arg = mockOnName.mock.calls[0][0]
+  const arg1 = mockOnName.mock.calls[0][0]
+  const arg2 = mockOnDesc.mock.calls[0][0]
 
   expect(mockOnName.mock.calls.length).toBe(1)
-  expect((arg as NameResult).name).toBe('compName')
-  expect((arg as NameResult).describe).toMatchSnapshot()
+  expect(arg1).toBe('compName')
+  expect(arg2).toMatchSnapshot()
 })
 
 test('Ability to correctly handle props that is an array of string', () => {
@@ -243,11 +245,13 @@ test('The options in @Component should be parsed correctly', () => {
   const mockOnEvent = jest.fn(() => {})
   const mockOnProp = jest.fn(() => {})
   const mockOnName = jest.fn(() => {})
+  const mockOnDesc = jest.fn(() => {})
   const options: ParserOptions = {
     onMethod: mockOnMethod,
     onEvent: mockOnEvent,
     onProp: mockOnProp,
-    onName: mockOnName
+    onName: mockOnName,
+    onDesc: mockOnDesc
   }
   parseJavascript(sfc.jsAst as bt.File, options)
 
@@ -268,13 +272,14 @@ test('The options in @Component should be parsed correctly', () => {
   expect((arg1 as EventResult).argumentsDesc).toMatchSnapshot()
 
   const arg2 = mockOnProp.mock.calls[0][0]
-
   expect(mockOnProp.mock.calls.length).toBe(1)
   expect(arg2 as PropsResult).toMatchSnapshot()
 
   const arg3 = mockOnName.mock.calls[0][0]
-  expect((arg3 as NameResult).name).toBe('')
-  expect((arg3 as NameResult).describe).toMatchSnapshot()
+  expect(arg3).toBe('')
+
+  const arg4 = mockOnDesc.mock.calls[0][0]
+  expect(arg4).toMatchSnapshot()
 })
 
 test('@Prop decorator', () => {

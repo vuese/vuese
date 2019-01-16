@@ -52,7 +52,7 @@ export default async (config: CliOptions) => {
           markdownDir === '*' ? 'components' : markdownDir
         )
       }
-      console.log(targetDir)
+
       const target = path.resolve(targetDir, compName + '.md')
 
       if (!isPreview) {

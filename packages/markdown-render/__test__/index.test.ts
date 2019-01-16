@@ -4,7 +4,9 @@ import { ParserResult } from '@vuese/parser'
 test('Proper rendering of the table header', () => {
   const res: ParserResult = {
     name: 'MyComponent',
-    componentDesc: ['This is a description of the component'],
+    componentDesc: {
+      default: ['This is a description of the component']
+    },
     props: [
       {
         name: 'someProp',
