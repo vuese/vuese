@@ -8,6 +8,7 @@ export * from './sfcToAST'
 export * from './parseJavascript'
 export * from './parseTemplate'
 export * from './helper'
+export * from './jscomments'
 
 export type PropType = string | string[] | null
 

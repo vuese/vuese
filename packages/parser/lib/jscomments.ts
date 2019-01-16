@@ -1,7 +1,7 @@
 import { isCommentLine, isCommentBlock } from './helper'
 import * as bt from '@babel/types'
 
-export type CommentResult = {
+export interface CommentResult {
   default: string[]
   [key: string]: string[]
 }
