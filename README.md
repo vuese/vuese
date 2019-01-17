@@ -3,663 +3,72 @@
 <p align="center">
   <img src="https://github.com/HcySunYang/vuese/blob/master/imgs/vuese.png" />
 </p>
-<p align="center">Your vue `SFC` is your document - Parsing Vue `SFC` and generating documentation.</p>
-<p align="center" style="font-weight: bold;">This project is supported by our <a href="./BACKERS.md">Backers</a></p>
+<p align="center">One-stop solution for vue component documentation</p>
+<p align="center">This project is supported by our <a href="./BACKERS.md">Backers</a></p>
+<p align="center">
+  <a href="http://commitizen.github.io/cz-cli/"><img src="https://img.shields.io/badge/commitizen-friendly-brightgreen.svg" alt="Commitizen friendly"/></a>
+  <a href="https://github.com/vuese/vuese"><img src="https://img.shields.io/github/license/vuese/vuese.svg" alt="License"/></a>
+  <a href="https://circleci.com/gh/HcySunYang/vuese/tree/master"><img src="https://img.shields.io/circleci/project/github/vuese/vuese.svg" alt="build status"/></a>
+  <a href="https://www.patreon.com/HcySunYang"><img src="https://badgen.net/badge/support%20me/donate/ff00ff" alt="Support me"/></a>
+  <a href="https://github.com/prettier/prettier"><img src="https://img.shields.io/badge/code_style-prettier-ff69b4.svg" alt="Code style"/></a>
+</p>
 
-## Status
+# Document
 
-[![build status](https://img.shields.io/circleci/project/github/vuese/vuese.svg)](https://circleci.com/gh/HcySunYang/vuese/tree/master)
-[![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](http://commitizen.github.io/cz-cli/)
-[![](https://img.shields.io/npm/v/vuese.svg)](https://www.npmjs.com/package/vuese)
-[![](https://img.shields.io/npm/dm/vuese.svg)](https://www.npmjs.com/package/vuese)
-[![](https://img.shields.io/npm/l/vuese.svg)](https://www.npmjs.com/package/vuese)
-[![](https://badgen.net/badge/support%20me/donate/ff00ff)](https://www.patreon.com/HcySunYang)
-[![](https://img.shields.io/badge/all_contributors-3-orange.svg)](#contributing)
-[![](https://img.shields.io/badge/code_style-prettier-ff69b4.svg)](https://github.com/prettier/prettier)
-[![](https://img.shields.io/badge/Gitpod-contribute-blue.svg?longCache=true)](https://gitpod.io#https://github.com/vuese/vuese)
+For detailed documentation: [vuese.org](http://vuese.org)
 
-## Online experience
+## Overview
 
-Visit the following 👇 link to intuitively feel `vuese`:
+[Vuese](http://vuese.org) Automatically generate documentation for your `vue` component, and provides a variety of solutions for generating component documentation to meet your different needs.
+
+## @vuese/cli
+
+[![](https://img.shields.io/npm/v/@vuese/cli.svg)](https://www.npmjs.com/package/@vuese/cli)
+[![](https://img.shields.io/npm/dm/@vuese/cli.svg)](https://www.npmjs.com/package/@vuese/cli)
+
+[@vuese/cli](http://vuese.org/cli/) is a command line tool that is very simple to use. If you want to quickly build a documentation site for your `vue` component or just want to generate `markdown` document for your `vue` component, then this tool might be a good choice. Please go to the details: [@vuese/cli](http://vuese.org/cli/)
+
+## @vuese/parser
+
+[![](https://img.shields.io/npm/v/@vuese/parser.svg)](https://www.npmjs.com/package/@vuese/parser)
+[![](https://img.shields.io/npm/dm/@vuese/parser.svg)](https://www.npmjs.com/package/@vuese/parser)
+
+The [@vuese/parser](http://vuese.org/parser/) module is the parser for the `vue` component, [@vuese/cli](http://vuese.org/cli/) internally parsing the `vue` component via the [@vuese/parser](http://vuese.org/parser/) module and extract the information we want. You can do any more advanced things with the interface provided by the [@vuese/parser](http://vuese.org/parser/) module. For the `API` documentation, please go to [@vuese/parser](http://vuese.org/parser/)
+
+### Online experience
+
+Visit the following 👇 link to intuitively feel `@vuese/parser`:
 
 [An online experience playground for vuese](https://vuese.github.io/vuese-explorer/)
 
-## Install
+## @vuese/markdown-render
 
-```sh
-yarn global add vuese
-```
+[![](https://img.shields.io/npm/v/@vuese/markdown-render.svg)](https://www.npmjs.com/package/@vuese/markdown-render)
+[![](https://img.shields.io/npm/dm/@vuese/markdown-render.svg)](https://www.npmjs.com/package/@vuese/markdown-render)
 
-## Table of contents
+[@vuese/markdown-render](http://vuese.org/markdown-render/) receives the result of the Vue file parsed by [@vuese/parser](http://vuese.org/parser/) as a parameter,  generate a `markdown` string. [@vuese/markdown-render](http://vuese.org/markdown-render/) is also used for [@vuese/cli](http://vuese.org/cli/)'s document generation, in other words, you can use [@vuese/markdown-render](http://vuese.org/markdown-render/) and [@vuese/parser](http://vuese.org/parser/) alone to write your own `CLI` tool to do something interesting.
 
-<!-- toc -->
+## @vuese/loader
 
-- [Features](#features)
-- [Usage](#usage)
-  * [Basic](#basic)
-  * [Use configuration file](#use-configuration-file)
-    + [include](#include)
-    + [exclude](#exclude)
-    + [outDir](#outdir)
-    + [markdownDir](#markdowndir)
-    + [genType](#gentype)
-    + [title](#title)
-  * [Used in nodejs](#used-in-nodejs)
-    + [parser](#parser)
-      - [ParserResult](#parserresult)
-      - [ParserOptions](#parseroptions)
-    + [Render](#render)
-      - [RenderResult](#renderresult)
-  * [Write a document for your component](#write-a-document-for-your-component)
-    + [props](#props)
-    + [slots](#slots)
-    + [events](#events)
-    + [methods](#methods)
-    + [vue-class-component](#vue-class-component)
-      - [@Component](#component)
-      - [Class Method](#class-method)
-    + [vue-property-decorator](#vue-property-decorator)
-      - [@Prop](#prop)
-      - [@Emit](#emit)
-  * [Preview the vue component as a document](#preview-the-vue-component-as-a-document)
-- [Contributing](#contributing)
-- [Contributors](#contributors)
-- [Author](#author)
+`@vuese/cli` is a tool for quickly creating document prototypes that don't have a more flexible documentation solution. So this is why `@vuese/loader` and `@vuese/webpack-plugin` are needed.
 
-<!-- tocstop -->
+Our goal is to focus only on the parts that can be automated, and does not limit how your document project is organized and what document framework is used. Of course, we can also provide fast solutions.
 
-## Features
+[WIP] [TODO]
 
-- [x] Identify `name`, `props`, `events`, `slots`, `methods` and generate corresponding markdown content.
-- [x] Generate markdown files.
-- [x] Document integration: generate a [docute](https://docute.org/) document.
-- [x] Annotation enhancement (`@xxx`).
-- [x] `cli` & `Core module` for nodejs.
+## @vuese/webpack-plugin
 
-- [x] Support `ts` & [vue-class-component](https://github.com/vuejs/vue-class-component)
-- [x] Support [vue-property-decorator](https://github.com/kaorun343/vue-property-decorator)
-- [ ] Support for `slots` in `render` function.
-- [ ] Identify `v-model`
+[WIP] [TODO]
 
-## Usage
+## Roadmap
 
-### Basic
-
-Previously: When you created a Vue component, you needed to manually write the documentation, including the components' props, events, slots, and some methods.
-
-Now: If you created the following components.
-
-```html
-<template>
-  <div>
-    <!-- Form header -->
-    <slot name="header">
-      <!-- `<th>title</th>` -->
-      <th>title</th>
-    </slot>
-  </div>
-</template>
-
-<script>
-export default {
-  props: {
-    // The name of the form, up to 8 characters
-    name: {
-      type: [String, Number],
-      required: true,
-      validator () {}
-    }
-  },
-  methods: {
-    // @vuese
-    // Used to manually clear the form
-    clear () {
-      // Fire when the form is cleared
-      // @arg The argument is a boolean value representing xxx
-      this.$emit('onclear', true)
-    }
-  }
-}
-</script>
-```
-
-We assume that the above component is `components/comp.vue`, then you only need to execute the following command:
-
-```sh
-vuese gen --include="components/*.vue"
-```
-
-Then you can choose which type of document to generate: just markdown or generate a [docute](https://docute.org/) document:
-
-![](https://github.com/HcySunYang/vuese/blob/master/imgs/vuese-cli-gen.jpeg)
-
-If you choose to generate a [docute](https://docute.org/) document, the document will be output in your command execution directory. At this point you can execute the following command:
-
-```sh
-vuese serve --open
-```
-
-It will launch a document server and automatically open the browser, as shown below:
-
-![](https://user-images.githubusercontent.com/14146560/50810454-af399080-1344-11e9-8a4e-3f59744b8844.png)
-
-### Use configuration file
-
-`vuese` will search `vuese.config.js` or `.vueserc` or `vuese` property in `package.json` from your base directory. The following options can be used both on the command line and in the configuration file.
-
-#### include
-
-* Type: `string` `string[]`
-* Default: `["**/*.vue"]`
-
-Specify which `.vue` files need to be generated, and by default include all `.vue` files in the current directory and subdirectories.
-
-#### exclude
-
-* Type: `string` `string[]`
-* Default: `[]`
-
-Specify which `.vue` files do not need to be documented. Note: `node_modules/**/*.vue` is excluded by default.
-
-#### outDir
-
-* Type: `string`
-* Default: `website`
-
-Output directory of the [docute](https://docute.org/) document.
-
-#### markdownDir
-
-* Type: `string`
-* Default: `components`
-
-The output directory of the markdown file, note: `markdownDir` is based on `outdir`, which means that the markdown file will be output to the `website/components` directory.
-
-#### genType
-
-* Type: `string`
-* Default: `''`
-
-Select the target to generate, can be either `'docute'` or `'markdown'`, if you don't specify `genType`, vuese will ask you 😋.
-
-#### title
-
-* Type: `string`
-* Default: `''`
-
-If you want to generate a `docute` document, you need to specify the sidebar title, if you don't specify `title`, vuese will ask you too 😋.
-
-### Used in nodejs
-
-`vuese` exposes two modules: `parser` and `Render`.
-
-#### parser
-
-##### ParserResult
-
-The `parser` function receives the contents of the .vue source file as the first argument, parses the string and gets the parsed result:
-
-```js
-const { parser } = require('vuese')
-// Read .vue source files
-fs.readFile(abs, 'utf-8')
-  .then(source => {
-    const parserRes = parser(source)
-  })
-```
-
-```js
-interface ParserResult {
-  props?: PropsResult[]
-  events?: EventResult[]
-  slots?: SlotResult[]
-  methods?: MethodResult[]
-  name?: string
-}
-```
-
-##### ParserOptions
-
-You can pass the second argument as a parsing option:
-
-```js
-interface ParserOptions {
-  onProp?: {
-    (propsRes?: PropsResult): any
-  }
-  onEvent?: {
-    (eventRes?: EventResult): any
-  }
-  onMethod?: {
-    (methodRes?: MethodResult): any
-  }
-  onSlot?: {
-    (slotRes?: SlotResult): any
-  }
-  onName?: {
-    (name: string): any
-  }
-  babelParserPlugins?: ParserPlugin[]
-}
-```
-
-The [default parsing option](https://github.com/HcySunYang/vuese/blob/master/src/parser/index.ts#L76) is:
-
-```js
-const defaultOptions: ParserOptions = {
-  onName(name: string) {
-    res.name = name
-  },
-  onProp(propsRes?: PropsResult) {
-    if (propsRes) {
-      ;(res.props || (res.props = [])).push(propsRes)
-    }
-  },
-  onEvent(eventsRes?: EventResult) {
-    if (eventsRes) {
-      ;(res.events || (res.events = [])).push(eventsRes)
-    }
-  },
-  onSlot(slotRes?: SlotResult) {
-    if (slotRes) {
-      ;(res.slots || (res.slots = [])).push(slotRes)
-    }
-  },
-  onMethod(methodRes?: MethodResult) {
-    if (methodRes) {
-      ;(res.methods || (res.methods = [])).push(methodRes)
-    }
-  },
-  babelParserPlugins: [
-    'objectRestSpread',
-    'dynamicImport',
-    'decorators-legacy',
-    'classProperties',
-    'typescript'
-  ]
-}
-```
-
-#### Render
-
-`Render` is a class that creates a render instance that receives the parsing result as a parameter:
-
-```js
-const r = new Render(parserRes)
-const renderRes = r.render()
-```
-
-##### RenderResult
-
-```js
-interface RenderResult {
-  props?: string
-  slots?: string
-  events?: string
-  methods?: string
-}
-```
-
-### Write a document for your component
-
-The process of writing a document is to write a comment for your code.
-
-#### props
-
-Assume we have a prop called `name`:
-
-```js
-props: {
-  name: {
-    type: String
-  }
-}
-```
-
-When there are no comments, the generated document is as follows:
-
-|Name|Description|Type|Required|Default|
-|---|---|---|---|---|
-|name|-|`String`|`false`|-|
-
-We noticed that the prop named `name` is not described, in this case, we only need to add leading comments to the name attribute:
-
-```js
-props: {
-  // The name of the form
-  name: {
-    type: String
-  }
-}
-```
-
-In this way, the description of the prop will be included in the document, as shown below:
-
-|Name|Description|Type|Required|Default|
-|---|---|---|---|---|
-|name|The name of the form|`String`|`false`|-|
-
-In addition, we also notice that the `type` of prop called `name` is automatically obtained from the `type` attribute, but sometimes we need to show the user a more explicit choice, then we only need to add leading comments to the type attribute, as shown below:
-
-```js
-props: {
-  // The name of the form
-  name: {
-    // `'TOP'` / `'BOTTOM'`
-    type: String
-  }
-}
-```
-
-The generated document is as follows:
-
-|Name|Description|Type|Required|Default|
-|---|---|---|---|---|
-|name|The name of the form|`'TOP'` / `'BOTTOM'`|`false`|-|
-
-Similarly, we can specify default values:
-
-```js
-props: {
-  // The name of the form
-  name: {
-    // `'TOP'` / `'BOTTOM'`
-    type: String,
-    required: true,
-    default: 'TOP'
-  }
-}
-```
-
-Then we get:
-
-|Name|Description|Type|Required|Default|
-|---|---|---|---|---|
-|name|The name of the form|`'TOP'` / `'BOTTOM'`|`true`|'TOP'|
-
-**Note: You can also add leading comments to the `default` attribute.**
-
-#### slots
-
-Assume we have the following template which contains a named slot and default slot content:
-
-```html
-<slot name="header">
-  <th>title</th>
-</slot>
-```
-
-The generated document is as follows:
-
-|Name|Description|Default Slot Content|
-|---|---|---|
-|header|-|-|
-
-We can see that the slot called `header` is not described, and there is no description of the default slot content.
-
-Then we add a comment to it:
-
-```html
-<!-- Form header -->
-<slot name="header">
-  <!-- `<th>title</th>` -->
-  <th>title</th>
-</slot>
-```
-
-Then we get:
-
-|Name|Description|Default Slot Content|
-|---|---|---|
-|header|Form header|`<th>title</th>`|
-
-Sometimes we will encounter nested slots:
-
-```html
-<!-- Form header -->
-<slot name="header">
-  <!-- `<th>title</th>` -->
-  <slot name="defaultHeader"></slot>
-</slot>
-```
-
-**Note: At this point, the comment content ``<!-- `<th>title</th>` -->`` is not a description of the slot called `defaultHeader`. It is still a description of the default slot contents of the slot called `header`.**
-
-In order to add a description to the slot called `defaultHeader`, we need to add another comment:
-
-```html
-<!-- Form header -->
-<slot name="header">
-  <!-- `<th>title</th>` -->
-  <!-- Custom form header -->
-  <slot name="defaultHeader"></slot>
-</slot>
-```
-
-Then we get:
-
-|Name|Description|Default Slot Content|
-|---|---|---|
-|header|Form header|`<th>title</th>`|
-|defaultHeader|Custom form header|-|
-
-#### events
-
-**Note: Vuese only treats `this.$emit()` as an event**
-
-Assume we have the following code:
-
-```js
-methods: {
-  clear () {
-    this.$emit('onclear')
-  }
-}
-```
-
-The generated document is as follows:
-
-|Event Name|Description|Parameters|
-|---|---|---|
-|onclear|-|-|
-
-Just add leading comments to it:
-
-```js
-methods: {
-  clear () {
-    // Fire when the form is cleared
-    this.$emit('onclear', true)
-  }
-}
-```
-
-Then we get:
-
-|Event Name|Description|Parameters|
-|---|---|---|
-|onclear|Fire when the form is cleared|-|
-
-If you want to describe the parameters further, you need to use the `@arg` identifier:
-
-```js
-methods: {
-  clear () {
-    // Fire when the form is cleared
-    // @arg The argument is a boolean value representing xxx
-    this.$emit('onclear', true)
-  }
-}
-```
-
-Then we get:
-
-|Event Name|Description|Parameters|
-|---|---|---|
-|onclear|Fire when the form is cleared| The argument is a boolean value representing xxx|
-
-#### methods
-
-Similar to events, but with one difference, since not all methods need to be exposed to the developer, you need to use the `@vuese` flag to tell vuese which methods are needed to generate the document:
-
-```js
-methods: {
-  /**
-   * @vuese
-   * Used to manually clear the form
-   * @arg The argument is a boolean value representing xxx
-   */
-  clear (bol) {
-    // ...
-  }
-}
-```
-
-Then we get:
-
-|Method|Description|Parameters|
-|---|---|---|
-|clear|Used to manually clear the form|The argument is a boolean value representing xxx|
-
-#### vue-class-component
-
-##### @Component
-
-If you use [vue-class-component](https://github.com/vuejs/vue-class-component), all the options in the `@Component` decorator will be parsed, the parsing rules are the same as above, e.g:
-
-```js
-@Component({
-  props: {
-    // The name of the form, up to 8 characters
-    name: {
-      type: [String, Number],
-      required: true,
-      validator () {}
-    }
-  },
-  methods: {
-    // @vuese
-    // Used to manually clear the form
-    /**
-     * @arg The first parameter is a Boolean value that represents...
-     */
-    clear () {
-      // Fire when the form is cleared
-      // @arg The argument is a boolean value representing xxx
-      this.$emit('onclear', true)
-    }
-  }
-})
-export default class Child extends Vue {}
-```
-
-It will be parsed correctly 😁.
-
-##### Class Method
-
-Similar to the method in the methods option mentioned above:
-
-```js
-@Component
-export default class Child extends Vue {
-  /**
-   * @vuese
-   * This is a function exposed as an interface
-   *
-   * @arg The first parameter is a Boolean value that represents...
-   */
-  someMethod(a) {
-
-  }
-}
-```
-
-Then we get:
-
-|Method|Description|Parameters|
-|---|---|---|
-|someMethod|This is a function exposed as an interface|The first parameter is a Boolean value that represents...|
-
-#### vue-property-decorator
-
-##### @Prop
-
-Add leading comments to the `@Prop` decorator as a description of the prop, other aspects are the same as [prop mentioned above](#prop), an example is shown below:
-
-```js
-@Component
-export default class Child extends Vue {
-  // Description of prop
-  @Prop(Number)
-  a: number
-
-  @Prop([Number, String])
-  b: number | string
-
-  @Prop({
-    type: Number,
-    // The default value is 1
-    default: 1,
-    required: true
-  })
-  c: number
-}
-```
-
-Then we get:
-
-|Name|Description|Type|Required|Default|
-|---|---|---|---|---|
-|a|Description of prop|`Number`|`false`|-|
-|b|-|`Number` / `String`|`false`|-|
-|c|-|`Number`|`true`|The default value is 1|
-
-##### @Emit
-
-Add leading comments to the `@Emit` decorator as a description of the event, other aspects are the same as [events mentioned above](#events), an example is shown below:
-
-```js
-@Component
-export default class Child extends Vue {
-
-  // Fire when the form is cleared
-  // @arg The argument is a boolean value representing xxx
-  @Emit()
-  onClick() {}
-
-  @Emit('reset')
-  resetHandle() {}
-}
-```
-
-Then we get:
-
-|Event Name|Description|Parameters|
-|---|---|---|
-|on-click|Fire when the form is cleared| The argument is a boolean value representing xxx|
-|reset|-|-|
-
-Note that if no arguments are passed for the `@Emit()` decorator, the function name is converted to a hyphen and used as the name of the event.
-
-### Preview the vue component as a document
-
-`vuese` also allows you to preview a vue component directly as a document, use the `preview` command:
-
-```sh
-vuese preview path-to-your-component.vue
-```
-
-`vuese` uses [carlo](https://github.com/GoogleChromeLabs/carlo), the preview will be updated in real time when you modify the component.
-
-As an example:
-
-![preview](https://github.com/HcySunYang/vuese/blob/master/imgs/preview.gif)
+Planning for vuese2.x: [Read our roadmap](https://github.com/vuese/roadmap)
 
 ## Contributing
 
 1. Fork it!
 2. Create your feature branch: `git checkout -b my-new-feature`
-3. Commit your changes: `yarn commit -am 'Add some feature'`
+3. Commit your changes: `yarn commit`
 4. Push to the branch: `git push origin my-new-feature`
 5. Submit a pull request :D
 
@@ -675,7 +84,7 @@ Thanks goes to these wonderful people:
 
 ## Author
 
-**vuese** © [HcySunYang](https://github.com/HcySunYang), Released under the [MIT](./LICENSE) License.<br>
+**Vuese** © [HcySunYang](https://github.com/HcySunYang), Released under the [MIT](./LICENSE) License.<br>
 Authored and maintained by HcySunYang.
 
 > [homepage](http://hcysun.me/homepage/) · GitHub [@HcySunYang](https://github.com/HcySunYang) · Twitter [@HcySunYang](https://twitter.com/HcySunYang)

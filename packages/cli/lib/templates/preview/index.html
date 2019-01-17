@@ -1,0 +1,27 @@
+<!DOCTYPE>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Preview component as a document</title>
+    <link rel="stylesheet" href="style.css">
+  </head>
+  <body>
+    <div class="markdown-body" id="content"></div>
+    <script>
+        async function main () {
+          async function render () {
+            const html = await window.generate()
+            document.getElementById('content').innerHTML = html
+          }
+          render()
+
+          const event = await window.event()
+          event.on('update', () => {
+            render()
+          })
+        }
+        window.onload = main
+      </script>
+  </body>
+</html>

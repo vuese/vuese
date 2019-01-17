@@ -1,14 +1,10 @@
 module.exports = {
-  "transform": {
-    "^.+\\.tsx?$": "ts-jest"
+  transform: {
+    '^.+\\.tsx?$': 'ts-jest'
   },
-  "testRegex": "(/__test__/.*|(\\.|/)(test|spec))\\.tsx?$",
-  "moduleFileExtensions": [
-    "ts",
-    "tsx",
-    "js",
-    "jsx",
-    "json",
-    "node"
-  ],
+  testRegex: '(/__test__/.*|(\\.|/)(test|spec))\\.tsx?$',
+  moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json', 'node'],
+  moduleNameMapper: {
+    '^@vuese/(.*?)$': '<rootDir>/packages/$1/lib'
+  }
 }
