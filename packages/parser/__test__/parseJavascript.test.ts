@@ -244,13 +244,11 @@ test('The options in @Component should be parsed correctly', () => {
   const mockOnMethod = jest.fn(() => {})
   const mockOnEvent = jest.fn(() => {})
   const mockOnProp = jest.fn(() => {})
-  const mockOnName = jest.fn(() => {})
   const mockOnDesc = jest.fn(() => {})
   const options: ParserOptions = {
     onMethod: mockOnMethod,
     onEvent: mockOnEvent,
     onProp: mockOnProp,
-    onName: mockOnName,
     onDesc: mockOnDesc
   }
   parseJavascript(sfc.jsAst as bt.File, options)
@@ -274,9 +272,6 @@ test('The options in @Component should be parsed correctly', () => {
   const arg2 = mockOnProp.mock.calls[0][0]
   expect(mockOnProp.mock.calls.length).toBe(1)
   expect(arg2 as PropsResult).toMatchSnapshot()
-
-  const arg3 = mockOnName.mock.calls[0][0]
-  expect(arg3).toBe('')
 
   const arg4 = mockOnDesc.mock.calls[0][0]
   expect(arg4).toMatchSnapshot()

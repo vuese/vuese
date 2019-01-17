@@ -5,7 +5,10 @@
 <script>
 // This is a description of the component
 export default {
-  name: 'compName'
+  name: 'compName',
+  props: {
+    name: 'xxx'
+  }
 }
 </script>
 

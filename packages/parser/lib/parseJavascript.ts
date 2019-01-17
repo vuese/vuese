@@ -23,16 +23,17 @@ export function parseJavascript(ast: bt.File, options: ParserOptions = {}) {
 
   traverse(ast, {
     ExportDefaultDeclaration(rootPath: NodePath<bt.ExportDefaultDeclaration>) {
+      // Get a description of the component
+      if (options.onDesc) options.onDesc(getComponentDescribe(rootPath.node))
+
       rootPath.traverse({
         ObjectProperty(path: NodePath<bt.ObjectProperty>) {
-          const { onProp, onMethod, onName, onDesc } = options
+          const { onProp, onMethod, onName } = options
           // Processing name
-          let componentName = ''
           if (isVueOption(path, 'name')) {
-            componentName = (path.node.value as bt.StringLiteral).value
+            let componentName = (path.node.value as bt.StringLiteral).value
+            if (onName) onName(componentName)
           }
-          if (onName) onName(componentName)
-          if (onDesc) onDesc(getComponentDescribe(rootPath.node))
 
           // Processing props
           if (isVueOption(path, 'props')) {
