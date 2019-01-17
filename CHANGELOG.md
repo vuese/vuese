@@ -1,3 +1,29 @@
+##  <small>2.0.0 (2019-01-17)</small>
+
+* fix: Enable --open ([dd63d6d](https://github.com/HcySunYang/vuese/commit/dd63d6d))
+* fix: Invalid link ([9bfc5b5](https://github.com/HcySunYang/vuese/commit/9bfc5b5))
+* fix: Set publicAccess ([2dbe576](https://github.com/HcySunYang/vuese/commit/2dbe576))
+* refactor: Core module migration to monorepo ([2f45b5b](https://github.com/HcySunYang/vuese/commit/2f45b5b))
+* refactor: Exposing the MarkdownResult type ([553bbbb](https://github.com/HcySunYang/vuese/commit/553bbbb))
+* refactor: Make the PropsResult type more reasonable ([c16c9b1](https://github.com/HcySunYang/vuese/commit/c16c9b1))
+* refactor: Migrate cli to packages ([4da622c](https://github.com/HcySunYang/vuese/commit/4da622c))
+* refactor: Optimization code ([c19d188](https://github.com/HcySunYang/vuese/commit/c19d188))
+* refactor: Provide default values for all cli options ([0c3d854](https://github.com/HcySunYang/vuese/commit/0c3d854))
+* refactor: Reasonable markdown-render ([ed469a5](https://github.com/HcySunYang/vuese/commit/ed469a5))
+* refactor: Remove utils package ([5b4c939](https://github.com/HcySunYang/vuese/commit/5b4c939))
+* refactor: Use interface as comment  result type ([77ca8f5](https://github.com/HcySunYang/vuese/commit/77ca8f5))
+* feat: [parser]Support component description and recognition of .sync events ([96d6b12](https://github.com/HcySunYang/vuese/commit/96d6b12)), closes [#27](https://github.com/HcySunYang/vuese/issues/27)
+* feat: Add onDesc parser option ([edf2e57](https://github.com/HcySunYang/vuese/commit/edf2e57))
+* feat: Support for generating markdown documents and components in the same directory ([ee20b28](https://github.com/HcySunYang/vuese/commit/ee20b28)), closes [#17](https://github.com/HcySunYang/vuese/issues/17)
+* feat: Use vue-template-compiler/build to avoid detection of vue versions ([77396bf](https://github.com/HcySunYang/vuese/commit/77396bf))
+* docs: Add roadmap link ([35b9cc5](https://github.com/HcySunYang/vuese/commit/35b9cc5))
+* docs: Supplement the default value of the babel plugin ([5490a1f](https://github.com/HcySunYang/vuese/commit/5490a1f))
+* perf: Generate component description to markdown ([752f2b1](https://github.com/HcySunYang/vuese/commit/752f2b1)), closes [#26](https://github.com/HcySunYang/vuese/issues/26)
+* build: basic build setup ([e805ab0](https://github.com/HcySunYang/vuese/commit/e805ab0))
+* build: tweak external ([919593c](https://github.com/HcySunYang/vuese/commit/919593c))
+
+
+
 ## <small>1.4.7 (2019-01-12)</small>
 
 * fix: Allow use of class attributes ([31547f8](https://github.com/HcySunYang/vuese/commit/31547f8)), closes [#29](https://github.com/HcySunYang/vuese/issues/29)
