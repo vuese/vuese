@@ -1,7 +1,7 @@
 <h1 align="center">vuese</h1>
 
 <p align="center">
-  <img src="https://github.com/HcySunYang/vuese/blob/master/imgs/vuese.png" />
+  <img width="200" src="https://user-images.githubusercontent.com/14146560/51301277-9712f100-1a69-11e9-8e3b-fec861c2f31c.png" />
 </p>
 <p align="center">One-stop solution for vue component documentation</p>
 <p align="center">This project is supported by our <a href="./BACKERS.md">Backers</a></p>
