@@ -1,4 +1,3 @@
-import { isCommentLine, isCommentBlock } from './helper'
 import * as bt from '@babel/types'
 
 export interface CommentResult {
@@ -8,6 +7,10 @@ export interface CommentResult {
 const commentRE = /\s*\*\s*/g
 const leadRE = /^@(\w+)\b/
 
+/**
+ * @param cnode {bt.Node} a node with comments
+ * @param trailing {boolean} Whether to process the tailing comment
+ */
 export function getComments(cnode: bt.Node, trailing?: boolean): CommentResult {
   const res: CommentResult = {
     default: []
@@ -50,4 +53,35 @@ export function getComments(cnode: bt.Node, trailing?: boolean): CommentResult {
     }
   })
   return res
+}
+
+/**
+ * Extract the leading comments of the default export statement
+ * 1、If the default export is a class with a decorator,
+ *    we should find the trailing comments of the last decorator node.
+ * 2、In other cases, directly use the leading commets of the default export statement.
+ */
+export function getComponentDescribe(
+  node: bt.ExportDefaultDeclaration
+): CommentResult {
+  let res: CommentResult = {
+    default: []
+  }
+  if (bt.isClassDeclaration(node.declaration)) {
+    const decorators = node.declaration.decorators
+    if (decorators && decorators.length) {
+      res = getComments(decorators[decorators.length - 1], true /* trailing */)
+    }
+  } else {
+    res = getComments(node)
+  }
+  return res
+}
+
+export function isCommentLine(node: { type: string }): boolean {
+  return node.type === 'CommentLine'
+}
+
+export function isCommentBlock(node: { type: string }): boolean {
+  return node.type === 'CommentBlock'
 }
