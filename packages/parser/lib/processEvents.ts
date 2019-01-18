@@ -1,15 +1,33 @@
 import * as bt from '@babel/types'
 import { EventResult } from './index'
+import { getComments, CommentResult } from './jscomments'
 
-export function processEventName(eventName: string, result: EventResult) {
+export class SeenEvent {
+  seenSet = new Set()
+
+  seen(eventName: string): boolean {
+    const yes = this.seenSet.has(eventName)
+    if (!yes) this.seenSet.add(eventName)
+    return yes
+  }
+}
+
+export function processEventName(
+  eventName: string,
+  cnode: bt.Node,
+  result: EventResult
+) {
   const syncRE = /^update:(.+)/
   const eventNameMatchs = eventName.match(syncRE)
-  result.name = eventName
   // Mark as .sync
   if (eventNameMatchs) {
     result.isSync = true
     result.syncProp = eventNameMatchs[1]
   }
+
+  const allComments: CommentResult = getComments(cnode)
+  result.describe = allComments.default
+  result.argumentsDesc = allComments.arg
 }
 
 export function getEmitDecorator(

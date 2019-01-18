@@ -8,11 +8,10 @@ import {
   normalizeProps,
   getArgumentFromPropDecorator
 } from './processProps'
-import { processEventName, getEmitDecorator } from './processEvents'
+import { processEventName, getEmitDecorator, SeenEvent } from './processEvents'
 
 export function parseJavascript(ast: bt.File, options: ParserOptions = {}) {
-  const seenEvent = new Set()
-
+  const seenEvent = new SeenEvent()
   traverse(ast, {
     ExportDefaultDeclaration(rootPath: NodePath<bt.ExportDefaultDeclaration>) {
       // Get a description of the component
@@ -100,15 +99,12 @@ export function parseJavascript(ast: bt.File, options: ParserOptions = {}) {
             }
             const firstArg = args[0]
             if (firstArg && bt.isStringLiteral(firstArg)) {
-              processEventName(firstArg.value, result)
+              result.name = firstArg.value
             }
 
-            if (!result.name || seenEvent.has(result.name)) return
-            seenEvent.add(result.name)
+            if (!result.name || seenEvent.seen(result.name)) return
 
-            const allComments: CommentResult = getComments(path.parentPath.node)
-            result.describe = allComments.default
-            result.argumentsDesc = allComments.arg
+            processEventName(result.name, path.parentPath.node, result)
 
             if (onEvent) onEvent(result)
           }
@@ -158,14 +154,9 @@ export function parseJavascript(ast: bt.File, options: ParserOptions = {}) {
             result.name = node.key.name.replace(/([A-Z])/g, '-$1').toLowerCase()
           }
         }
-        if (result.name) processEventName(result.name, result)
+        if (!result.name || seenEvent.seen(result.name)) return
 
-        if (!result.name || seenEvent.has(result.name)) return
-        seenEvent.add(result.name)
-
-        const allComments: CommentResult = getComments(node)
-        result.describe = allComments.default
-        result.argumentsDesc = allComments.arg
+        processEventName(result.name, node, result)
 
         if (options.onEvent) options.onEvent(result)
       }
