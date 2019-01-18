@@ -13,6 +13,20 @@ export default {
       // This is the default slot for functional components
       // @content Description of the slot default content (functional)
       ctx.$slots().default
+
+      _c(
+        'div',
+        // The slot named footer
+        // @content Default content of footer
+        ctx.$slots().footer
+      )
+
+      _c(
+        'div',
+        // The slot named sidebar
+        // @content Default content of sidebar
+        this.$slots.sidebar
+      )
     }
   }
 }

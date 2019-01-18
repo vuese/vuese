@@ -357,8 +357,10 @@ test('Slots in script', () => {
 
   const arg1 = mockOnSlot.mock.calls[0][0]
   const arg2 = mockOnSlot.mock.calls[1][0]
+  const arg3 = mockOnSlot.mock.calls[2][0]
+  const arg4 = mockOnSlot.mock.calls[3][0]
 
-  expect(mockOnSlot.mock.calls.length).toBe(2)
+  expect(mockOnSlot.mock.calls.length).toBe(4)
   expect((arg1 as SlotResult).name).toBe('header')
   expect((arg1 as SlotResult).describe).toMatchSnapshot()
   expect((arg1 as SlotResult).backerDesc).toMatchSnapshot()
@@ -366,4 +368,12 @@ test('Slots in script', () => {
   expect((arg2 as SlotResult).name).toBe('default')
   expect((arg2 as SlotResult).describe).toMatchSnapshot()
   expect((arg2 as SlotResult).backerDesc).toMatchSnapshot()
+
+  expect((arg3 as SlotResult).name).toBe('footer')
+  expect((arg3 as SlotResult).describe).toMatchSnapshot()
+  expect((arg3 as SlotResult).backerDesc).toMatchSnapshot()
+
+  expect((arg4 as SlotResult).name).toBe('sidebar')
+  expect((arg4 as SlotResult).describe).toMatchSnapshot()
+  expect((arg4 as SlotResult).backerDesc).toMatchSnapshot()
 })

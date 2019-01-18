@@ -94,6 +94,14 @@ exports[`Slots in script 3`] = `"This is the default slot for functional compone
 
 exports[`Slots in script 4`] = `"Description of the slot default content (functional)"`;
 
+exports[`Slots in script 5`] = `""`;
+
+exports[`Slots in script 6`] = `""`;
+
+exports[`Slots in script 7`] = `"The slot named sidebar"`;
+
+exports[`Slots in script 8`] = `"Default content of sidebar"`;
+
 exports[`The options in @Component should be parsed correctly 1`] = `
 Array [
   "Used to manually clear the form",

@@ -187,16 +187,16 @@ export function parseJavascript(ast: bt.File, options: ParserOptions = {}) {
             }
             if (
               bt.isMemberExpression(parentNode) &&
-              bt.isExpressionStatement(grandPath.node) &&
               bt.isIdentifier(parentNode.property)
             ) {
               // (this || vm).$slots.xxx
               slotName = parentNode.property.name
-              slotsComments = getComments(grandPath.node)
+              slotsComments = bt.isExpressionStatement(grandPath.node)
+                ? getComments(grandPath.node)
+                : getComments(parentNode)
             } else if (
               bt.isCallExpression(parentNode) &&
               bt.isMemberExpression(grandPath.node) &&
-              bt.isExpressionStatement(grandPath.parentPath) &&
               bt.isIdentifier(grandPath.node.property)
             ) {
               // ctx.$slots().xxx
