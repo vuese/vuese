@@ -2,16 +2,6 @@ import * as bt from '@babel/types'
 import { EventResult } from './index'
 import { getComments, CommentResult } from './jscomments'
 
-export class SeenEvent {
-  seenSet = new Set()
-
-  seen(eventName: string): boolean {
-    const yes = this.seenSet.has(eventName)
-    if (!yes) this.seenSet.add(eventName)
-    return yes
-  }
-}
-
 /**
  *
  * @param eventName {string} The event name

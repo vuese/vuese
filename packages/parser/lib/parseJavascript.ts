@@ -14,10 +14,12 @@ import {
   normalizeProps,
   getArgumentFromPropDecorator
 } from './processProps'
-import { processEventName, getEmitDecorator, SeenEvent } from './processEvents'
+import { processEventName, getEmitDecorator } from './processEvents'
+import { Seen } from './seen'
 
 export function parseJavascript(ast: bt.File, options: ParserOptions = {}) {
-  const seenEvent = new SeenEvent()
+  const seenEvent = new Seen()
+  const seenSlot = new Seen()
   traverse(ast, {
     ExportDefaultDeclaration(rootPath: NodePath<bt.ExportDefaultDeclaration>) {
       // Get a description of the component
@@ -174,25 +176,28 @@ export function parseJavascript(ast: bt.File, options: ParserOptions = {}) {
           const grandPath = path.parentPath.parentPath
           // (this || vm).$slots.xxx
           if (
+            options.onSlot &&
             bt.isIdentifier(node.property) &&
             node.property.name === '$slots' &&
             bt.isMemberExpression(parentNode) &&
             grandPath &&
-            bt.isExpressionStatement(grandPath)
+            bt.isExpressionStatement(grandPath) &&
+            bt.isIdentifier(parentNode.property)
           ) {
-            if (bt.isIdentifier(parentNode.property)) {
-              const slotsComments = getComments(grandPath.node)
-              const slotRes: SlotResult = {
-                name: parentNode.property.name,
-                describe: slotsComments.default.join(''),
-                backerDesc: slotsComments.content
-                  ? slotsComments.content.join('')
-                  : '',
-                bindings: {}
-              }
+            // Avoid collecting the same slot multiple times
+            if (seenSlot.seen(parentNode.property.name)) return
 
-              if (options.onSlot) options.onSlot(slotRes)
+            const slotsComments = getComments(grandPath.node)
+            const slotRes: SlotResult = {
+              name: parentNode.property.name,
+              describe: slotsComments.default.join(''),
+              backerDesc: slotsComments.content
+                ? slotsComments.content.join('')
+                : '',
+              bindings: {}
             }
+
+            options.onSlot(slotRes)
           }
         }
       })
