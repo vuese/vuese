@@ -3,7 +3,8 @@ import {
   ParserOptions,
   PropsResult,
   EventResult,
-  MethodResult
+  MethodResult,
+  SlotResult
 } from '@vuese/parser'
 import * as path from 'path'
 import * as fs from 'fs'
@@ -344,4 +345,20 @@ test('@Emit decorator', () => {
   expect((arg3 as EventResult).name).toBe('update:some-prop')
   expect((arg3 as EventResult).isSync).toBe(true)
   expect((arg3 as EventResult).syncProp).toBe('some-prop')
+})
+
+test('Slots in script', () => {
+  const sfc: AstResult = getAST('slotsInScript.vue')
+  const mockOnSlot = jest.fn(() => {})
+  const options: ParserOptions = {
+    onSlot: mockOnSlot
+  }
+  parseJavascript(sfc.jsAst as bt.File, options)
+
+  const arg = mockOnSlot.mock.calls[0][0]
+
+  expect(mockOnSlot.mock.calls.length).toBe(1)
+  expect((arg as SlotResult).name).toBe('header')
+  expect((arg as SlotResult).describe).toMatchSnapshot()
+  expect((arg as SlotResult).backerDesc).toMatchSnapshot()
 })

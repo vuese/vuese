@@ -1,7 +1,13 @@
 import traverse, { NodePath } from '@babel/traverse'
 import * as bt from '@babel/types'
 import { getComments, CommentResult, getComponentDescribe } from './jscomments'
-import { PropsResult, ParserOptions, EventResult, MethodResult } from './index'
+import {
+  PropsResult,
+  ParserOptions,
+  EventResult,
+  MethodResult,
+  SlotResult
+} from './index'
 import { getValueFromGenerate, isVueOption } from './helper'
 import {
   processPropValue,
@@ -108,58 +114,88 @@ export function parseJavascript(ast: bt.File, options: ParserOptions = {}) {
 
             if (onEvent) onEvent(result)
           }
-        }
-      })
-    },
-    // Class style component
-    ClassProperty(path: NodePath<bt.ClassProperty>) {
-      const propDecoratorArg = getArgumentFromPropDecorator(path.node)
-      if (!propDecoratorArg) return
+        },
+        // Class style component
+        ClassProperty(path: NodePath<bt.ClassProperty>) {
+          const propDecoratorArg = getArgumentFromPropDecorator(path.node)
+          if (!propDecoratorArg) return
 
-      const result: PropsResult = {
-        name: (path.node.key as bt.Identifier).name,
-        type: null,
-        describe: getComments(path.node).default
-      }
-      processPropValue(propDecoratorArg, result)
+          const result: PropsResult = {
+            name: (path.node.key as bt.Identifier).name,
+            type: null,
+            describe: getComments(path.node).default
+          }
+          processPropValue(propDecoratorArg, result)
 
-      if (options.onProp) options.onProp(result)
-    },
-    ClassMethod(path: NodePath<bt.ClassMethod>) {
-      const node = path.node
-      const commentsRes: CommentResult = getComments(node)
-      // Collect only methods that have @vuese annotations
-      if (commentsRes.vuese) {
-        const result: MethodResult = {
-          name: (node.key as bt.Identifier).name,
-          describe: commentsRes.default,
-          argumentsDesc: commentsRes.arg
-        }
-        if (options.onMethod) options.onMethod(result)
-      }
+          if (options.onProp) options.onProp(result)
+        },
+        ClassMethod(path: NodePath<bt.ClassMethod>) {
+          const node = path.node
+          const commentsRes: CommentResult = getComments(node)
+          // Collect only methods that have @vuese annotations
+          if (commentsRes.vuese) {
+            const result: MethodResult = {
+              name: (node.key as bt.Identifier).name,
+              describe: commentsRes.default,
+              argumentsDesc: commentsRes.arg
+            }
+            if (options.onMethod) options.onMethod(result)
+          }
 
-      // @Emit
-      const emitDecorator = getEmitDecorator(node.decorators)
-      if (emitDecorator) {
-        const result: EventResult = {
-          name: '',
-          isSync: false,
-          syncProp: ''
-        }
-        const args = (emitDecorator.expression as bt.CallExpression).arguments
-        if (args && args.length && bt.isStringLiteral(args[0])) {
-          result.name = (args[0] as bt.StringLiteral).value
-        } else {
-          if (bt.isIdentifier(node.key)) {
-            result.name = node.key.name.replace(/([A-Z])/g, '-$1').toLowerCase()
+          // @Emit
+          const emitDecorator = getEmitDecorator(node.decorators)
+          if (emitDecorator) {
+            const result: EventResult = {
+              name: '',
+              isSync: false,
+              syncProp: ''
+            }
+            const args = (emitDecorator.expression as bt.CallExpression)
+              .arguments
+            if (args && args.length && bt.isStringLiteral(args[0])) {
+              result.name = (args[0] as bt.StringLiteral).value
+            } else {
+              if (bt.isIdentifier(node.key)) {
+                result.name = node.key.name
+                  .replace(/([A-Z])/g, '-$1')
+                  .toLowerCase()
+              }
+            }
+            if (!result.name || seenEvent.seen(result.name)) return
+
+            processEventName(result.name, node, result)
+
+            if (options.onEvent) options.onEvent(result)
+          }
+        },
+        MemberExpression(path: NodePath<bt.MemberExpression>) {
+          const node = path.node
+          const parentNode = path.parentPath.node
+          const grandPath = path.parentPath.parentPath
+          // (this || vm).$slots.xxx
+          if (
+            bt.isIdentifier(node.property) &&
+            node.property.name === '$slots' &&
+            bt.isMemberExpression(parentNode) &&
+            grandPath &&
+            bt.isExpressionStatement(grandPath)
+          ) {
+            if (bt.isIdentifier(parentNode.property)) {
+              const slotsComments = getComments(grandPath.node)
+              const slotRes: SlotResult = {
+                name: parentNode.property.name,
+                describe: slotsComments.default.join(''),
+                backerDesc: slotsComments.content
+                  ? slotsComments.content.join('')
+                  : '',
+                bindings: {}
+              }
+
+              if (options.onSlot) options.onSlot(slotRes)
+            }
           }
         }
-        if (!result.name || seenEvent.seen(result.name)) return
-
-        processEventName(result.name, node, result)
-
-        if (options.onEvent) options.onEvent(result)
-      }
+      })
     }
   })
 }

@@ -29,7 +29,7 @@ export function getComments(cnode: bt.Node, trailing?: boolean): CommentResult {
       if (matchs) {
         const key: string = matchs[1]
         res[key] = res[key] || []
-        res[key].push(comments.replace(leadRE, ''))
+        res[key].push(comments.replace(leadRE, '').trim())
       } else {
         res.default.push(comments)
       }

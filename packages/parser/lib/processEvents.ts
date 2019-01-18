@@ -12,6 +12,12 @@ export class SeenEvent {
   }
 }
 
+/**
+ *
+ * @param eventName {string} The event name
+ * @param cnode {bt.Node} Node with comments
+ * @param result {EventResult}
+ */
 export function processEventName(
   eventName: string,
   cnode: bt.Node,
