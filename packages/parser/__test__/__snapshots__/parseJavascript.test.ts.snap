@@ -94,9 +94,9 @@ exports[`Slots in script 3`] = `"This is the default slot for functional compone
 
 exports[`Slots in script 4`] = `"Description of the slot default content (functional)"`;
 
-exports[`Slots in script 5`] = `""`;
+exports[`Slots in script 5`] = `"The slot named footer"`;
 
-exports[`Slots in script 6`] = `""`;
+exports[`Slots in script 6`] = `"Default content of footer"`;
 
 exports[`Slots in script 7`] = `"The slot named sidebar"`;
 

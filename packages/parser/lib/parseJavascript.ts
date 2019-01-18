@@ -201,7 +201,10 @@ export function parseJavascript(ast: bt.File, options: ParserOptions = {}) {
             ) {
               // ctx.$slots().xxx
               slotName = grandPath.node.property.name
-              slotsComments = getComments(grandPath.parentPath.node)
+              const superNode = grandPath.parentPath.node
+              slotsComments = bt.isExpressionStatement(superNode)
+                ? getComments(superNode)
+                : getComments(grandPath.node)
             }
 
             // Avoid collecting the same slot multiple times
