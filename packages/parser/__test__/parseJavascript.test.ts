@@ -355,10 +355,15 @@ test('Slots in script', () => {
   }
   parseJavascript(sfc.jsAst as bt.File, options)
 
-  const arg = mockOnSlot.mock.calls[0][0]
+  const arg1 = mockOnSlot.mock.calls[0][0]
+  const arg2 = mockOnSlot.mock.calls[1][0]
 
-  expect(mockOnSlot.mock.calls.length).toBe(1)
-  expect((arg as SlotResult).name).toBe('header')
-  expect((arg as SlotResult).describe).toMatchSnapshot()
-  expect((arg as SlotResult).backerDesc).toMatchSnapshot()
+  expect(mockOnSlot.mock.calls.length).toBe(2)
+  expect((arg1 as SlotResult).name).toBe('header')
+  expect((arg1 as SlotResult).describe).toMatchSnapshot()
+  expect((arg1 as SlotResult).backerDesc).toMatchSnapshot()
+
+  expect((arg2 as SlotResult).name).toBe('default')
+  expect((arg2 as SlotResult).describe).toMatchSnapshot()
+  expect((arg2 as SlotResult).backerDesc).toMatchSnapshot()
 })

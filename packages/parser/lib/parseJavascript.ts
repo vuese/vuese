@@ -174,22 +174,41 @@ export function parseJavascript(ast: bt.File, options: ParserOptions = {}) {
           const node = path.node
           const parentNode = path.parentPath.node
           const grandPath = path.parentPath.parentPath
-          // (this || vm).$slots.xxx
+
           if (
             options.onSlot &&
             bt.isIdentifier(node.property) &&
             node.property.name === '$slots' &&
-            bt.isMemberExpression(parentNode) &&
-            grandPath &&
-            bt.isExpressionStatement(grandPath) &&
-            bt.isIdentifier(parentNode.property)
+            grandPath
           ) {
-            // Avoid collecting the same slot multiple times
-            if (seenSlot.seen(parentNode.property.name)) return
+            let slotName = ''
+            let slotsComments: CommentResult = {
+              default: []
+            }
+            if (
+              bt.isMemberExpression(parentNode) &&
+              bt.isExpressionStatement(grandPath.node) &&
+              bt.isIdentifier(parentNode.property)
+            ) {
+              // (this || vm).$slots.xxx
+              slotName = parentNode.property.name
+              slotsComments = getComments(grandPath.node)
+            } else if (
+              bt.isCallExpression(parentNode) &&
+              bt.isMemberExpression(grandPath.node) &&
+              bt.isExpressionStatement(grandPath.parentPath) &&
+              bt.isIdentifier(grandPath.node.property)
+            ) {
+              // ctx.$slots().xxx
+              slotName = grandPath.node.property.name
+              slotsComments = getComments(grandPath.parentPath.node)
+            }
 
-            const slotsComments = getComments(grandPath.node)
+            // Avoid collecting the same slot multiple times
+            if (!slotName || seenSlot.seen(slotName)) return
+
             const slotRes: SlotResult = {
-              name: parentNode.property.name,
+              name: slotName,
               describe: slotsComments.default.join(''),
               backerDesc: slotsComments.content
                 ? slotsComments.content.join('')
