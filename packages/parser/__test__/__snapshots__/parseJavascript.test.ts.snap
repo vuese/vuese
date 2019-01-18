@@ -86,6 +86,14 @@ Array [
 ]
 `;
 
+exports[`Scoped slots in script 1`] = `"The scoped slot named title"`;
+
+exports[`Scoped slots in script 2`] = `"Default content of title"`;
+
+exports[`Scoped slots in script 3`] = `"The scoped slot named tip"`;
+
+exports[`Scoped slots in script 4`] = `"Default content of tip"`;
+
 exports[`Slots in script 1`] = `"This is the description of the slot"`;
 
 exports[`Slots in script 2`] = `"Description of the slot default content"`;

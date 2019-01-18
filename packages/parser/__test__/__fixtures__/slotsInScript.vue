@@ -10,6 +10,9 @@ export default {
       // @content Description of the slot default content
       this.$slots.header
 
+      // This will not be collected repeatedly
+      this.$slots.header
+
       // This is the default slot for functional components
       // @content Description of the slot default content (functional)
       ctx.$slots().default

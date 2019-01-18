@@ -47,6 +47,7 @@ export interface SlotResult {
   describe: string
   backerDesc: string
   bindings: AttrsMap
+  scoped: boolean
 }
 
 export interface ParserOptions {

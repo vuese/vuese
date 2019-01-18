@@ -377,3 +377,24 @@ test('Slots in script', () => {
   expect((arg4 as SlotResult).describe).toMatchSnapshot()
   expect((arg4 as SlotResult).backerDesc).toMatchSnapshot()
 })
+
+test('Scoped slots in script', () => {
+  const sfc: AstResult = getAST('scopedSlotsInScript.vue')
+  const mockOnSlot = jest.fn(() => {})
+  const options: ParserOptions = {
+    onSlot: mockOnSlot
+  }
+  parseJavascript(sfc.jsAst as bt.File, options)
+
+  const arg1 = mockOnSlot.mock.calls[0][0]
+  const arg2 = mockOnSlot.mock.calls[1][0]
+
+  expect(mockOnSlot.mock.calls.length).toBe(2)
+  expect((arg1 as SlotResult).name).toBe('title')
+  expect((arg1 as SlotResult).describe).toMatchSnapshot()
+  expect((arg1 as SlotResult).backerDesc).toMatchSnapshot()
+
+  expect((arg2 as SlotResult).name).toBe('tip')
+  expect((arg2 as SlotResult).describe).toMatchSnapshot()
+  expect((arg2 as SlotResult).backerDesc).toMatchSnapshot()
+})

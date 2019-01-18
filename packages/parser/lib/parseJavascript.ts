@@ -115,6 +115,31 @@ export function parseJavascript(ast: bt.File, options: ParserOptions = {}) {
             processEventName(result.name, path.parentPath.node, result)
 
             if (onEvent) onEvent(result)
+          } else if (
+            options.onSlot &&
+            bt.isMemberExpression(node.callee) &&
+            bt.isMemberExpression(node.callee.object) &&
+            bt.isIdentifier(node.callee.object.property) &&
+            node.callee.object.property.name === '$scopedSlots'
+          ) {
+            // scopedSlots
+            let slotsComments: CommentResult
+            if (bt.isExpressionStatement(path.parentPath)) {
+              slotsComments = getComments(path.parentPath.node)
+            } else {
+              slotsComments = getComments(node)
+            }
+            const scopedSlots: SlotResult = {
+              name: node.callee.property.name,
+              describe: slotsComments.default.join(''),
+              backerDesc: slotsComments.content
+                ? slotsComments.content.join('')
+                : '',
+              bindings: {},
+              scoped: true
+            }
+
+            options.onSlot(scopedSlots)
           }
         },
         // Class style component
@@ -216,7 +241,8 @@ export function parseJavascript(ast: bt.File, options: ParserOptions = {}) {
               backerDesc: slotsComments.content
                 ? slotsComments.content.join('')
                 : '',
-              bindings: {}
+              bindings: {},
+              scoped: false
             }
 
             options.onSlot(slotRes)

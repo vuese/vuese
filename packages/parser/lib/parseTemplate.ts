@@ -8,13 +8,18 @@ export function parseTemplate(templateAst: any, options: ParserOptions) {
         name: 'default',
         describe: '',
         backerDesc: '',
-        bindings: {}
+        bindings: {},
+        scoped: false
       }
       slot.bindings = extractAndFilterAttr(templateAst.attrsMap)
       if (slot.bindings.name) {
         slot.name = slot.bindings.name
         delete slot.bindings.name
       }
+
+      // scoped slot
+      if (Object.keys(slot.bindings).length) slot.scoped = true
+
       if (parent) {
         const list: [] = parent.children
         let currentSlotIndex = 0
