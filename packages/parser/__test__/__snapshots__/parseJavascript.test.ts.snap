@@ -1,5 +1,9 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`@Component: Functional children 1`] = `"Default slot in the decorator"`;
+
+exports[`@Component: Functional children 2`] = `"Default content in the decorator"`;
+
 exports[`@Emit decorator 1`] = `
 Array [
   "Fire when the form is cleared",
@@ -64,6 +68,10 @@ Array [
 ]
 `;
 
+exports[`Functional children 1`] = `"This is the default slot"`;
+
+exports[`Functional children 2`] = `"Default content"`;
+
 exports[`Get comments as a description 1`] = `
 Array [
   "a string",
@@ -85,6 +93,10 @@ Array [
   "'TOP' | 'LEFT'",
 ]
 `;
+
+exports[`Render function in class method: Functional children 1`] = `"Default slot in the decorator"`;
+
+exports[`Render function in class method: Functional children 2`] = `"Default content in the decorator"`;
 
 exports[`Scoped slots in script 1`] = `"The scoped slot named title"`;
 

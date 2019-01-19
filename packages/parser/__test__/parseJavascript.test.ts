@@ -398,3 +398,51 @@ test('Scoped slots in script', () => {
   expect((arg2 as SlotResult).describe).toMatchSnapshot()
   expect((arg2 as SlotResult).backerDesc).toMatchSnapshot()
 })
+
+test('Functional children', () => {
+  const sfc: AstResult = getAST('functionalChildren.vue')
+  const mockOnSlot = jest.fn(() => {})
+  const options: ParserOptions = {
+    onSlot: mockOnSlot
+  }
+  parseJavascript(sfc.jsAst as bt.File, options)
+
+  const arg = mockOnSlot.mock.calls[0][0]
+
+  expect(mockOnSlot.mock.calls.length).toBe(1)
+  expect((arg as SlotResult).name).toBe('default')
+  expect((arg as SlotResult).describe).toMatchSnapshot()
+  expect((arg as SlotResult).backerDesc).toMatchSnapshot()
+})
+
+test('@Component: Functional children', () => {
+  const sfc: AstResult = getAST('functionalChildrenDecorator.vue')
+  const mockOnSlot = jest.fn(() => {})
+  const options: ParserOptions = {
+    onSlot: mockOnSlot
+  }
+  parseJavascript(sfc.jsAst as bt.File, options)
+
+  expect(mockOnSlot.mock.calls.length).toBe(1)
+  const arg = mockOnSlot.mock.calls[0][0]
+
+  expect((arg as SlotResult).name).toBe('default')
+  expect((arg as SlotResult).describe).toMatchSnapshot()
+  expect((arg as SlotResult).backerDesc).toMatchSnapshot()
+})
+
+test('Render function in class method: Functional children', () => {
+  const sfc: AstResult = getAST('functionalChildrenClassMethod.vue')
+  const mockOnSlot = jest.fn(() => {})
+  const options: ParserOptions = {
+    onSlot: mockOnSlot
+  }
+  parseJavascript(sfc.jsAst as bt.File, options)
+
+  expect(mockOnSlot.mock.calls.length).toBe(1)
+  const arg = mockOnSlot.mock.calls[0][0]
+
+  expect((arg as SlotResult).name).toBe('default')
+  expect((arg as SlotResult).describe).toMatchSnapshot()
+  expect((arg as SlotResult).backerDesc).toMatchSnapshot()
+})

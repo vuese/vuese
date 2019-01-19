@@ -15,6 +15,7 @@ import {
   getArgumentFromPropDecorator
 } from './processProps'
 import { processEventName, getEmitDecorator } from './processEvents'
+import { determineChildren } from './processRenderFunction'
 import { Seen } from './seen'
 
 export function parseJavascript(ast: bt.File, options: ParserOptions = {}) {
@@ -27,7 +28,7 @@ export function parseJavascript(ast: bt.File, options: ParserOptions = {}) {
 
       rootPath.traverse({
         ObjectProperty(path: NodePath<bt.ObjectProperty>) {
-          const { onProp, onMethod, onName } = options
+          const { onProp, onMethod, onName, onSlot } = options
           // Processing name
           if (isVueOption(path, 'name')) {
             let componentName = (path.node.value as bt.StringLiteral).value
@@ -35,7 +36,7 @@ export function parseJavascript(ast: bt.File, options: ParserOptions = {}) {
           }
 
           // Processing props
-          if (isVueOption(path, 'props')) {
+          if (onProp && isVueOption(path, 'props')) {
             const valuePath = path.get('value')
 
             if (bt.isArrayExpression(valuePath.node)) {
@@ -61,7 +62,7 @@ export function parseJavascript(ast: bt.File, options: ParserOptions = {}) {
 
                     processPropValue(propValueNode, result)
 
-                    if (onProp) onProp(result)
+                    onProp(result)
                   }
                 }
               })
@@ -69,7 +70,7 @@ export function parseJavascript(ast: bt.File, options: ParserOptions = {}) {
           }
 
           // Processing methods
-          if (isVueOption(path, 'methods')) {
+          if (onMethod && isVueOption(path, 'methods')) {
             const properties = (path.node
               .value as bt.ObjectExpression).properties.filter(
               n => bt.isObjectMethod(n) || bt.isObjectProperty(n)
@@ -84,9 +85,29 @@ export function parseJavascript(ast: bt.File, options: ParserOptions = {}) {
                   describe: commentsRes.default,
                   argumentsDesc: commentsRes.arg
                 }
-                if (onMethod) onMethod(result)
+                onMethod(result)
               }
             })
+          }
+
+          // functional component - `ctx.children` in the render function
+          if (
+            onSlot &&
+            isVueOption(path, 'render') &&
+            !seenSlot.seen('default')
+          ) {
+            const functionPath = path.get('value')
+            determineChildren(functionPath, onSlot)
+          }
+        },
+        ObjectMethod(path: NodePath<bt.ObjectMethod>) {
+          // @Component: functional component - `ctx.children` in the render function
+          if (
+            options.onSlot &&
+            isVueOption(path, 'render') &&
+            !seenSlot.seen('default')
+          ) {
+            determineChildren(path, options.onSlot)
           }
         },
         CallExpression(path: NodePath<bt.CallExpression>) {
@@ -167,6 +188,16 @@ export function parseJavascript(ast: bt.File, options: ParserOptions = {}) {
               argumentsDesc: commentsRes.arg
             }
             if (options.onMethod) options.onMethod(result)
+          }
+
+          // Ctx.children in the render function of the Class style component
+          if (
+            options.onSlot &&
+            bt.isIdentifier(node.key) &&
+            node.key.name === 'render' &&
+            !seenSlot.seen('default')
+          ) {
+            determineChildren(path, options.onSlot)
           }
 
           // @Emit

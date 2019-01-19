@@ -1,5 +1,5 @@
 import generate from '@babel/generator'
-import { NodePath } from '@babel/traverse'
+import { NodePath, Node } from '@babel/traverse'
 import * as bt from '@babel/types'
 
 /**
@@ -11,19 +11,24 @@ export function isVueComponent(node: bt.Node): boolean {
   return bt.isExportDefaultDeclaration(node)
 }
 
+function isValidObjectProperty(node: Node) {
+  return bt.isObjectProperty(node) || bt.isObjectMethod(node)
+}
+
 export function isVueOption(
   path: NodePath<bt.ObjectProperty | bt.ObjectMethod>,
   optionsName: string
 ): boolean {
   if (
-    bt.isObjectProperty(path.node) &&
+    isValidObjectProperty(path.node) &&
     path.parentPath &&
     path.parentPath.parentPath &&
     isVueComponent(path.parentPath.parentPath.node)
   ) {
+    // General component options
     return path.node.key.name === optionsName
   } else if (
-    bt.isObjectProperty(path.node) &&
+    isValidObjectProperty(path.node) &&
     path.parentPath &&
     path.parentPath.parentPath &&
     bt.isCallExpression(path.parentPath.parentPath.node) &&
