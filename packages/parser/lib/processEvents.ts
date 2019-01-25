@@ -1,4 +1,5 @@
 import * as bt from '@babel/types'
+import { NodePath } from '@babel/traverse'
 import { EventResult } from './index'
 import { getComments, CommentResult } from './jscomments'
 
@@ -10,9 +11,10 @@ import { getComments, CommentResult } from './jscomments'
  */
 export function processEventName(
   eventName: string,
-  cnode: bt.Node,
+  cnodePath: NodePath<bt.Node>,
   result: EventResult
 ) {
+  const cnode = cnodePath.node
   const syncRE = /^update:(.+)/
   const eventNameMatchs = eventName.match(syncRE)
   // Mark as .sync
@@ -21,9 +23,17 @@ export function processEventName(
     result.syncProp = eventNameMatchs[1]
   }
 
-  const allComments: CommentResult = getComments(cnode)
-  result.describe = allComments.default
-  result.argumentsDesc = allComments.arg
+  let allComments: CommentResult = getComments(cnode)
+  const prevPathKey = Number(cnodePath.key) - 1
+  if (!allComments.default.length && prevPathKey >= 0) {
+    // Use the trailing comments of the prev node
+    allComments = getComments(cnodePath.getSibling(prevPathKey).node, true)
+    result.describe = allComments.default
+    result.argumentsDesc = allComments.arg
+  } else {
+    result.describe = allComments.default
+    result.argumentsDesc = allComments.arg
+  }
 }
 
 export function getEmitDecorator(

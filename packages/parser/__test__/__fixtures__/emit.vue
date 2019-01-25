@@ -6,6 +6,8 @@
 export default {
   methods: {
     fn () {
+
+      const a = { b: 1 }
       // Triggered when clicked
       /**
        * @arg The first parameter is a Boolean value that represents...

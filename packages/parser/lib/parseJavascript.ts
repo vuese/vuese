@@ -133,7 +133,7 @@ export function parseJavascript(ast: bt.File, options: ParserOptions = {}) {
 
             if (!result.name || seenEvent.seen(result.name)) return
 
-            processEventName(result.name, path.parentPath.node, result)
+            processEventName(result.name, path.parentPath, result)
 
             if (onEvent) onEvent(result)
           } else if (
@@ -221,7 +221,7 @@ export function parseJavascript(ast: bt.File, options: ParserOptions = {}) {
             }
             if (!result.name || seenEvent.seen(result.name)) return
 
-            processEventName(result.name, node, result)
+            processEventName(result.name, path, result)
 
             if (options.onEvent) options.onEvent(result)
           }
