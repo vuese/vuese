@@ -23,7 +23,7 @@ export interface RenderResult {
   methods?: string
 }
 
-export default class Render {
+export class Render {
   constructor(
     public parserResult: ParserResult,
     public options?: RenderOptions
@@ -231,3 +231,5 @@ export default class Render {
     return renderMarkdown(this.render(), this.parserResult)
   }
 }
+
+export default Render
