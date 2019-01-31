@@ -6,7 +6,7 @@ function resolveInput(projectDir) {
   return path.resolve('packages', `${projectDir}/lib/index.ts`)
 }
 
-function resolveOnput(projectDir) {
+function resolveOutput(projectDir) {
   return path.resolve('packages', `${projectDir}/dist/index.js`)
 }
 
@@ -28,8 +28,9 @@ export default {
     })
   ],
   output: {
-    file: resolveOnput(PKG_DIR),
-    format: 'cjs'
+    file: resolveOutput(PKG_DIR),
+    format: 'cjs',
+    exports: 'named'
   },
   onwarn(warning, warn) {
     if (warning.code === 'UNRESOLVED_IMPORT' && isBuiltinModule(warning.source))
