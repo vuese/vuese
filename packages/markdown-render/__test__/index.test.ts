@@ -5,7 +5,8 @@ test('Proper rendering of the table header', () => {
   const res: ParserResult = {
     name: 'MyComponent',
     componentDesc: {
-      default: ['This is a description of the component']
+      default: ['This is a description of the component'],
+      group: ['My Group']
     },
     props: [
       {

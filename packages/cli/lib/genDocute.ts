@@ -10,17 +10,13 @@ export default async (config: CliOptions) => {
   try {
     const componentsPromise = await genMarkdown(config)
     const componentRes = await Promise.all(componentsPromise)
-    const componentNames = componentRes
-      .filter(_ => _)
-      .map((res: any) => {
-        return res.compName
-      })
+    const components = componentRes.filter(_ => _)
     logger.progress('Start generating...')
     await sao({
       template: path.resolve(__dirname, './templates/docute'),
       targetPath: path.resolve(config.outDir as string),
       configOptions: {
-        componentNames,
+        components,
         title: config.title,
         markdownDir: config.markdownDir
       }
