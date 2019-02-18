@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>My Docs</title>
+    <title><%= title %></title>
     <link rel="stylesheet" href="https://unpkg.com/docute@4/dist/docute.css">
   </head>
   <body>
@@ -12,19 +12,7 @@
     <script>
       new Docute({
         target: '#docute',
-        sidebar: [
-          {
-            title: '<%= title %>',
-            links: [
-              <% for (var i = 0; i < componentNames.length; i++) { %>
-                {
-                  title: '<%= componentNames[i] %>',
-                  link: '/<%= markdownDir %>/<%= componentNames[i] %>'
-                }<% if (i !== componentNames.length - 1) { %>,<% } %>
-              <% } %>
-            ]
-          }
-        ]
+        sidebar: JSON.parse('<%= groupsStr %>'.replace(/\&\#34\;/g, '"'))
       })
     </script>
   </body>

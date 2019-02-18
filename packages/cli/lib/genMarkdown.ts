@@ -41,6 +41,7 @@ export default async (config: CliOptions) => {
       let compName = markdownRes.componentName
         ? markdownRes.componentName
         : path.basename(abs, '.vue')
+      const groupName = markdownRes.groupName
 
       str = str.replace(/\[name\]/g, compName)
       let targetDir = ''
@@ -63,6 +64,7 @@ export default async (config: CliOptions) => {
 
       return {
         compName,
+        groupName,
         content: str
       }
     } catch (e) {

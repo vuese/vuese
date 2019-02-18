@@ -8,6 +8,7 @@ const htmlCommentRE = /<!--\s*@vuese:([a-zA-Z_][\w\-\.]*|\[name\]):(\w+):start\s
 export interface MarkdownResult {
   content: string
   componentName: string
+  groupName: string
 }
 
 export default function(
@@ -21,6 +22,10 @@ export default function(
 
   let str = mdTemplate
   let compName = parserRes.name
+  const groupName =
+    parserRes.componentDesc && parserRes.componentDesc.group
+      ? parserRes.componentDesc.group[0]
+      : undefined
 
   if (compName) {
     str = mdTemplate.replace(nameRE, compName)
@@ -57,6 +62,7 @@ export default function(
 
   return {
     content: str,
-    componentName: compName || ''
+    componentName: compName || '',
+    groupName: groupName || 'BASIC'
   }
 }
