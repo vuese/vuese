@@ -15,6 +15,26 @@
       ]
     },
     {
+      "login": "BerniWittmann",
+      "name": "Bernhard Wittmann",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/17594215?v=4",
+      "profile": "http://bernhardwittmann.com",
+      "contributions": [
+        "code",
+        "ideas"
+      ]
+    },
+    {
+      "login": "BuptStEve",
+      "name": "Steve Young",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/11501493?v=4",
+      "profile": "https://buptsteve.github.io",
+      "contributions": [
+        "bug",
+        "code"
+      ]
+    },
+    {
       "login": "wulunyi",
       "name": "wulunyi",
       "avatar_url": "https://avatars3.githubusercontent.com/u/15170275?v=4",
@@ -29,16 +49,6 @@
       "avatar_url": "https://avatars2.githubusercontent.com/u/5432828?v=4",
       "profile": "https://github.com/Estelle00",
       "contributions": [
-        "code"
-      ]
-    },
-    {
-      "login": "BuptStEve",
-      "name": "Steve Young",
-      "avatar_url": "https://avatars2.githubusercontent.com/u/11501493?v=4",
-      "profile": "https://buptsteve.github.io",
-      "contributions": [
-        "bug",
         "code"
       ]
     }
