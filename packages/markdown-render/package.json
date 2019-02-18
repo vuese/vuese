@@ -1,6 +1,6 @@
 {
   "name": "@vuese/markdown-render",
-  "version": "2.0.3",
+  "version": "2.1.0",
   "description": "Render raw markdown string according to AST",
   "keywords": [
     "markdown",
