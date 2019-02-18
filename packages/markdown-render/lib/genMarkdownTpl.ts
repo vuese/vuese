@@ -7,6 +7,7 @@ export default function(parserRes: ParserResult) {
   if (desc && desc.default.length) {
     templateStr += `${desc.default.join('')}\n\n`
   }
+  const forceGenerate = desc && desc.vuese && parserRes.name
   const original = templateStr
 
   templateStr += parserRes.props ? genBaseTemplate('props') : ''
@@ -14,7 +15,7 @@ export default function(parserRes: ParserResult) {
   templateStr += parserRes.slots ? genBaseTemplate('slots') : ''
   templateStr += parserRes.methods ? genBaseTemplate('methods') : ''
 
-  return original === templateStr ? '' : templateStr
+  return !forceGenerate && original === templateStr ? '' : templateStr
 }
 
 function genBaseTemplate(label: string) {
