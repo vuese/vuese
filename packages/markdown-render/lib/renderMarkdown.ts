@@ -63,6 +63,6 @@ export default function(
   return {
     content: str,
     componentName: compName || '',
-    groupName: groupName || ''
+    groupName: groupName || 'BASIC'
   }
 }

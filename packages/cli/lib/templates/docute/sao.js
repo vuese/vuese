@@ -16,7 +16,7 @@ module.exports = options => {
   Object.keys(groupsObjs).forEach(name => {
     groups.push({
       title: name,
-      links: groupsObjs[name].sort((a, b) => a.name > b.name ? 1 : -1)
+      links: groupsObjs[name].sort((a, b) => (a.name > b.name ? 1 : -1))
     })
   })
   groups.sort((a, b) => {
