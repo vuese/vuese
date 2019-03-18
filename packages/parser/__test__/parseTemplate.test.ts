@@ -17,14 +17,26 @@ function getAST(fileName: string): object {
 test('Default slot with slot description', () => {
   const sfc: AstResult = getAST('defaultSlot.vue')
   const options: ParserOptions = {
-    onSlot(slotRes) {
+    onSlot: jest.fn(slotRes => {
       expect((slotRes as SlotResult).name).toBe('default')
       expect((slotRes as SlotResult).describe).toBe('default slot')
       expect((slotRes as SlotResult).backerDesc).toBe('Default Slot Content')
       expect((slotRes as SlotResult).bindings).toEqual({})
-    }
+    })
   }
   parseTemplate(sfc.templateAst, options)
+  expect(options.onSlot).toBeCalled()
+})
+
+test('Default slot with slot description in a v-if', () => {
+  const sfc: AstResult = getAST('slotWithVif.vue')
+  const options: ParserOptions = {
+    onSlot: jest.fn(slotRes => {
+      expect((slotRes as SlotResult).name).toBe('default')
+    })
+  }
+  parseTemplate(sfc.templateAst, options)
+  expect(options.onSlot).toBeCalled()
 })
 
 test('Named slot with slot description', () => {

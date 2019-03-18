@@ -59,8 +59,19 @@ export function parseTemplate(templateAst: any, options: ParserOptions) {
       }
       if (options.onSlot) options.onSlot(slot)
     }
-    for (let i = 0; i < templateAst.children.length; i++) {
-      parseTemplate(templateAst.children[i], options)
+
+    const parseChildren = (templateAst: any) => {
+      for (let i = 0; i < templateAst.children.length; i++) {
+        parseTemplate(templateAst.children[i], options)
+      }
+    }
+    if (templateAst.if && templateAst.ifConditions) {
+      // for if statement iterate through the branches
+      templateAst.ifConditions.forEach((c: any) => {
+        parseChildren(c.block)
+      })
+    } else {
+      parseChildren(templateAst)
     }
   }
 }
