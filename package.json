@@ -29,7 +29,7 @@
     "fs-extra": "^7.0.1",
     "husky": "^1.0.0",
     "is-builtin-module": "^3.0.0",
-    "jest": "^23.6.0",
+    "jest": "^24.5.0",
     "lerna": "^3.10.5",
     "lint-staged": "^7.3.0",
     "markdown-toc": "^1.2.0",
