@@ -14,6 +14,7 @@ export default function(parserRes: ParserResult) {
   templateStr += parserRes.events ? genBaseTemplate('events') : ''
   templateStr += parserRes.slots ? genBaseTemplate('slots') : ''
   templateStr += parserRes.methods ? genBaseTemplate('methods') : ''
+  templateStr += parserRes.mixIns ? genBaseTemplate('mixIns') : ''
 
   return !forceGenerate && original === templateStr ? '' : templateStr
 }

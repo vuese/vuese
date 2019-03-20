@@ -38,6 +38,10 @@ export interface MethodResult {
   argumentsDesc?: string[]
 }
 
+export interface MixInResult {
+  mixIn: string
+}
+
 export type AttrsMap = {
   [key: string]: string
 }
@@ -63,6 +67,9 @@ export interface ParserOptions {
   onSlot?: {
     (slotRes: SlotResult): void
   }
+  onMixIn?: {
+    (mixInRes: MixInResult): void
+  }
   onName?: {
     (name: string): void
   }
@@ -76,6 +83,7 @@ export interface ParserResult {
   props?: PropsResult[]
   events?: EventResult[]
   slots?: SlotResult[]
+  mixIns?: MixInResult[]
   methods?: MethodResult[]
   name?: string
   componentDesc?: CommentResult
@@ -102,6 +110,9 @@ export function parser(
     },
     onSlot(slotRes: SlotResult) {
       ;(res.slots || (res.slots = [])).push(slotRes)
+    },
+    onMixIn(mixInRes: MixInResult) {
+      ;(res.mixIns || (res.mixIns = [])).push(mixInRes)
     },
     onMethod(methodRes: MethodResult) {
       ;(res.methods || (res.methods = [])).push(methodRes)
