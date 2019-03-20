@@ -22,7 +22,14 @@ module.exports = options => {
   groups.sort((a, b) => {
     if (a.title === '') return -1
     if (b.title === '') return 1
-    return a.name > b.name ? 1 : -1
+    return a.title > b.title ? 1 : -1
+  })
+  groups.forEach(group => {
+    group.links.sort((a, b) => {
+      if (a.title < b.title) return -1
+      if (a.title > b.title) return 1
+      return 0;
+    })
   })
   const config = {
     data(answers) {
