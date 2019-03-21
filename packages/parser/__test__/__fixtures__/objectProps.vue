@@ -23,7 +23,8 @@ export default {
     e: {
       type: Function,
       default () {}
-    }
+    },
+    'g': String
   }
 }
 </script>

@@ -52,7 +52,9 @@ export function parseJavascript(ast: bt.File, options: ParserOptions = {}) {
                 ObjectProperty(propPath: NodePath<bt.ObjectProperty>) {
                   // Guarantee that this is the prop definition
                   if (propPath.parentPath === valuePath) {
-                    const name = propPath.node.key.name
+                    const name = bt.isIdentifier(propPath.node.key)
+                      ? propPath.node.key.name
+                      : propPath.node.key.value
                     const propValueNode = propPath.node.value
                     const result: PropsResult = {
                       name,
