@@ -1,5 +1,6 @@
 import {
   ParserResult,
+  MixInResult,
   PropsResult,
   SlotResult,
   EventResult,
@@ -14,6 +15,7 @@ interface RenderOptions {
   slots: string[]
   events: string[]
   methods: string[]
+  mixIns: string[]
 }
 
 export interface RenderResult {
@@ -21,6 +23,7 @@ export interface RenderResult {
   slots?: string
   events?: string
   methods?: string
+  mixIns?: string
 }
 
 export class Render {
@@ -34,14 +37,15 @@ export class Render {
         props: ['Name', 'Description', 'Type', 'Required', 'Default'],
         events: ['Event Name', 'Description', 'Parameters'],
         slots: ['Name', 'Description', 'Default Slot Content'],
-        methods: ['Method', 'Description', 'Parameters']
+        methods: ['Method', 'Description', 'Parameters'],
+        mixIns: ['MixIn']
       },
       this.options
     )
   }
 
   render(): RenderResult {
-    const { props, slots, events, methods } = this.parserResult
+    const { props, slots, events, methods, mixIns } = this.parserResult
     let md: RenderResult = {}
     if (props) {
       md.props = this.propRender(props)
@@ -54,6 +58,9 @@ export class Render {
     }
     if (methods) {
       md.methods = this.methodRender(methods)
+    }
+    if (mixIns) {
+      md.mixIns = this.mixInRender(mixIns)
     }
 
     return md
@@ -199,6 +206,24 @@ export class Render {
           } else {
             row.push('-')
           }
+        } else {
+          row.push('-')
+        }
+      }
+      code += this.renderTabelRow(row)
+    })
+
+    return code
+  }
+
+  mixInRender(mixInsRes: MixInResult[]) {
+    const mixInsConfig = (this.options as RenderOptions).mixIns
+    let code = this.renderTabelHeader(mixInsConfig)
+    mixInsRes.forEach((mixIn: MixInResult) => {
+      const row: string[] = []
+      for (let i = 0; i < mixInsConfig.length; i++) {
+        if (mixInsConfig[i] === 'MixIn') {
+          row.push(mixIn.mixIn)
         } else {
           row.push('-')
         }

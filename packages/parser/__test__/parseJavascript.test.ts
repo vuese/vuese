@@ -4,7 +4,8 @@ import {
   PropsResult,
   EventResult,
   MethodResult,
-  SlotResult
+  SlotResult,
+  MixInResult
 } from '@vuese/parser'
 import * as path from 'path'
 import * as fs from 'fs'
@@ -457,4 +458,22 @@ test('Render function in class method: Functional children', () => {
   expect((arg as SlotResult).name).toBe('default')
   expect((arg as SlotResult).describe).toMatchSnapshot()
   expect((arg as SlotResult).backerDesc).toMatchSnapshot()
+})
+
+test('Mixin in the object', () => {
+  const sfc: AstResult = getAST('mixins.vue')
+  const mockOnMixin = jest.fn(() => {})
+  const options: ParserOptions = {
+    onMixIn: mockOnMixin
+  }
+  parseJavascript(sfc.jsAst as bt.File, options)
+
+  expect(mockOnMixin.mock.calls.length).toBe(3)
+  const arg1 = mockOnMixin.mock.calls[0][0]
+  const arg2 = mockOnMixin.mock.calls[1][0]
+  const arg3 = mockOnMixin.mock.calls[2][0]
+
+  expect((arg1 as MixInResult).mixIn).toBe('MixinA')
+  expect((arg2 as MixInResult).mixIn).toBe('MixinB')
+  expect((arg3 as MixInResult).mixIn).toBe('MixinC')
 })
