@@ -6,6 +6,7 @@ import {
   ParserOptions,
   EventResult,
   MethodResult,
+  MixInResult,
   SlotResult
 } from './index'
 import { getValueFromGenerate, isVueOption } from './helper'
@@ -28,7 +29,7 @@ export function parseJavascript(ast: bt.File, options: ParserOptions = {}) {
 
       rootPath.traverse({
         ObjectProperty(path: NodePath<bt.ObjectProperty>) {
-          const { onProp, onMethod, onName, onSlot } = options
+          const { onProp, onMethod, onName, onSlot, onMixIn } = options
           // Processing name
           if (isVueOption(path, 'name')) {
             let componentName = (path.node.value as bt.StringLiteral).value
@@ -69,6 +70,18 @@ export function parseJavascript(ast: bt.File, options: ParserOptions = {}) {
                 }
               })
             }
+          }
+
+          // Processing mixins
+          if (onMixIn && isVueOption(path, 'mixins')) {
+            const properties = (path.node.value as bt.ArrayExpression).elements
+
+            properties.forEach(mixIn => {
+              const result: MixInResult = {
+                mixIn: (mixIn as bt.Identifier).name
+              }
+              onMixIn(result)
+            })
           }
 
           // Processing methods
