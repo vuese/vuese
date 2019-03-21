@@ -59,7 +59,7 @@ test('Is a prop using a shorthand type', () => {
   parseJavascript(sfc1.jsAst as bt.File, options)
   const arg = mockOnProp.mock.calls[0][0]
 
-  expect(mockOnProp.mock.calls.length).toBe(5)
+  expect(mockOnProp.mock.calls.length).toBe(6)
   expect(arg as PropsResult).toEqual({
     name: 'a',
     type: 'String',
@@ -75,7 +75,7 @@ test('`prop` defined using a type array', () => {
   parseJavascript(sfc1.jsAst as bt.File, options)
   const arg = mockOnProp.mock.calls[1][0]
 
-  expect(mockOnProp.mock.calls.length).toBe(5)
+  expect(mockOnProp.mock.calls.length).toBe(6)
   expect(arg as PropsResult).toEqual({
     name: 'b',
     type: ['Number', 'String'],
@@ -91,7 +91,7 @@ test('Execute the default function and get the default value correctly', () => {
   parseJavascript(sfc1.jsAst as bt.File, options)
   const arg = mockOnProp.mock.calls[2][0]
 
-  expect(mockOnProp.mock.calls.length).toBe(5)
+  expect(mockOnProp.mock.calls.length).toBe(6)
   expect(arg.name).toBe('c')
   expect(arg.default).toEqual({
     val: 1
@@ -106,7 +106,7 @@ test('Get the `required` value correctly', () => {
   parseJavascript(sfc1.jsAst as bt.File, options)
   const arg = mockOnProp.mock.calls[2][0]
 
-  expect(mockOnProp.mock.calls.length).toBe(5)
+  expect(mockOnProp.mock.calls.length).toBe(6)
   expect(arg.required).toBe(true)
 })
 
@@ -118,7 +118,7 @@ test('The validator function should be used as a string representation', () => {
   parseJavascript(sfc1.jsAst as bt.File, options)
   const arg = mockOnProp.mock.calls[2][0]
 
-  expect(mockOnProp.mock.calls.length).toBe(5)
+  expect(mockOnProp.mock.calls.length).toBe(6)
   expect(arg.validator).toMatchSnapshot()
 })
 
@@ -130,7 +130,7 @@ test('The `prop` that does not satisfy the `prop` writing specification should b
   parseJavascript(sfc1.jsAst as bt.File, options)
   const arg = mockOnProp.mock.calls[3][0]
 
-  expect(mockOnProp.mock.calls.length).toBe(5)
+  expect(mockOnProp.mock.calls.length).toBe(6)
   expect(arg as PropsResult).toEqual({
     name: 'd',
     type: null,
@@ -146,9 +146,21 @@ test('When the `type` definition contains `Function`, should get a string repres
   parseJavascript(sfc1.jsAst as bt.File, options)
   const arg = mockOnProp.mock.calls[4][0]
 
-  expect(mockOnProp.mock.calls.length).toBe(5)
+  expect(mockOnProp.mock.calls.length).toBe(6)
   expect(arg.name).toBe('e')
   expect(arg.default).toMatchSnapshot()
+})
+
+test('Props: gets correct name for a quoted property', () => {
+  const mockOnProp = jest.fn(() => {})
+  const options: ParserOptions = {
+    onProp: mockOnProp
+  }
+  parseJavascript(sfc1.jsAst as bt.File, options)
+  const arg = mockOnProp.mock.calls[5][0]
+
+  expect(mockOnProp.mock.calls.length).toBe(6)
+  expect(arg.name).toBe('g')
 })
 
 test('Get comments as a description', () => {
