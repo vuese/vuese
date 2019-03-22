@@ -19,5 +19,8 @@ export default class Child extends Vue {
     required: true
   })
   c: number
+
+  @Prop() d: string
+  @Prop e: number
 }
 </script>

@@ -180,15 +180,15 @@ export function parseJavascript(ast: bt.File, options: ParserOptions = {}) {
         },
         // Class style component
         ClassProperty(path: NodePath<bt.ClassProperty>) {
-          const propDecoratorArg = getArgumentFromPropDecorator(path.node)
-          if (!propDecoratorArg) return
-
           const result: PropsResult = {
             name: (path.node.key as bt.Identifier).name,
             type: null,
             describe: getComments(path.node).default
           }
-          processPropValue(propDecoratorArg, result)
+          const propDecoratorArg = getArgumentFromPropDecorator(path.node)
+          if (propDecoratorArg) {
+            processPropValue(propDecoratorArg, result)
+          }
 
           if (options.onProp) options.onProp(result)
         },
