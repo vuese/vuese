@@ -13,6 +13,7 @@ import { getValueFromGenerate, isVueOption } from './helper'
 import {
   processPropValue,
   normalizeProps,
+  getPropDecorator,
   getArgumentFromPropDecorator
 } from './processProps'
 import { processEventName, getEmitDecorator } from './processEvents'
@@ -180,17 +181,20 @@ export function parseJavascript(ast: bt.File, options: ParserOptions = {}) {
         },
         // Class style component
         ClassProperty(path: NodePath<bt.ClassProperty>) {
-          const result: PropsResult = {
-            name: (path.node.key as bt.Identifier).name,
-            type: null,
-            describe: getComments(path.node).default
-          }
-          const propDecoratorArg = getArgumentFromPropDecorator(path.node)
-          if (propDecoratorArg) {
-            processPropValue(propDecoratorArg, result)
-          }
+          const propDeco = getPropDecorator(path.node)
+          if (propDeco) {
+            const result: PropsResult = {
+              name: (path.node.key as bt.Identifier).name,
+              type: null,
+              describe: getComments(path.node).default
+            }
+            const propDecoratorArg = getArgumentFromPropDecorator(propDeco)
+            if (propDecoratorArg) {
+              processPropValue(propDecoratorArg, result)
+            }
 
-          if (options.onProp) options.onProp(result)
+            if (options.onProp) options.onProp(result)
+          }
         },
         ClassMethod(path: NodePath<bt.ClassMethod>) {
           const node = path.node

@@ -82,28 +82,34 @@ export function normalizeProps(props: string[]): PropsResult[] {
   }))
 }
 
+export function getPropDecorator(
+  classPropertyNode: bt.ClassProperty
+): bt.Decorator | undefined {
+  const decorators = classPropertyNode.decorators
+  if (!decorators) return
+
+  return decorators.find(
+    deco =>
+      // @Prop()
+      (bt.isCallExpression(deco.expression) &&
+        bt.isIdentifier(deco.expression.callee) &&
+        deco.expression.callee.name === 'Prop') ||
+      // @Prop
+      (bt.isIdentifier(deco.expression) && deco.expression.name === 'Prop')
+  )
+}
+
 type PropDecoratorArgument =
   | bt.Identifier
   | bt.ArrayExpression
   | bt.ObjectExpression
   | null
 export function getArgumentFromPropDecorator(
-  classPropertyNode: bt.ClassProperty
+  deco: bt.Decorator
 ): PropDecoratorArgument {
-  const decorators = classPropertyNode.decorators
-  if (decorators) {
-    for (let i = 0; i < decorators.length; i++) {
-      const deco = decorators[i]
-      if (
-        bt.isCallExpression(deco.expression) &&
-        bt.isIdentifier(deco.expression.callee) &&
-        deco.expression.callee.name === 'Prop'
-      ) {
-        return deco.expression.arguments[0] as PropDecoratorArgument
-      }
-    }
-  }
-  return null
+  return bt.isCallExpression(deco.expression)
+    ? (deco.expression.arguments[0] as PropDecoratorArgument)
+    : null
 }
 
 function getTypeByTypeNode(typeNode: bt.Node): PropType {

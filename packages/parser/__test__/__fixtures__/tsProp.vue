@@ -22,5 +22,7 @@ export default class Child extends Vue {
 
   @Prop() d: string
   @Prop e: number
+
+  @Action g: string // Non prop
 }
 </script>
