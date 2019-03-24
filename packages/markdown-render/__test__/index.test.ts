@@ -69,7 +69,10 @@ describe('Empty Components (without slots,methods,props,events) can be forced to
     const res: ParserResult = {
       name: 'MyComponent',
       componentDesc: {
-        default: ['This is a description of the component'],
+        default: [
+          'This is a description of the component.',
+          'Supplementary description'
+        ],
         vuese: ['']
       }
     }

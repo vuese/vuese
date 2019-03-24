@@ -5,7 +5,7 @@ export default function(parserRes: ParserResult) {
   let templateStr = '# [name]\n\n'
 
   if (desc && desc.default.length) {
-    templateStr += `${desc.default.join('')}\n\n`
+    templateStr += `${desc.default.join(' ')}\n\n`
   }
   const forceGenerate = desc && desc.vuese && parserRes.name
   const original = templateStr

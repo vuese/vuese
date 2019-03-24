@@ -5,7 +5,7 @@ Object {
   "componentName": "MyComponent",
   "content": "# MyComponent
 
-This is a description of the component
+This is a description of the component. Supplementary description
 
 ",
   "groupName": "BASIC",
