@@ -12,6 +12,8 @@ export * from './jscomments'
 
 export type PropType = string | string[] | null
 
+export type BabelParserPlugins = { [key in ParserPlugin]?: boolean }
+
 export interface PropsResult {
   type: PropType
   name: string
@@ -76,7 +78,7 @@ export interface ParserOptions {
   onDesc?: {
     (desc: CommentResult): void
   }
-  babelParserPlugins?: ParserPlugin[]
+  babelParserPlugins?: BabelParserPlugins
 }
 
 export interface ParserResult {
@@ -116,13 +118,7 @@ export function parser(
     },
     onMethod(methodRes: MethodResult) {
       ;(res.methods || (res.methods = [])).push(methodRes)
-    },
-    babelParserPlugins: [
-      'objectRestSpread',
-      'dynamicImport',
-      'decorators-legacy',
-      'typescript'
-    ]
+    }
   }
 
   const finallyOptions: ParserOptions = Object.assign(defaultOptions, options)

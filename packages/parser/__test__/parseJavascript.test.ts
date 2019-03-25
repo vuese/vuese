@@ -9,13 +9,16 @@ import {
 } from '@vuese/parser'
 import * as path from 'path'
 import * as fs from 'fs'
-import { sfcToAST, AstResult } from '@vuese/parser'
+import { sfcToAST, AstResult, BabelParserPlugins } from '@vuese/parser'
 import * as bt from '@babel/types'
 
-function getAST(fileName: string): object {
+function getAST(
+  fileName: string,
+  babelParserPlugins?: BabelParserPlugins
+): object {
   const p = path.resolve(__dirname, `./__fixtures__/${fileName}`)
   const source = fs.readFileSync(p, 'utf-8')
-  return sfcToAST(source)
+  return sfcToAST(source, babelParserPlugins)
 }
 
 test('Get the component name correctly', () => {
@@ -481,4 +484,20 @@ test('Mixin in the object', () => {
   expect((arg1 as MixInResult).mixIn).toBe('MixinA')
   expect((arg2 as MixInResult).mixIn).toBe('MixinB')
   expect((arg3 as MixInResult).mixIn).toBe('MixinC')
+})
+
+test('Set jsx to false to use `<any>Var` in ts', () => {
+  const mockOnMethod = jest.fn(() => {})
+  const options: ParserOptions = {
+    onMethod: mockOnMethod,
+    babelParserPlugins: {
+      jsx: false
+    }
+  }
+  const sfc: AstResult = getAST('noTSX.vue', options.babelParserPlugins)
+  parseJavascript(sfc.jsAst as bt.File, options)
+
+  expect(mockOnMethod.mock.calls.length).toBe(1)
+  const arg = mockOnMethod.mock.calls[0][0]
+  expect((arg as MethodResult).name).toBe('foo')
 })

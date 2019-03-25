@@ -1,7 +1,7 @@
 import cac from 'cac'
 import JoyCon from 'joycon'
 import fs from 'fs-extra'
-import { ParserPlugin } from '@babel/parser'
+import { BabelParserPlugins } from '@vuese/parser'
 import Log from 'log-horizon'
 import preview from './preview'
 import genDocute from './genDocute'
@@ -28,7 +28,7 @@ export type CliOptions = {
   markdownDir: string
   genType: 'docute' | 'markdown'
   title: string
-  babelParserPlugins: ParserPlugin[]
+  babelParserPlugins: BabelParserPlugins
   isPreview: boolean
   open: boolean
 }

@@ -1,8 +1,11 @@
 // Use vue-template-compiler/build to avoid detection of vue versions
 // in vue-template-compiler/index.js
 import { parseComponent, compile } from 'vue-template-compiler/build'
-import { parse as babelParse, ParserPlugin } from '@babel/parser'
+import { BabelParserPlugins } from '@vuese/parser'
+import { parse as babelParse } from '@babel/parser'
 import * as bt from '@babel/types'
+
+type pluginKeys = keyof BabelParserPlugins
 
 export interface AstResult {
   sourceType?: string
@@ -12,22 +15,16 @@ export interface AstResult {
 
 export function sfcToAST(
   source: string,
-  babelParserPlugins?: ParserPlugin[]
+  babelParserPlugins?: BabelParserPlugins
 ): AstResult {
+  const plugins = getBabelParserPlugins(babelParserPlugins)
   const sfc = parseComponent(source)
   const res: AstResult = {}
   if (sfc.script && sfc.script.content) {
     res.sourceType = sfc.script.lang || 'js'
     res.jsAst = babelParse(sfc.script.content, {
       sourceType: 'module',
-      plugins: babelParserPlugins || [
-        'objectRestSpread',
-        'dynamicImport',
-        'decorators-legacy',
-        'classProperties',
-        'typescript',
-        'jsx'
-      ]
+      plugins
     })
   }
   if (sfc.template && sfc.template.content) {
@@ -36,4 +33,23 @@ export function sfcToAST(
     }).ast
   }
   return res
+}
+
+function getBabelParserPlugins(plugins?: BabelParserPlugins): pluginKeys[] {
+  const defaultBabelParserPlugins: BabelParserPlugins = {
+    objectRestSpread: true,
+    dynamicImport: true,
+    'decorators-legacy': true,
+    classProperties: true,
+    typescript: true,
+    jsx: true
+  }
+  const finallyBabelParserPlugins = Object.assign(
+    defaultBabelParserPlugins,
+    plugins || {}
+  )
+
+  return Object.keys(finallyBabelParserPlugins).filter(
+    (k: pluginKeys) => finallyBabelParserPlugins[k]
+  ) as pluginKeys[]
 }
