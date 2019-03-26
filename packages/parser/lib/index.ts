@@ -40,6 +40,11 @@ export interface MethodResult {
   argumentsDesc?: string[]
 }
 
+export interface ComputedResult {
+  name: string
+  describe?: string[]
+}
+
 export interface MixInResult {
   mixIn: string
 }
@@ -66,6 +71,9 @@ export interface ParserOptions {
   onMethod?: {
     (methodRes: MethodResult): void
   }
+  onComputed?: {
+    (computedRes: ComputedResult): void
+  }
   onSlot?: {
     (slotRes: SlotResult): void
   }
@@ -87,6 +95,7 @@ export interface ParserResult {
   slots?: SlotResult[]
   mixIns?: MixInResult[]
   methods?: MethodResult[]
+  computed?: ComputedResult[]
   name?: string
   componentDesc?: CommentResult
 }
@@ -118,6 +127,9 @@ export function parser(
     },
     onMethod(methodRes: MethodResult) {
       ;(res.methods || (res.methods = [])).push(methodRes)
+    },
+    onComputed(computedRes: ComputedResult) {
+      ;(res.computed || (res.computed = [])).push(computedRes)
     }
   }
 
