@@ -74,11 +74,11 @@ export interface ParserOptions {
   onComputed?: {
     (computedRes: ComputedResult): void
   }
-  onSlot?: {
-    (slotRes: SlotResult): void
-  }
   onMixIn?: {
     (mixInRes: MixInResult): void
+  }
+  onSlot?: {
+    (slotRes: SlotResult): void
   }
   onName?: {
     (name: string): void
