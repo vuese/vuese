@@ -171,8 +171,14 @@ export function parseJavascript(ast: bt.File, options: ParserOptions = {}) {
               syncProp: ''
             }
             const firstArg = args[0]
-            if (firstArg && bt.isStringLiteral(firstArg)) {
-              result.name = firstArg.value
+            if (firstArg) {
+              if (bt.isStringLiteral(firstArg)) {
+                result.name = firstArg.value
+              } else {
+                if (bt.isIdentifier(firstArg)) {
+                  result.name = '`' + firstArg.name + '`'
+                }
+              }
             }
 
             if (!result.name || seenEvent.seen(result.name)) return
