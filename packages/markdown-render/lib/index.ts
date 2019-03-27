@@ -4,7 +4,8 @@ import {
   PropsResult,
   SlotResult,
   EventResult,
-  MethodResult
+  MethodResult,
+  ComputedResult
 } from '@vuese/parser'
 import renderMarkdown, { MarkdownResult } from './renderMarkdown'
 
@@ -15,6 +16,7 @@ interface RenderOptions {
   slots: string[]
   events: string[]
   methods: string[]
+  computed: string[]
   mixIns: string[]
 }
 
@@ -23,6 +25,7 @@ export interface RenderResult {
   slots?: string
   events?: string
   methods?: string
+  computed?: string
   mixIns?: string
 }
 
@@ -38,6 +41,7 @@ export class Render {
         events: ['Event Name', 'Description', 'Parameters'],
         slots: ['Name', 'Description', 'Default Slot Content'],
         methods: ['Method', 'Description', 'Parameters'],
+        computed: ['Computed', 'Description'],
         mixIns: ['MixIn']
       },
       this.options
@@ -45,7 +49,14 @@ export class Render {
   }
 
   render(): RenderResult {
-    const { props, slots, events, methods, mixIns } = this.parserResult
+    const {
+      props,
+      slots,
+      events,
+      methods,
+      mixIns,
+      computed
+    } = this.parserResult
     let md: RenderResult = {}
     if (props) {
       md.props = this.propRender(props)
@@ -58,6 +69,9 @@ export class Render {
     }
     if (methods) {
       md.methods = this.methodRender(methods)
+    }
+    if (computed) {
+      md.computed = this.computedRender(computed)
     }
     if (mixIns) {
       md.mixIns = this.mixInRender(mixIns)
@@ -186,10 +200,10 @@ export class Render {
     return code
   }
 
-  methodRender(slotsRes: MethodResult[]) {
+  methodRender(methodsRes: MethodResult[]) {
     const methodConfig = (this.options as RenderOptions).methods
     let code = this.renderTabelHeader(methodConfig)
-    slotsRes.forEach((method: MethodResult) => {
+    methodsRes.forEach((method: MethodResult) => {
       const row: string[] = []
       for (let i = 0; i < methodConfig.length; i++) {
         if (methodConfig[i] === 'Method') {
@@ -203,6 +217,30 @@ export class Render {
         } else if (methodConfig[i] === 'Parameters') {
           if (method.argumentsDesc) {
             row.push(method.argumentsDesc.join(''))
+          } else {
+            row.push('-')
+          }
+        } else {
+          row.push('-')
+        }
+      }
+      code += this.renderTabelRow(row)
+    })
+
+    return code
+  }
+
+  computedRender(computedRes: ComputedResult[]) {
+    const computedConfig = (this.options as RenderOptions).computed
+    let code = this.renderTabelHeader(computedConfig)
+    computedRes.forEach((method: MethodResult) => {
+      const row: string[] = []
+      for (let i = 0; i < computedConfig.length; i++) {
+        if (computedConfig[i] === 'Computed') {
+          row.push(method.name)
+        } else if (computedConfig[i] === 'Description') {
+          if (method.describe) {
+            row.push(method.describe.join(''))
           } else {
             row.push('-')
           }

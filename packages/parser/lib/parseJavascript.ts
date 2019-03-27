@@ -6,6 +6,7 @@ import {
   ParserOptions,
   EventResult,
   MethodResult,
+  ComputedResult,
   MixInResult,
   SlotResult
 } from './index'
@@ -30,7 +31,14 @@ export function parseJavascript(ast: bt.File, options: ParserOptions = {}) {
 
       rootPath.traverse({
         ObjectProperty(path: NodePath<bt.ObjectProperty>) {
-          const { onProp, onMethod, onName, onSlot, onMixIn } = options
+          const {
+            onProp,
+            onMethod,
+            onComputed,
+            onName,
+            onSlot,
+            onMixIn
+          } = options
           // Processing name
           if (isVueOption(path, 'name')) {
             let componentName = (path.node.value as bt.StringLiteral).value
@@ -82,6 +90,26 @@ export function parseJavascript(ast: bt.File, options: ParserOptions = {}) {
                 mixIn: (mixIn as bt.Identifier).name
               }
               onMixIn(result)
+            })
+          }
+
+          // Processing computed
+          if (onComputed && isVueOption(path, 'computed')) {
+            const properties = (path.node
+              .value as bt.ObjectExpression).properties.filter(
+              n => bt.isObjectMethod(n) || bt.isObjectProperty(n)
+            ) as (bt.ObjectMethod | bt.ObjectProperty)[]
+
+            properties.forEach(node => {
+              const commentsRes: CommentResult = getComments(node)
+              // Collect only computed that have @vuese annotations
+              if (commentsRes.vuese) {
+                const result: ComputedResult = {
+                  name: node.key.name,
+                  describe: commentsRes.default
+                }
+                onComputed(result)
+              }
             })
           }
 
@@ -143,8 +171,14 @@ export function parseJavascript(ast: bt.File, options: ParserOptions = {}) {
               syncProp: ''
             }
             const firstArg = args[0]
-            if (firstArg && bt.isStringLiteral(firstArg)) {
-              result.name = firstArg.value
+            if (firstArg) {
+              if (bt.isStringLiteral(firstArg)) {
+                result.name = firstArg.value
+              } else {
+                if (bt.isIdentifier(firstArg)) {
+                  result.name = '`' + firstArg.name + '`'
+                }
+              }
             }
 
             if (!result.name || seenEvent.seen(result.name)) return
