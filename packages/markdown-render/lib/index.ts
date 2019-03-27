@@ -200,10 +200,10 @@ export class Render {
     return code
   }
 
-  methodRender(slotsRes: MethodResult[]) {
+  methodRender(methodsRes: MethodResult[]) {
     const methodConfig = (this.options as RenderOptions).methods
     let code = this.renderTabelHeader(methodConfig)
-    slotsRes.forEach((method: MethodResult) => {
+    methodsRes.forEach((method: MethodResult) => {
       const row: string[] = []
       for (let i = 0; i < methodConfig.length; i++) {
         if (methodConfig[i] === 'Method') {
@@ -230,10 +230,10 @@ export class Render {
     return code
   }
 
-  computedRender(slotsRes: ComputedResult[]) {
+  computedRender(computedRes: ComputedResult[]) {
     const computedConfig = (this.options as RenderOptions).computed
     let code = this.renderTabelHeader(computedConfig)
-    slotsRes.forEach((method: MethodResult) => {
+    computedRes.forEach((method: MethodResult) => {
       const row: string[] = []
       for (let i = 0; i < computedConfig.length; i++) {
         if (computedConfig[i] === 'Computed') {
