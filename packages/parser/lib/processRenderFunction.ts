@@ -1,6 +1,6 @@
 import { NodePath } from '@babel/traverse'
 import * as bt from '@babel/types'
-import { SlotResult, ParserOptions } from '.'
+import { SlotResult, ParserOptions } from '@vuese/parser'
 import { CommentResult, getComments } from './jscomments'
 
 /**

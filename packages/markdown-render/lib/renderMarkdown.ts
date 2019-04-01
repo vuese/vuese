@@ -1,6 +1,6 @@
 import genMarkdownTpl from './genMarkdownTpl'
 import { ParserResult } from '@vuese/parser'
-import { RenderResult } from './index'
+import { RenderResult } from '@vuese/markdown-render'
 
 const nameRE = /\[name\]/g
 const htmlCommentRE = /<!--\s*@vuese:([a-zA-Z_][\w\-\.]*|\[name\]):(\w+):start\s*-->[^]*<!--\s*@vuese:\1:\2:end\s*-->/

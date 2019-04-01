@@ -1,4 +1,4 @@
-import { ParserOptions, SlotResult, AttrsMap } from './index'
+import { ParserOptions, SlotResult, AttrsMap } from '@vuese/parser'
 
 export function parseTemplate(templateAst: any, options: ParserOptions) {
   const parent = templateAst.parent

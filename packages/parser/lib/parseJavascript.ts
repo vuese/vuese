@@ -9,7 +9,7 @@ import {
   ComputedResult,
   MixInResult,
   SlotResult
-} from './index'
+} from '@vuese/parser'
 import { getValueFromGenerate, isVueOption } from './helper'
 import {
   processPropValue,
