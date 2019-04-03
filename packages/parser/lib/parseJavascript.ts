@@ -94,7 +94,11 @@ export function parseJavascript(ast: bt.File, options: ParserOptions = {}) {
           }
 
           // Processing computed
-          if (onComputed && isVueOption(path, 'computed')) {
+          if (
+            onComputed &&
+            isVueOption(path, 'computed') &&
+            bt.isObjectExpression(path.node.value)
+          ) {
             const properties = (path.node
               .value as bt.ObjectExpression).properties.filter(
               n => bt.isObjectMethod(n) || bt.isObjectProperty(n)
