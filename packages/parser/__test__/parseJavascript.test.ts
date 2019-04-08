@@ -501,3 +501,24 @@ test('Set jsx to false to use `<any>Var` in ts', () => {
   const arg = mockOnMethod.mock.calls[0][0]
   expect((arg as MethodResult).name).toBe('foo')
 })
+
+test('The default value of Props', () => {
+  const mockOnProp = jest.fn(() => {})
+  const options: ParserOptions = {
+    onProp: mockOnProp
+  }
+  const sfc: AstResult = getAST('propsDefault.vue')
+  parseJavascript(sfc.jsAst as bt.File, options)
+
+  expect(mockOnProp.mock.calls.length).toBe(3)
+  const arg1 = mockOnProp.mock.calls[0][0]
+  const arg2 = mockOnProp.mock.calls[1][0]
+  const arg3 = mockOnProp.mock.calls[2][0]
+  expect((arg1 as PropsResult).default).toMatchSnapshot()
+  expect((arg2 as PropsResult).default).toMatchSnapshot()
+  expect((arg3 as PropsResult).default).toMatchSnapshot()
+
+  expect((arg1 as PropsResult).defaultDesc).toMatchSnapshot()
+  expect((arg2 as PropsResult).defaultDesc).toMatchSnapshot()
+  expect((arg3 as PropsResult).defaultDesc).toMatchSnapshot()
+})

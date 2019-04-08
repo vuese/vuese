@@ -46,11 +46,11 @@ export function isVueOption(
 export function runFunction(fnCode: bt.Node): any {
   const { code: genCode } = generate(fnCode)
   const code = `return (${genCode})()`
-  const fn = new Function(code)
   try {
+    const fn = new Function(code)
     return fn()
   } catch (e) {
-    console.error(e)
+    return
   }
 }
 

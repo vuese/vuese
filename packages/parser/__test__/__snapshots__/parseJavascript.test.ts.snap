@@ -122,6 +122,41 @@ exports[`Slots in script 7`] = `"The slot named sidebar"`;
 
 exports[`Slots in script 8`] = `"Default content of sidebar"`;
 
+exports[`The default value of Props 1`] = `
+Object {
+  "val": 1,
+}
+`;
+
+exports[`The default value of Props 2`] = `undefined`;
+
+exports[`The default value of Props 3`] = `
+"// \`{ val: 1}\`
+default() {
+  return {
+    val: 1
+  };
+}"
+`;
+
+exports[`The default value of Props 4`] = `
+Array [
+  "\`{ val: 1 }\`",
+]
+`;
+
+exports[`The default value of Props 5`] = `
+Array [
+  "\`{ val: 1, a: 2 }\`",
+]
+`;
+
+exports[`The default value of Props 6`] = `
+Array [
+  "\`{ val: 1}\`",
+]
+`;
+
 exports[`The options in @Component should be parsed correctly 1`] = `
 Array [
   "Used to manually clear the form",
