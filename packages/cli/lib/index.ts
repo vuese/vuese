@@ -26,6 +26,7 @@ export type CliOptions = {
   exclude: string | string[]
   outDir: string
   markdownDir: string
+  markdownFile: string
   genType: 'docute' | 'markdown'
   title: string
   babelParserPlugins: BabelParserPlugins
@@ -46,7 +47,8 @@ async function getConfig(flags: PartialCliOptions) {
     include: '**/*.vue',
     exclude: [],
     outDir: 'website',
-    markdownDir: 'components'
+    markdownDir: 'components',
+    markdownFile: ''
   }
   if (path) Object.assign(config, data, flags)
   Object.assign(config, flags || {})

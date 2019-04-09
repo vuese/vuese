@@ -14,6 +14,7 @@ export default async (config: CliOptions) => {
     exclude,
     outDir,
     markdownDir,
+    markdownFile,
     babelParserPlugins,
     isPreview,
     genType
@@ -45,16 +46,19 @@ export default async (config: CliOptions) => {
 
       str = str.replace(/\[name\]/g, compName)
       let targetDir = ''
+      let targetFile = ''
       if (genType === 'markdown' && markdownDir === '*') {
         targetDir = path.dirname(abs)
+        targetFile = markdownFile || compName
       } else {
         targetDir = path.resolve(
           outDir,
           markdownDir === '*' ? 'components' : markdownDir
         )
+        targetFile = compName
       }
 
-      const target = path.resolve(targetDir, compName + '.md')
+      const target = path.resolve(targetDir, targetFile + '.md')
 
       if (!isPreview) {
         await fs.ensureDir(targetDir)
