@@ -11,7 +11,7 @@ import { CliOptions } from '.'
 const logger = Log.create()
 
 export default async (config: CliOptions) => {
-  const sfc = (config.include as string[])[0]
+  const sfc = config.include as string
   if (!sfc) {
     logger.error('Must provide the path to the .vue file.')
     process.exit(1)
