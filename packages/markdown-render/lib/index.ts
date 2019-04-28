@@ -38,9 +38,9 @@ export class Render {
       {},
       {
         props: ['Name', 'Description', 'Type', 'Required', 'Default'],
-        events: ['Event Name', 'Description', 'Parameters'],
+        events: ['Event Name', 'Description', 'Parameters', 'Type', 'Default'],
         slots: ['Name', 'Description', 'Default Slot Content'],
-        methods: ['Method', 'Description', 'Parameters'],
+        methods: ['Method', 'Description', 'Parameters', 'Type', 'Default'],
         computed: ['Computed', 'Description'],
         mixIns: ['MixIn']
       },
@@ -172,62 +172,130 @@ export class Render {
 
   eventRender(propsRes: EventResult[]) {
     const eventConfig = (this.options as RenderOptions).events
-    let code = this.renderTabelHeader(eventConfig)
+
+    const codes = ['<table><thead><tr>']
+
+    codes.push(eventConfig.map(name => `<th>${name}</th>`).join(''))
+    codes.push('</tr></thead><tbody>')
+
+    function cellCode(content: String | undefined, rowspan: Number) {
+      rowspan = rowspan || 1
+      return `<td rowspan=${rowspan}>${content || '-'}</td>`
+    }
     propsRes.forEach((event: EventResult) => {
-      const row: string[] = []
+      const rowCodes = ['<tr>']
+
+      const argumentsDesc = event.argumentsDesc || []
+      const argLength = argumentsDesc.length
+
       for (let i = 0; i < eventConfig.length; i++) {
-        if (eventConfig[i] === 'Event Name') {
-          row.push(event.name)
-        } else if (eventConfig[i] === 'Description') {
-          if (event.describe && event.describe.length) {
-            row.push(event.describe.join(''))
-          } else {
-            row.push('-')
-          }
-        } else if (eventConfig[i] === 'Parameters') {
-          if (event.argumentsDesc) {
-            row.push(event.argumentsDesc.join(''))
-          } else {
-            row.push('-')
-          }
-        } else {
-          row.push('-')
+        const paramed = argLength > 0
+        switch (eventConfig[i]) {
+          case 'Event Name':
+            rowCodes.push(cellCode(event.name, argLength))
+            break
+          case 'Description':
+            const descripted = event.describe && event.describe.length
+            rowCodes.push(
+              cellCode(
+                descripted ? (event.describe || []).join('<br>') : '-',
+                descripted ? argLength : 1
+              )
+            )
+            break
+          case 'Parameters':
+            rowCodes.push(cellCode(paramed ? argumentsDesc[0].name : '-', 1))
+            break
+          case 'Type':
+            rowCodes.push(cellCode(paramed ? argumentsDesc[0].type : '-', 1))
+            break
+          case 'Default':
+            rowCodes.push(cellCode(paramed ? argumentsDesc[0].default : '-', 1))
+            break
+          default:
+            rowCodes.push(cellCode('-', argLength))
+            break
         }
       }
-      code += this.renderTabelRow(row)
-    })
 
-    return code
+      let argCursor = 1
+      while (argCursor < argLength) {
+        rowCodes.push('</tr><tr>')
+        rowCodes.push(cellCode(argumentsDesc[argCursor].name, 1))
+        rowCodes.push(cellCode(argumentsDesc[argCursor].type, 1))
+        rowCodes.push(cellCode(argumentsDesc[argCursor].default, 1))
+        argCursor++
+      }
+      rowCodes.push('</tr>')
+
+      codes.push(rowCodes.join(''))
+    })
+    codes.push('</tbody></table>')
+    return codes.join('')
   }
 
   methodRender(methodsRes: MethodResult[]) {
     const methodConfig = (this.options as RenderOptions).methods
-    let code = this.renderTabelHeader(methodConfig)
+
+    const codes = ['<table><thead><tr>']
+
+    codes.push(methodConfig.map(name => `<th>${name}</th>`).join(''))
+    codes.push('</tr></thead><tbody>')
+
+    function cellCode(content: String | undefined, rowspan: Number) {
+      rowspan = rowspan || 1
+      return `<td rowspan=${rowspan}>${content || '-'}</td>`
+    }
     methodsRes.forEach((method: MethodResult) => {
-      const row: string[] = []
+      const rowCodes = ['<tr>']
+
+      const argumentsDesc = method.argumentsDesc || []
+      const argLength = argumentsDesc.length
+
       for (let i = 0; i < methodConfig.length; i++) {
-        if (methodConfig[i] === 'Method') {
-          row.push(method.name)
-        } else if (methodConfig[i] === 'Description') {
-          if (method.describe) {
-            row.push(method.describe.join(''))
-          } else {
-            row.push('-')
-          }
-        } else if (methodConfig[i] === 'Parameters') {
-          if (method.argumentsDesc) {
-            row.push(method.argumentsDesc.join(''))
-          } else {
-            row.push('-')
-          }
-        } else {
-          row.push('-')
+        const paramed = argLength > 0
+
+        switch (methodConfig[i]) {
+          case 'Method':
+            rowCodes.push(cellCode(method.name, argLength))
+            break
+          case 'Description':
+            const descripted = method.describe && method.describe.length
+            rowCodes.push(
+              cellCode(
+                descripted ? (method.describe || []).join('<br>') : '-',
+                descripted ? argLength : 1
+              )
+            )
+            break
+          case 'Parameters':
+            rowCodes.push(cellCode(paramed ? argumentsDesc[0].name : '-', 1))
+            break
+          case 'Type':
+            rowCodes.push(cellCode(paramed ? argumentsDesc[0].type : '-', 1))
+            break
+          case 'Default':
+            rowCodes.push(cellCode(paramed ? argumentsDesc[0].default : '-', 1))
+            break
+          default:
+            rowCodes.push(cellCode('-', argLength))
+            break
         }
       }
-      code += this.renderTabelRow(row)
-    })
+      let argCursor = 1
+      while (argCursor < argLength) {
+        rowCodes.push('</tr><tr>')
+        rowCodes.push(cellCode(argumentsDesc[argCursor].name, 1))
+        rowCodes.push(cellCode(argumentsDesc[argCursor].type, 1))
+        rowCodes.push(cellCode(argumentsDesc[argCursor].default, 1))
+        argCursor++
+      }
+      rowCodes.push('</tr>')
 
-    return code
+      codes.push(rowCodes.join(''))
+    })
+    codes.push('</tbody></table>')
+    return codes.join('')
   }
 
   computedRender(computedRes: ComputedResult[]) {

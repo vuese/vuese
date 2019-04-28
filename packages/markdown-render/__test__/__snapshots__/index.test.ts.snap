@@ -16,14 +16,8 @@ exports[`Empty Components (without slots,methods,props,events) can be forced to 
 
 exports[`Proper rendering of the table header 1`] = `
 Object {
-  "events": "|Event Name|Description|Parameters|
-|---|---|---|
-|click|Triggered when clicked|a boolean value|
-",
-  "methods": "|Method|Description|Parameters|
-|---|---|---|
-|clear|Clear form|a boolean value|
-",
+  "events": "<table><thead><tr><th>Event Name</th><th>Description</th><th>Parameters</th><th>Type</th><th>Default</th></tr></thead><tbody><tr><td rowspan=1>click</td><td rowspan=1>Triggered when clicked</td><td rowspan=1>test</td><td rowspan=1>Boolean</td><td rowspan=1>false</td></tr></tbody></table>",
+  "methods": "<table><thead><tr><th>Method</th><th>Description</th><th>Parameters</th><th>Type</th><th>Default</th></tr></thead><tbody><tr><td rowspan=1>clear</td><td rowspan=1>Clear form</td><td rowspan=1>test</td><td rowspan=1>Boolean</td><td rowspan=1>false</td></tr></tbody></table>",
   "props": "|Name|Description|Type|Required|Default|
 |---|---|---|---|---|
 |someProp|Represents the direction of the arrow|\`TOP\` / \`BOTTOM\`|\`true\`|\`TOP\`|
@@ -55,10 +49,7 @@ This is a description of the component
 ## Events
 
 <!-- @vuese:MyComponent:events:start -->
-|Event Name|Description|Parameters|
-|---|---|---|
-|click|Triggered when clicked|a boolean value|
-
+<table><thead><tr><th>Event Name</th><th>Description</th><th>Parameters</th><th>Type</th><th>Default</th></tr></thead><tbody><tr><td rowspan=1>click</td><td rowspan=1>Triggered when clicked</td><td rowspan=1>test</td><td rowspan=1>Boolean</td><td rowspan=1>false</td></tr></tbody></table>
 <!-- @vuese:MyComponent:events:end -->
 
 
@@ -75,10 +66,7 @@ This is a description of the component
 ## Methods
 
 <!-- @vuese:MyComponent:methods:start -->
-|Method|Description|Parameters|
-|---|---|---|
-|clear|Clear form|a boolean value|
-
+<table><thead><tr><th>Method</th><th>Description</th><th>Parameters</th><th>Type</th><th>Default</th></tr></thead><tbody><tr><td rowspan=1>clear</td><td rowspan=1>Clear form</td><td rowspan=1>test</td><td rowspan=1>Boolean</td><td rowspan=1>false</td></tr></tbody></table>
 <!-- @vuese:MyComponent:methods:end -->
 
 
