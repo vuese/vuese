@@ -29,7 +29,9 @@
     "extractDts": true
   },
   "devDependencies": {
-    "@vuese/parser": "^2.1.6"
+    "@types/lodash": "^4.14.123",
+    "@vuese/parser": "^2.1.6",
+    "lodash": "^4.17.11"
   },
   "gitHead": "2bc1b0691aaf9480fa6fc0ad59ff1bc991b81efe"
 }

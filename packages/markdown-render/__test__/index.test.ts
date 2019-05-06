@@ -1,5 +1,11 @@
-import Render, { RenderResult, MarkdownResult } from '@vuese/markdown-render'
+import Render from '@vuese/markdown-render'
 import { ParserResult } from '@vuese/parser'
+import EventsRender from '../lib/events-render'
+import PropsRender from '../lib/props-render'
+import ComputedRender from '../lib/computed-render'
+import SlotsRender from '../lib/slots-render'
+import MethodsRender from '../lib/methods-render'
+import MixinsRender from '../lib/mixins-render'
 
 test('Proper rendering of the table header', () => {
   const res: ParserResult = {
@@ -44,11 +50,18 @@ test('Proper rendering of the table header', () => {
       }
     ]
   }
-  const render = new Render(res)
-  const renderRes: RenderResult = render.render()
-  const markdownRes = render.renderMarkdown() as MarkdownResult
+  const render = new Render(res, {
+    plugins: [
+      new PropsRender(),
+      new MethodsRender(),
+      new EventsRender(),
+      new ComputedRender(),
+      new SlotsRender(),
+      new MixinsRender()
+    ]
+  })
+  const renderRes = render.render()
   expect(renderRes).toMatchSnapshot()
-  expect(markdownRes).toMatchSnapshot()
 })
 
 describe('Empty Components (without slots,methods,props,events) can be forced to be rendered', () => {
@@ -59,10 +72,17 @@ describe('Empty Components (without slots,methods,props,events) can be forced to
         default: ['This is a description of the component']
       }
     }
-    const render = new Render(res)
-    const renderRes: RenderResult = render.render()
-    const markdownRes = render.renderMarkdown() as MarkdownResult
-    expect(markdownRes).toBeNull()
+    const render = new Render(res, {
+      plugins: [
+        new PropsRender(),
+        new MethodsRender(),
+        new EventsRender(),
+        new ComputedRender(),
+        new SlotsRender(),
+        new MixinsRender()
+      ]
+    })
+    const renderRes = render.render()
     expect(renderRes).toEqual({})
   })
   test('Does render an empty component by with @vuese in the description', () => {
@@ -76,11 +96,17 @@ describe('Empty Components (without slots,methods,props,events) can be forced to
         vuese: ['']
       }
     }
-    const render = new Render(res)
-    const renderRes: RenderResult = render.render()
-    const markdownRes = render.renderMarkdown() as MarkdownResult
-    expect(markdownRes).not.toBeNull()
-    expect(markdownRes).toMatchSnapshot()
+    const render = new Render(res, {
+      plugins: [
+        new PropsRender(),
+        new MethodsRender(),
+        new EventsRender(),
+        new ComputedRender(),
+        new SlotsRender(),
+        new MixinsRender()
+      ]
+    })
+    const renderRes = render.render()
     expect(renderRes).toMatchSnapshot()
   })
 })
