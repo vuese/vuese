@@ -32,6 +32,8 @@ export type CliOptions = {
   babelParserPlugins: BabelParserPlugins
   isPreview: boolean
   open: boolean
+  port: number
+  host: string
 }
 type PartialCliOptions = Partial<CliOptions>
 
@@ -48,7 +50,8 @@ async function getConfig(flags: PartialCliOptions) {
     exclude: [],
     outDir: 'website',
     markdownDir: 'components',
-    markdownFile: ''
+    markdownFile: '',
+    host: '127.0.0.1'
   }
   if (path) Object.assign(config, data, flags)
   Object.assign(config, flags || {})
@@ -88,6 +91,8 @@ cli
 cli
   .command('serve', 'Serve generated docute website')
   .option('--open', 'Open the browser automatically')
+  .option('--host [host]', 'Host name')
+  .option('--port [port]', 'The port number')
   .action(async flags => {
     const config = await getConfig(flags)
     server(config as CliOptions)

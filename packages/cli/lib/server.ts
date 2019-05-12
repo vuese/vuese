@@ -14,10 +14,10 @@ export default async (config: CliOptions) => {
       public: path.resolve(config.outDir)
     })
   })
-  const port = await getPort({ port: 5000 })
+  const port = config.port || (await getPort({ port: 5000 }))
 
-  server.listen(port, '127.0.0.1', () => {
-    const addr = `http://127.0.0.1:${port}/`
+  server.listen(port, config.host, () => {
+    const addr = `http://${config.host}:${port}/`
     logger.success(`Server running at ${addr}`)
     if (config.open) opn(addr)
   })
