@@ -12,7 +12,7 @@ export * from './jscomments'
 
 export type PropType = string | string[] | null
 
-export type BabelParserPlugins = { [key in keyof ParserPlugin]?: boolean }
+export type BabelParserPlugins = { [key in ParserPlugin]?: boolean }
 
 export interface PropsResult {
   type: PropType
