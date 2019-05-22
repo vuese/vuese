@@ -1,7 +1,6 @@
 import { sfcToAST } from './sfcToAST'
 import { parseJavascript } from './parseJavascript'
 import { parseTemplate } from './parseTemplate'
-import { ParserPlugin } from '@babel/parser'
 import { CommentResult } from './jscomments'
 
 export * from './sfcToAST'
@@ -12,6 +11,39 @@ export * from './jscomments'
 
 export type PropType = string | string[] | null
 
+/**
+ * Since version 7.3.3, `type ParserPlugin` has been added with the `ParserPluginWithOptions` type,
+ * which is a breaking change for vuese, so we will force the installation of the version below 7.3.3,
+ * and the overall upgrade will follow.
+ * https://github.com/babel/babel/blob/master/packages/babel-parser/typings/babel-parser.d.ts#L118
+ */
+type ParserPlugin =
+  | 'estree'
+  | 'jsx'
+  | 'flow'
+  | 'flowComments'
+  | 'typescript'
+  | 'doExpressions'
+  | 'objectRestSpread'
+  | 'decorators'
+  | 'decorators-legacy'
+  | 'classProperties'
+  | 'classPrivateProperties'
+  | 'classPrivateMethods'
+  | 'exportDefaultFrom'
+  | 'exportNamespaceFrom'
+  | 'asyncGenerators'
+  | 'functionBind'
+  | 'functionSent'
+  | 'dynamicImport'
+  | 'numericSeparator'
+  | 'optionalChaining'
+  | 'importMeta'
+  | 'bigInt'
+  | 'optionalCatchBinding'
+  | 'throwExpressions'
+  | 'pipelineOperator'
+  | 'nullishCoalescingOperator'
 export type BabelParserPlugins = { [key in ParserPlugin]?: boolean }
 
 export interface PropsResult {
