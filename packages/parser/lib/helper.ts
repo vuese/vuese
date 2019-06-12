@@ -68,24 +68,21 @@ export function getValueFromGenerate(node: any) {
 
 export function computesFromStore(node: any): boolean {
   let fromStore = false
-  if (node.type === 'ObjectMethod') {
+  if (bt.isObjectMethod(node)) {
     fromStore = computesFromStore(node.body)
-  } else if (node.type === 'BlockStatement') {
+  } else if (bt.isBlockStatement(node)) {
     fromStore = computesFromStore(node.body[0])
-  } else if (node.type === 'CallExpression') {
-    fromStore = computesFromStore(node.callee)
-  } else if (node.type === 'MemberExpression') {
-    if (node.object.type === 'ThisExpression') {
+  } else if (bt.isCallExpression(NodePath)) {
+    fromStore = computesFromStore(node)
+  } else if (bt.isMemberExpression(node)) {
+    if (bt.isThisExpression(node.object)) {
       if (node.property.name.includes('store')) {
         fromStore = true
       }
     } else {
       fromStore = computesFromStore(node.object)
     }
-  } else if (
-    node.type === 'ReturnStatement' ||
-    node.type.includes('Expression')
-  ) {
+  } else if (bt.isReturnStatement(node) || node.type.includes('Expression')) {
     fromStore = computesFromStore(node.argument)
   }
 
