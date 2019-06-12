@@ -4,8 +4,10 @@ import {
   PropsResult,
   SlotResult,
   EventResult,
+  DataResult,
   MethodResult,
-  ComputedResult
+  ComputedResult,
+  WatchResult
 } from '@vuese/parser'
 import renderMarkdown, { MarkdownResult } from './renderMarkdown'
 
@@ -18,6 +20,8 @@ interface RenderOptions {
   methods: string[]
   computed: string[]
   mixIns: string[]
+  data: string[]
+  watch: string[]
 }
 
 export interface RenderResult {
@@ -27,6 +31,8 @@ export interface RenderResult {
   methods?: string
   computed?: string
   mixIns?: string
+  data?: string
+  watch?: string
 }
 
 export class Render {
@@ -41,8 +47,10 @@ export class Render {
         events: ['Event Name', 'Description', 'Parameters'],
         slots: ['Name', 'Description', 'Default Slot Content'],
         methods: ['Method', 'Description', 'Parameters'],
-        computed: ['Computed', 'Description'],
-        mixIns: ['MixIn']
+        computed: ['Computed', 'Description', 'From Store'],
+        mixIns: ['MixIn'],
+        data: ['Name', 'Description'],
+        watch: ['Name', 'Description', 'Parameters']
       },
       this.options
     )
@@ -55,7 +63,9 @@ export class Render {
       events,
       methods,
       mixIns,
-      computed
+      data,
+      computed,
+      watch
     } = this.parserResult
     let md: RenderResult = {}
     if (props) {
@@ -75,6 +85,12 @@ export class Render {
     }
     if (mixIns) {
       md.mixIns = this.mixInRender(mixIns)
+    }
+    if (data) {
+      md.data = this.dataRender(data)
+    }
+    if (watch) {
+      md.watch = this.watchRender(watch)
     }
 
     return md
@@ -233,17 +249,19 @@ export class Render {
   computedRender(computedRes: ComputedResult[]) {
     const computedConfig = (this.options as RenderOptions).computed
     let code = this.renderTabelHeader(computedConfig)
-    computedRes.forEach((method: MethodResult) => {
+    computedRes.forEach((computed: ComputedResult) => {
       const row: string[] = []
       for (let i = 0; i < computedConfig.length; i++) {
         if (computedConfig[i] === 'Computed') {
-          row.push(method.name)
+          row.push(computed.name)
         } else if (computedConfig[i] === 'Description') {
-          if (method.describe) {
-            row.push(method.describe.join(''))
+          if (computed.describe) {
+            row.push(computed.describe.join(''))
           } else {
             row.push('-')
           }
+        } else if (computedConfig[i] === 'From Store') {
+          row.push(computed.isFromStore.toString())
         } else {
           row.push('-')
         }
@@ -262,6 +280,60 @@ export class Render {
       for (let i = 0; i < mixInsConfig.length; i++) {
         if (mixInsConfig[i] === 'MixIn') {
           row.push(mixIn.mixIn)
+        } else {
+          row.push('-')
+        }
+      }
+      code += this.renderTabelRow(row)
+    })
+
+    return code
+  }
+
+  dataRender(dataRes: DataResult[]) {
+    const dataConfig = (this.options as RenderOptions).data
+    let code = this.renderTabelHeader(dataConfig)
+    dataRes.forEach((data: DataResult) => {
+      const row: string[] = []
+      for (let i = 0; i < dataConfig.length; i++) {
+        if (dataConfig[i] === 'Name') {
+          row.push(data.name)
+        } else if (dataConfig[i] === 'Description') {
+          if (data.describe) {
+            row.push(data.describe.join(''))
+          } else {
+            row.push('-')
+          }
+        } else {
+          row.push('-')
+        }
+      }
+      code += this.renderTabelRow(row)
+    })
+
+    return code
+  }
+
+  watchRender(watchRes: WatchResult[]) {
+    const watchConfig = (this.options as RenderOptions).watch
+    let code = this.renderTabelHeader(watchConfig)
+    watchRes.forEach((watch: WatchResult) => {
+      const row: string[] = []
+      for (let i = 0; i < watchConfig.length; i++) {
+        if (watchConfig[i] === 'Name') {
+          row.push(watch.name)
+        } else if (watchConfig[i] === 'Description') {
+          if (watch.describe) {
+            row.push(watch.describe.join(''))
+          } else {
+            row.push('-')
+          }
+        } else if (watchConfig[i] === 'Parameters') {
+          if (watch.argumentsDesc) {
+            row.push(watch.argumentsDesc.join(''))
+          } else {
+            row.push('-')
+          }
         } else {
           row.push('-')
         }

@@ -7,10 +7,12 @@ import {
   EventResult,
   MethodResult,
   ComputedResult,
+  DataResult,
   MixInResult,
-  SlotResult
+  SlotResult,
+  WatchResult
 } from '@vuese/parser'
-import { getValueFromGenerate, isVueOption } from './helper'
+import { getValueFromGenerate, isVueOption, computesFromStore } from './helper'
 import {
   processPropValue,
   normalizeProps,
@@ -37,7 +39,9 @@ export function parseJavascript(ast: bt.File, options: ParserOptions = {}) {
             onComputed,
             onName,
             onSlot,
-            onMixIn
+            onMixIn,
+            onData,
+            onWatch
           } = options
           // Processing name
           if (isVueOption(path, 'name')) {
@@ -106,13 +110,39 @@ export function parseJavascript(ast: bt.File, options: ParserOptions = {}) {
 
             properties.forEach(node => {
               const commentsRes: CommentResult = getComments(node)
+              const isFromStore: boolean = computesFromStore(node)
               // Collect only computed that have @vuese annotations
               if (commentsRes.vuese) {
                 const result: ComputedResult = {
                   name: node.key.name,
-                  describe: commentsRes.default
+                  describe: commentsRes.default,
+                  isFromStore: isFromStore
                 }
                 onComputed(result)
+              }
+            })
+          }
+
+          // Processing data
+          if (
+            onData &&
+            isVueOption(path, 'data') &&
+            bt.isObjectExpression(path.node.value)
+          ) {
+            const properties = (path.node
+              .value as bt.ObjectExpression).properties.filter(
+              n => bt.isObjectMethod(n) || bt.isObjectProperty(n)
+            ) as (bt.ObjectMethod | bt.ObjectProperty)[]
+
+            properties.forEach(node => {
+              const commentsRes: CommentResult = getComments(node)
+              // Collect only data that have @vuese annotations
+              if (commentsRes.vuese) {
+                const result: DataResult = {
+                  name: node.key.name,
+                  describe: commentsRes.default
+                }
+                onData(result)
               }
             })
           }
@@ -134,6 +164,31 @@ export function parseJavascript(ast: bt.File, options: ParserOptions = {}) {
                   argumentsDesc: commentsRes.arg
                 }
                 onMethod(result)
+              }
+            })
+          }
+
+          // Processing watch
+          if (
+            onWatch &&
+            isVueOption(path, 'watch') &&
+            bt.isObjectExpression(path.node.value)
+          ) {
+            const properties = (path.node
+              .value as bt.ObjectExpression).properties.filter(
+              n => bt.isObjectMethod(n) || bt.isObjectProperty(n)
+            ) as (bt.ObjectMethod | bt.ObjectProperty)[]
+
+            properties.forEach(node => {
+              const commentsRes: CommentResult = getComments(node)
+              // Collect only data that have @vuese annotations
+              if (commentsRes.vuese) {
+                const result: WatchResult = {
+                  name: node.key.name,
+                  describe: commentsRes.default,
+                  argumentsDesc: commentsRes.arg
+                }
+                onWatch(result)
               }
             })
           }

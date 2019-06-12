@@ -65,3 +65,29 @@ export function getValueFromGenerate(node: any) {
     console.error(e)
   }
 }
+
+export function computesFromStore(node: any): boolean {
+  let fromStore = false
+  if (node.type === 'ObjectMethod') {
+    fromStore = computesFromStore(node.body)
+  } else if (node.type === 'BlockStatement') {
+    fromStore = computesFromStore(node.body[0])
+  } else if (node.type === 'CallExpression') {
+    fromStore = computesFromStore(node.callee)
+  } else if (node.type === 'MemberExpression') {
+    if (node.object.type === 'ThisExpression') {
+      if (node.property.name.includes('store')) {
+        fromStore = true
+      }
+    } else {
+      fromStore = computesFromStore(node.object)
+    }
+  } else if (
+    node.type === 'ReturnStatement' ||
+    node.type.includes('Expression')
+  ) {
+    fromStore = computesFromStore(node.argument)
+  }
+
+  return fromStore
+}
