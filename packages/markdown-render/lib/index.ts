@@ -49,7 +49,7 @@ export class Render {
         methods: ['Method', 'Description', 'Parameters'],
         computed: ['Computed', 'Description', 'From Store'],
         mixIns: ['MixIn'],
-        data: ['Name', 'Description'],
+        data: ['Name', 'Type', 'Description', 'Default'],
         watch: ['Name', 'Description', 'Parameters']
       },
       this.options
@@ -261,7 +261,11 @@ export class Render {
             row.push('-')
           }
         } else if (computedConfig[i] === 'From Store') {
-          row.push(computed.isFromStore.toString())
+          if (computed.isFromStore) {
+            row.push('Yes')
+          } else {
+            row.push('No')
+          }
         } else {
           row.push('-')
         }
@@ -301,6 +305,14 @@ export class Render {
         } else if (dataConfig[i] === 'Description') {
           if (data.describe) {
             row.push(data.describe.join(''))
+          } else {
+            row.push('-')
+          }
+        } else if (dataConfig[i] === 'Type') {
+          row.push('`' + data.type + '`')
+        } else if (dataConfig[i] === 'Default') {
+          if (data.default) {
+            row.push(data.default)
           } else {
             row.push('-')
           }

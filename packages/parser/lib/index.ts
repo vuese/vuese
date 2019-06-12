@@ -85,7 +85,9 @@ export interface MixInResult {
 
 export interface DataResult {
   name: string
+  type: string
   describe?: string[]
+  default?: string
 }
 
 export interface WatchResult {

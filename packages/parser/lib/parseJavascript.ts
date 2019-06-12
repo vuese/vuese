@@ -19,6 +19,7 @@ import {
   getPropDecorator,
   getArgumentFromPropDecorator
 } from './processProps'
+import { processDataValue } from './processData'
 import { processEventName, getEmitDecorator } from './processEvents'
 import { determineChildren } from './processRenderFunction'
 import { Seen } from './seen'
@@ -132,7 +133,7 @@ export function parseJavascript(ast: bt.File, options: ParserOptions = {}) {
             const properties = (path.node
               .value as bt.ObjectExpression).properties.filter(
               n => bt.isObjectMethod(n) || bt.isObjectProperty(n)
-            ) as (bt.ObjectMethod | bt.ObjectProperty)[]
+            ) as (bt.ObjectProperty)[]
 
             properties.forEach(node => {
               const commentsRes: CommentResult = getComments(node)
@@ -140,8 +141,11 @@ export function parseJavascript(ast: bt.File, options: ParserOptions = {}) {
               if (commentsRes.vuese) {
                 const result: DataResult = {
                   name: node.key.name,
-                  describe: commentsRes.default
+                  type: '',
+                  describe: commentsRes.default,
+                  default: ''
                 }
+                processDataValue(node.value, result)
                 onData(result)
               }
             })
