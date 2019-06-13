@@ -93,7 +93,6 @@ export interface DataResult {
 
 export interface WatchResult {
   name: string
-  type?: string[]
   describe?: string[]
   argumentsDesc?: string[]
 }

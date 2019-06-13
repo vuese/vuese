@@ -129,10 +129,13 @@ export function parseJavascript(ast: bt.File, options: ParserOptions = {}) {
           if (
             onData &&
             isVueOption(path, 'data') &&
-            bt.isObjectExpression(path.node.value)
+            (bt.isObjectExpression(path.node.value) ||
+              bt.isArrowFunctionExpression(path.node.value))
           ) {
-            const properties = (path.node
-              .value as bt.ObjectExpression).properties.filter(
+            const value = bt.isArrowFunctionExpression(path.node.value)
+              ? path.node.value.body
+              : path.node.value
+            const properties = (value as bt.ObjectExpression).properties.filter(
               n => bt.isObjectMethod(n) || bt.isObjectProperty(n)
             ) as (bt.ObjectProperty)[]
 

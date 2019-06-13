@@ -345,13 +345,6 @@ export class Render {
       for (let i = 0; i < watchConfig.length; i++) {
         if (watchConfig[i] === 'Name') {
           row.push(watch.name)
-        } else if (watchConfig[i] === 'Type') {
-          if (watch.type) {
-            row.push(`\`${watch.type.join('')}\``)
-            row.push()
-          } else {
-            row.push('-')
-          }
         } else if (watchConfig[i] === 'Description') {
           if (watch.describe) {
             row.push(watch.describe.join(''))
