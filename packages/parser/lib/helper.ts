@@ -72,17 +72,17 @@ export function computesFromStore(node: any): boolean {
   }
 
   let fromStore = false
-  if (bt.isObjectMethod(node)) {
+  if (bt.isObjectMethod(node) || bt.isArrowFunctionExpression(node)) {
     fromStore = computesFromStore(node.body)
+  } else if (bt.isObjectProperty(node)) {
+    fromStore = computesFromStore(node.value)
   } else if (bt.isBlockStatement(node)) {
-    fromStore = computesFromStore(node.body[0])
+    fromStore = computesFromStore(node.body[node.body.length - 1])
   } else if (bt.isCallExpression(NodePath)) {
-    fromStore = computesFromStore(node)
+    fromStore = computesFromStore(node.callee)
   } else if (bt.isMemberExpression(node)) {
     if (bt.isThisExpression(node.object)) {
-      if (node.property.name.includes('store')) {
-        fromStore = true
-      }
+      fromStore = node.property.name.toLowerCase().includes('store')
     } else {
       fromStore = computesFromStore(node.object)
     }

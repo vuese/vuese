@@ -50,7 +50,7 @@ export class Render {
         computed: ['Computed', 'Type', 'Description', 'From Store'],
         mixIns: ['MixIn'],
         data: ['Name', 'Type', 'Description', 'Default'],
-        watch: ['Name', 'Type', 'Description', 'Parameters']
+        watch: ['Name', 'Description', 'Parameters']
       },
       this.options
     )
