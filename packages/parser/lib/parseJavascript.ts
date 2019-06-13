@@ -149,11 +149,7 @@ export function parseJavascript(ast: bt.File, options: ParserOptions = {}) {
                   describe: commentsRes.default,
                   default: ''
                 }
-                if (bt.isObjectMethod(node)) {
-                  result.type = 'Function'
-                } else {
-                  processDataValue(node.value, result)
-                }
+                processDataValue(node, result)
                 onData(result)
               }
             })
@@ -244,7 +240,7 @@ export function parseJavascript(ast: bt.File, options: ParserOptions = {}) {
                       describe: commentsRes.default,
                       default: ''
                     }
-                    processDataValue(node.value, result)
+                    processDataValue(node, result)
                     onData(result)
                   }
                 })

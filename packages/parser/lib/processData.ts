@@ -2,12 +2,17 @@ import * as bt from '@babel/types'
 import { getLiteralValue } from './helper'
 import { DataResult } from './index'
 
-export function processDataValue(dataValueNode: bt.Node, result: DataResult) {
-  result.type = getTypeByDataNode(dataValueNode)
-  result.default = getValueByDataNode(dataValueNode)
+export function processDataValue(
+  dataNode: bt.ObjectProperty,
+  result: DataResult
+) {
+  result.type = getTypeByDataNode(dataNode)
+  result.default = getValueByDataNode(dataNode.value)
 }
 
-function getTypeByDataNode(dataNode: bt.Node): string {
+function getTypeByDataNode(node: bt.ObjectProperty): string {
+  if (bt.isObjectMethod(node)) return 'Function'
+  let dataNode = node.value
   if (bt.isIdentifier(dataNode)) return dataNode.name
 
   if (bt.isAssignmentExpression(dataNode) || bt.isAssignmentPattern(dataNode)) {
