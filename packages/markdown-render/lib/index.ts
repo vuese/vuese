@@ -47,10 +47,10 @@ export class Render {
         events: ['Event Name', 'Description', 'Parameters'],
         slots: ['Name', 'Description', 'Default Slot Content'],
         methods: ['Method', 'Description', 'Parameters'],
-        computed: ['Computed', 'Description', 'From Store'],
+        computed: ['Computed', 'Type', 'Description', 'From Store'],
         mixIns: ['MixIn'],
         data: ['Name', 'Type', 'Description', 'Default'],
-        watch: ['Name', 'Description', 'Parameters']
+        watch: ['Name', 'Type', 'Description', 'Parameters']
       },
       this.options
     )
@@ -254,6 +254,13 @@ export class Render {
       for (let i = 0; i < computedConfig.length; i++) {
         if (computedConfig[i] === 'Computed') {
           row.push(computed.name)
+        } else if (computedConfig[i] === 'Type') {
+          if (computed.type) {
+            row.push(`\`${computed.type.join('')}\``)
+            row.push()
+          } else {
+            row.push('-')
+          }
         } else if (computedConfig[i] === 'Description') {
           if (computed.describe) {
             row.push(computed.describe.join(''))
@@ -309,7 +316,11 @@ export class Render {
             row.push('-')
           }
         } else if (dataConfig[i] === 'Type') {
-          row.push('`' + data.type + '`')
+          if (data.type.length > 0) {
+            row.push(`\`${data.type}\``)
+          } else {
+            row.push('—')
+          }
         } else if (dataConfig[i] === 'Default') {
           if (data.default) {
             row.push(data.default)
@@ -334,6 +345,13 @@ export class Render {
       for (let i = 0; i < watchConfig.length; i++) {
         if (watchConfig[i] === 'Name') {
           row.push(watch.name)
+        } else if (watchConfig[i] === 'Type') {
+          if (watch.type) {
+            row.push(`\`${watch.type.join('')}\``)
+            row.push()
+          } else {
+            row.push('-')
+          }
         } else if (watchConfig[i] === 'Description') {
           if (watch.describe) {
             row.push(watch.describe.join(''))

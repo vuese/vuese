@@ -117,6 +117,7 @@ export function parseJavascript(ast: bt.File, options: ParserOptions = {}) {
               if (commentsRes.vuese) {
                 const result: ComputedResult = {
                   name: node.key.name,
+                  type: commentsRes.type,
                   describe: commentsRes.default,
                   isFromStore: isFromStore
                 }

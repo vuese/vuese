@@ -74,6 +74,7 @@ export interface MethodResult {
 
 export interface ComputedResult {
   name: string
+  type?: string[]
   describe?: string[]
   argumentsDesc?: string[]
   isFromStore: boolean
@@ -92,6 +93,7 @@ export interface DataResult {
 
 export interface WatchResult {
   name: string
+  type?: string[]
   describe?: string[]
   argumentsDesc?: string[]
 }

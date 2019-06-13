@@ -16,7 +16,10 @@ function getTypeByDataNode(dataNode: bt.Node): string {
     }
   }
 
-  if (bt.isLiteral(dataNode) || bt.isExpression(dataNode)) {
+  if (
+    bt.isLiteral(dataNode) ||
+    (bt.isExpression(dataNode) && !bt.isBinaryExpression(dataNode))
+  ) {
     return literalToType(dataNode.type)
   }
   return ''
