@@ -149,7 +149,11 @@ export function parseJavascript(ast: bt.File, options: ParserOptions = {}) {
                   describe: commentsRes.default,
                   default: ''
                 }
-                processDataValue(node.value, result)
+                if (bt.isObjectMethod(node)) {
+                  result.type = 'Function'
+                } else {
+                  processDataValue(node.value, result)
+                }
                 onData(result)
               }
             })
