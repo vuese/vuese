@@ -76,7 +76,6 @@ export interface ComputedResult {
   name: string
   type?: string[]
   describe?: string[]
-  argumentsDesc?: string[]
   isFromStore: boolean
 }
 
