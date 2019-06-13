@@ -1,5 +1,4 @@
 import * as bt from '@babel/types'
-import { getLiteralValue } from './helper'
 import { DataResult } from './index'
 
 export function processDataValue(dataValueNode: bt.Node, result: DataResult) {
@@ -54,4 +53,16 @@ function literalToType(literal: string) {
     .replace('Expression', '')
     .replace('Numeric', 'Number')
   return type
+}
+
+function getLiteralValue(node: bt.Node): string {
+  let data = ''
+  if (
+    bt.isStringLiteral(node) ||
+    bt.isBooleanLiteral(node) ||
+    bt.isNumericLiteral(node)
+  ) {
+    data = node.value.toString()
+  }
+  return data
 }
