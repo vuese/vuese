@@ -67,6 +67,10 @@ export function getValueFromGenerate(node: any) {
 }
 
 export function computesFromStore(node: any): boolean {
+  if (node === undefined) {
+    return false
+  }
+
   let fromStore = false
   if (bt.isObjectMethod(node)) {
     fromStore = computesFromStore(node.body)
@@ -87,4 +91,16 @@ export function computesFromStore(node: any): boolean {
   }
 
   return fromStore
+}
+
+export function getLiteralValue(node: bt.Node): string {
+  let data = ''
+  if (
+    bt.isStringLiteral(node) ||
+    bt.isBooleanLiteral(node) ||
+    bt.isNumericLiteral(node)
+  ) {
+    data = node.value.toString()
+  }
+  return data
 }

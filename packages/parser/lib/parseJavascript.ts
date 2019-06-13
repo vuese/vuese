@@ -112,6 +112,7 @@ export function parseJavascript(ast: bt.File, options: ParserOptions = {}) {
             properties.forEach(node => {
               const commentsRes: CommentResult = getComments(node)
               const isFromStore: boolean = computesFromStore(node)
+
               // Collect only computed that have @vuese annotations
               if (commentsRes.vuese) {
                 const result: ComputedResult = {
@@ -124,7 +125,6 @@ export function parseJavascript(ast: bt.File, options: ParserOptions = {}) {
             })
           }
 
-          // Processing data
           if (
             onData &&
             isVueOption(path, 'data') &&
@@ -208,6 +208,7 @@ export function parseJavascript(ast: bt.File, options: ParserOptions = {}) {
           }
         },
         ObjectMethod(path: NodePath<bt.ObjectMethod>) {
+          const { onData } = options
           // @Component: functional component - `ctx.children` in the render function
           if (
             options.onSlot &&
@@ -215,6 +216,32 @@ export function parseJavascript(ast: bt.File, options: ParserOptions = {}) {
             !seenSlot.seen('default')
           ) {
             determineChildren(path, options.onSlot)
+          }
+
+          // Data can be represented as a component or a method
+          if (onData && isVueOption(path, 'data')) {
+            path.node.body.body.forEach(body => {
+              if (bt.isReturnStatement(body)) {
+                const properties = (body.argument as bt.ObjectExpression).properties.filter(
+                  n => bt.isObjectMethod(n) || bt.isObjectProperty(n)
+                ) as (bt.ObjectProperty)[]
+
+                properties.forEach(node => {
+                  const commentsRes: CommentResult = getComments(node)
+                  // Collect only data that have @vuese annotations
+                  if (commentsRes.vuese) {
+                    const result: DataResult = {
+                      name: node.key.name,
+                      type: '',
+                      describe: commentsRes.default,
+                      default: ''
+                    }
+                    processDataValue(node.value, result)
+                    onData(result)
+                  }
+                })
+              }
+            })
           }
         },
         CallExpression(path: NodePath<bt.CallExpression>) {
