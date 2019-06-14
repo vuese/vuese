@@ -11,7 +11,8 @@ export function processDataValue(
 }
 
 function getTypeByDataNode(node: bt.ObjectProperty): string {
-  if (bt.isObjectMethod(node)) return 'Function'
+  if (bt.isObjectMethod(node) || bt.isArrowFunctionExpression(node.value))
+    return 'Function'
   let dataNode = node.value
   if (bt.isIdentifier(dataNode)) return dataNode.name
 

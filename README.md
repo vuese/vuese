@@ -72,6 +72,8 @@ Planning for vuese2.x: [Read our roadmap](https://github.com/vuese/roadmap)
 4. Push to the branch: `git push origin my-new-feature`
 5. Submit a pull request :D
 
+Instructions on how to run the library locally can be found [here](./LOCAL_RUN.md)
+
 Get started immediately in a free online dev environment:
 
 [![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/vuese/vuese)
