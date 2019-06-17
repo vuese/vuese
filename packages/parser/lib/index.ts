@@ -74,11 +74,26 @@ export interface MethodResult {
 
 export interface ComputedResult {
   name: string
+  type?: string[]
   describe?: string[]
+  isFromStore: boolean
 }
 
 export interface MixInResult {
   mixIn: string
+}
+
+export interface DataResult {
+  name: string
+  type: string
+  describe?: string[]
+  default?: string
+}
+
+export interface WatchResult {
+  name: string
+  describe?: string[]
+  argumentsDesc?: string[]
 }
 
 export type AttrsMap = {
@@ -109,6 +124,9 @@ export interface ParserOptions {
   onMixIn?: {
     (mixInRes: MixInResult): void
   }
+  onData?: {
+    (dataRes: DataResult): void
+  }
   onSlot?: {
     (slotRes: SlotResult): void
   }
@@ -117,6 +135,9 @@ export interface ParserOptions {
   }
   onDesc?: {
     (desc: CommentResult): void
+  }
+  onWatch?: {
+    (watch: WatchResult): void
   }
   babelParserPlugins?: BabelParserPlugins
 }
@@ -128,6 +149,8 @@ export interface ParserResult {
   mixIns?: MixInResult[]
   methods?: MethodResult[]
   computed?: ComputedResult[]
+  data?: DataResult[]
+  watch?: WatchResult[]
   name?: string
   componentDesc?: CommentResult
 }
@@ -162,6 +185,12 @@ export function parser(
     },
     onComputed(computedRes: ComputedResult) {
       ;(res.computed || (res.computed = [])).push(computedRes)
+    },
+    onData(dataRes: DataResult) {
+      ;(res.data || (res.data = [])).push(dataRes)
+    },
+    onWatch(watchRes: WatchResult) {
+      ;(res.watch || (res.watch = [])).push(watchRes)
     }
   }
 

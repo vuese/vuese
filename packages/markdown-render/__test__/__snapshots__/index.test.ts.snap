@@ -16,6 +16,10 @@ exports[`Empty Components (without slots,methods,props,events) can be forced to 
 
 exports[`Proper rendering of the table header 1`] = `
 Object {
+  "data": "|Name|Type|Description|Default|
+|---|---|---|---|
+|someVariable|\`String\`|Does something|-|
+",
   "events": "|Event Name|Description|Parameters|
 |---|---|---|
 |click|Triggered when clicked|a boolean value|
@@ -24,6 +28,10 @@ Object {
 |---|---|---|
 |clear|Clear form|a boolean value|
 ",
+  "mixIns": "|MixIn|
+|---|
+|MixIn|
+",
   "props": "|Name|Description|Type|Required|Default|
 |---|---|---|---|---|
 |someProp|Represents the direction of the arrow|\`TOP\` / \`BOTTOM\`|\`true\`|\`TOP\`|
@@ -31,6 +39,10 @@ Object {
   "slots": "|Name|Description|Default Slot Content|
 |---|---|---|
 |header|Table header|\`<th>{{title}}</th>\`|
+",
+  "watch": "|Name|Description|Parameters|
+|---|---|---|
+|question|Something about a question|a string value|
 ",
 }
 `;
@@ -80,6 +92,36 @@ This is a description of the component
 |clear|Clear form|a boolean value|
 
 <!-- @vuese:MyComponent:methods:end -->
+
+
+## MixIns
+
+<!-- @vuese:MyComponent:mixIns:start -->
+|MixIn|
+|---|
+|MixIn|
+
+<!-- @vuese:MyComponent:mixIns:end -->
+
+
+## Data
+
+<!-- @vuese:MyComponent:data:start -->
+|Name|Type|Description|Default|
+|---|---|---|---|
+|someVariable|\`String\`|Does something|-|
+
+<!-- @vuese:MyComponent:data:end -->
+
+
+## Watch
+
+<!-- @vuese:MyComponent:watch:start -->
+|Name|Description|Parameters|
+|---|---|---|
+|question|Something about a question|a string value|
+
+<!-- @vuese:MyComponent:watch:end -->
 
 
 ",
