@@ -41,15 +41,18 @@ test('Default slot with slot description in a v-if', () => {
 
 test('Named slot with slot description', () => {
   const sfc: AstResult = getAST('namedSlot.vue')
+  const mockOnSlot = jest.fn(() => {})
   const options: ParserOptions = {
-    onSlot(slotRes) {
-      expect((slotRes as SlotResult).name).toBe('header')
-      expect((slotRes as SlotResult).describe).toBe('head slot')
-      expect((slotRes as SlotResult).backerDesc).toBe('Default Slot Content')
-      expect((slotRes as SlotResult).bindings).toEqual({})
-    }
+    onSlot: mockOnSlot
   }
   parseTemplate(sfc.templateAst, options)
+
+  expect(mockOnSlot.mock.calls.length).toBe(1)
+  const arg = mockOnSlot.mock.calls[0][0]
+  expect((arg as SlotResult).name).toBe('header')
+  expect((arg as SlotResult).describe).toBe('head slot')
+  expect((arg as SlotResult).backerDesc).toBe('Default Slot Content')
+  expect((arg as SlotResult).bindings).toEqual({})
 })
 
 test('Named slot with slot description and bingdings', () => {

@@ -9,7 +9,8 @@ export function parseTemplate(templateAst: any, options: ParserOptions) {
         describe: '',
         backerDesc: '',
         bindings: {},
-        scoped: false
+        scoped: false,
+        target: 'template'
       }
       slot.bindings = extractAndFilterAttr(templateAst.attrsMap)
       if (slot.bindings.name) {

@@ -143,6 +143,26 @@ export class Render {
   slotRender(slotsRes: SlotResult[]) {
     const slotConfig = (this.options as RenderOptions).slots
     let code = this.renderTabelHeader(slotConfig)
+
+    // If the template and script contain slots with the same name,
+    // only the slots in the template are rendered
+    const slotInTemplate: SlotResult[] = []
+    const slotInScript: SlotResult[] = []
+    slotsRes.forEach((slot: SlotResult) => {
+      slot.target === 'template'
+        ? slotInTemplate.push(slot)
+        : slotInScript.push(slot)
+    })
+
+    slotsRes = slotInTemplate.concat(
+      slotInScript.filter(ss => {
+        for (let i = 0; i < slotInTemplate.length; i++) {
+          if (ss.name === slotInTemplate[i].name) return false
+        }
+        return true
+      })
+    )
+
     slotsRes.forEach((slot: SlotResult) => {
       const row: string[] = []
       for (let i = 0; i < slotConfig.length; i++) {

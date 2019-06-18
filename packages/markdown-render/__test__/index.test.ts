@@ -33,7 +33,16 @@ test('Proper rendering of the table header', () => {
         describe: 'Table header',
         backerDesc: '`<th>{{title}}</th>`',
         bindings: {},
-        scoped: false
+        scoped: false,
+        target: 'template'
+      },
+      {
+        name: 'header',
+        describe: 'Table header',
+        backerDesc: '`<th>{{title}}</th>`',
+        bindings: {},
+        scoped: false,
+        target: 'script'
       }
     ],
     methods: [

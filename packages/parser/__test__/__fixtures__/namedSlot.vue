@@ -10,7 +10,11 @@
 
 <script>
 export default {
-
+  computed: {
+    hasBack() {
+      return this.$slots.header != null
+    }
+  }
 }
 </script>
 

@@ -91,6 +91,7 @@ export interface SlotResult {
   backerDesc: string
   bindings: AttrsMap
   scoped: boolean
+  target: 'template' | 'script'
 }
 
 export interface ParserOptions {

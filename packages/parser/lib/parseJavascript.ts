@@ -211,7 +211,8 @@ export function parseJavascript(ast: bt.File, options: ParserOptions = {}) {
                 ? slotsComments.content.join('')
                 : '',
               bindings: {},
-              scoped: true
+              scoped: true,
+              target: 'script'
             }
 
             options.onSlot(scopedSlots)
@@ -330,7 +331,8 @@ export function parseJavascript(ast: bt.File, options: ParserOptions = {}) {
                 ? slotsComments.content.join('')
                 : '',
               bindings: {},
-              scoped: false
+              scoped: false,
+              target: 'script'
             }
 
             options.onSlot(slotRes)

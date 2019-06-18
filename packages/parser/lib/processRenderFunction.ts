@@ -43,7 +43,8 @@ export function determineChildren(
         describe: '',
         backerDesc: '',
         scoped: false,
-        bindings: {}
+        bindings: {},
+        target: 'script'
       }
 
       const commentsRes: CommentResult = bt.isExpressionStatement(
