@@ -5,7 +5,8 @@ import {
   EventResult,
   MethodResult,
   SlotResult,
-  MixInResult
+  MixInResult,
+  ArgumentDelaration
 } from '@vuese/parser'
 import * as path from 'path'
 import * as fs from 'fs'
@@ -214,7 +215,9 @@ test('Correct handling of events', () => {
   expect(mockOnEvent.mock.calls.length).toBe(2)
   expect((arg1 as EventResult).name).toBe('click')
   expect(((arg1 as EventResult).describe as string[]).length).toBe(1)
-  expect(((arg1 as EventResult).argumentsDesc as string[]).length).toBe(1)
+  expect(
+    ((arg1 as EventResult).argumentsDesc as ArgumentDelaration[]).length
+  ).toBe(1)
   expect((arg1 as EventResult).describe).toMatchSnapshot()
   expect((arg1 as EventResult).argumentsDesc).toMatchSnapshot()
 
@@ -251,7 +254,9 @@ test('Correct handling of methods', () => {
   expect(mockOnMethod.mock.calls.length).toBe(1)
   expect((arg as MethodResult).name).toBe('fn')
   expect(((arg as MethodResult).describe as string[]).length).toBe(1)
-  expect(((arg as MethodResult).argumentsDesc as string[]).length).toBe(1)
+  expect(
+    ((arg as MethodResult).argumentsDesc as ArgumentDelaration[]).length
+  ).toBe(1)
   expect((arg as MethodResult).describe).toMatchSnapshot()
   expect((arg as MethodResult).argumentsDesc).toMatchSnapshot()
 })
@@ -274,7 +279,9 @@ test('The options in @Component should be parsed correctly', () => {
   expect(mockOnMethod.mock.calls.length).toBe(1)
   expect((arg as MethodResult).name).toBe('clear')
   expect(((arg as MethodResult).describe as string[]).length).toBe(1)
-  expect(((arg as MethodResult).argumentsDesc as string[]).length).toBe(1)
+  expect(
+    ((arg as MethodResult).argumentsDesc as ArgumentDelaration[]).length
+  ).toBe(1)
   expect((arg as MethodResult).describe).toMatchSnapshot()
   expect((arg as MethodResult).argumentsDesc).toMatchSnapshot()
 
@@ -282,7 +289,9 @@ test('The options in @Component should be parsed correctly', () => {
   expect(mockOnEvent.mock.calls.length).toBe(1)
   expect((arg1 as EventResult).name).toBe('onclear')
   expect(((arg1 as EventResult).describe as string[]).length).toBe(1)
-  expect(((arg1 as EventResult).argumentsDesc as string[]).length).toBe(1)
+  expect(
+    ((arg1 as EventResult).argumentsDesc as ArgumentDelaration[]).length
+  ).toBe(1)
   expect((arg1 as EventResult).describe).toMatchSnapshot()
   expect((arg1 as EventResult).argumentsDesc).toMatchSnapshot()
 
@@ -337,7 +346,9 @@ test('Class method', () => {
   expect(mockOnMethod.mock.calls.length).toBe(1)
   expect((arg as MethodResult).name).toBe('someMethod')
   expect(((arg as MethodResult).describe as string[]).length).toBe(1)
-  expect(((arg as MethodResult).argumentsDesc as string[]).length).toBe(1)
+  expect(
+    ((arg as MethodResult).argumentsDesc as ArgumentDelaration[]).length
+  ).toBe(1)
   expect((arg as MethodResult).describe).toMatchSnapshot()
   expect((arg as MethodResult).argumentsDesc).toMatchSnapshot()
 })
@@ -357,7 +368,9 @@ test('@Emit decorator', () => {
   expect(mockOnEvent.mock.calls.length).toBe(3)
   expect((arg1 as EventResult).name).toBe('on-click')
   expect(((arg1 as EventResult).describe as string[]).length).toBe(1)
-  expect(((arg1 as EventResult).argumentsDesc as string[]).length).toBe(1)
+  expect(
+    ((arg1 as EventResult).argumentsDesc as ArgumentDelaration[]).length
+  ).toBe(1)
   expect((arg1 as EventResult).describe).toMatchSnapshot()
   expect((arg1 as EventResult).argumentsDesc).toMatchSnapshot()
 

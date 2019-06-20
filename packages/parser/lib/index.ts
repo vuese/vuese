@@ -58,18 +58,25 @@ export interface PropsResult {
   describe?: string[]
 }
 
+export class ArgumentDelaration {
+  name: String | undefined
+  type: String | undefined
+  default: String | undefined
+  description: String | undefined
+}
+
 export interface EventResult {
   name: string
   isSync: boolean
   syncProp: string
   describe?: string[]
-  argumentsDesc?: string[]
+  argumentsDesc?: ArgumentDelaration[]
 }
 
 export interface MethodResult {
   name: string
   describe?: string[]
-  argumentsDesc?: string[]
+  argumentsDesc?: ArgumentDelaration[]
 }
 
 export interface ComputedResult {

@@ -20,6 +20,7 @@ import {
 import { processEventName, getEmitDecorator } from './processEvents'
 import { determineChildren } from './processRenderFunction'
 import { Seen } from './seen'
+import { processArguments } from './processArguments'
 
 export function parseJavascript(ast: bt.File, options: ParserOptions = {}) {
   const seenEvent = new Seen()
@@ -131,7 +132,7 @@ export function parseJavascript(ast: bt.File, options: ParserOptions = {}) {
                 const result: MethodResult = {
                   name: node.key.name,
                   describe: commentsRes.default,
-                  argumentsDesc: commentsRes.arg
+                  argumentsDesc: processArguments(commentsRes.arg)
                 }
                 onMethod(result)
               }
@@ -243,7 +244,7 @@ export function parseJavascript(ast: bt.File, options: ParserOptions = {}) {
             const result: MethodResult = {
               name: (node.key as bt.Identifier).name,
               describe: commentsRes.default,
-              argumentsDesc: commentsRes.arg
+              argumentsDesc: processArguments(commentsRes.arg)
             }
             if (options.onMethod) options.onMethod(result)
           }

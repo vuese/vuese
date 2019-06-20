@@ -24,7 +24,14 @@ test('Proper rendering of the table header', () => {
         isSync: false,
         syncProp: '',
         describe: ['Triggered when clicked'],
-        argumentsDesc: ['a boolean value']
+        argumentsDesc: [
+          {
+            name: 'test',
+            type: 'Boolean',
+            default: 'false',
+            description: 'a boolean value'
+          }
+        ]
       }
     ],
     slots: [
@@ -49,13 +56,21 @@ test('Proper rendering of the table header', () => {
       {
         name: 'clear',
         describe: ['Clear form'],
-        argumentsDesc: ['a boolean value']
+        argumentsDesc: [
+          {
+            name: 'test',
+            type: 'Boolean',
+            default: 'false',
+            description: 'a boolean value'
+          }
+        ]
       }
     ]
   }
   const render = new Render(res)
   const renderRes: RenderResult = render.render()
   const markdownRes = render.renderMarkdown() as MarkdownResult
+  console.log(renderRes)
   expect(renderRes).toMatchSnapshot()
   expect(markdownRes).toMatchSnapshot()
 })

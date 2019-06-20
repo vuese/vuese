@@ -12,7 +12,9 @@ Array [
 
 exports[`@Emit decorator 2`] = `
 Array [
-  "The argument is a boolean value representing xxx",
+  ArgumentDelaration {
+    "description": "The argument is a boolean value representing xxx",
+  },
 ]
 `;
 
@@ -36,7 +38,9 @@ Array [
 
 exports[`Class method 2`] = `
 Array [
-  "The first parameter is a Boolean value that represents...",
+  ArgumentDelaration {
+    "description": "The first parameter is a Boolean value that represents...",
+  },
 ]
 `;
 
@@ -48,7 +52,9 @@ Array [
 
 exports[`Correct handling of events 2`] = `
 Array [
-  "The first parameter is a Boolean value that represents...",
+  ArgumentDelaration {
+    "description": "The first parameter is a Boolean value that represents...",
+  },
 ]
 `;
 
@@ -64,7 +70,9 @@ Array [
 
 exports[`Correct handling of methods 2`] = `
 Array [
-  "The first parameter is a Boolean value that represents...",
+  ArgumentDelaration {
+    "description": "The first parameter is a Boolean value that represents...",
+  },
 ]
 `;
 
@@ -165,7 +173,9 @@ Array [
 
 exports[`The options in @Component should be parsed correctly 2`] = `
 Array [
-  "The first parameter is a Boolean value that represents...",
+  ArgumentDelaration {
+    "description": "The first parameter is a Boolean value that represents...",
+  },
 ]
 `;
 
@@ -177,7 +187,9 @@ Array [
 
 exports[`The options in @Component should be parsed correctly 4`] = `
 Array [
-  "The argument is a boolean value representing xxx",
+  ArgumentDelaration {
+    "description": "The argument is a boolean value representing xxx",
+  },
 ]
 `;
 

@@ -2,6 +2,7 @@ import * as bt from '@babel/types'
 import { NodePath } from '@babel/traverse'
 import { EventResult } from './index'
 import { getComments, CommentResult } from './jscomments'
+import { processArguments } from './processArguments'
 
 /**
  *
@@ -29,10 +30,10 @@ export function processEventName(
     // Use the trailing comments of the prev node
     allComments = getComments(cnodePath.getSibling(prevPathKey).node, true)
     result.describe = allComments.default
-    result.argumentsDesc = allComments.arg
+    result.argumentsDesc = processArguments(allComments.arg)
   } else {
     result.describe = allComments.default
-    result.argumentsDesc = allComments.arg
+    result.argumentsDesc = processArguments(allComments.arg)
   }
 }
 
