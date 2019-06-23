@@ -46,7 +46,7 @@ Visit the following 👇 link to intuitively feel `@vuese/parser`:
 [![](https://img.shields.io/npm/v/@vuese/markdown-render.svg)](https://www.npmjs.com/package/@vuese/markdown-render)
 [![](https://img.shields.io/npm/dm/@vuese/markdown-render.svg)](https://www.npmjs.com/package/@vuese/markdown-render)
 
-[@vuese/markdown-render](http://vuese.org/markdown-render/) receives the result of the Vue file parsed by [@vuese/parser](http://vuese.org/parser/) as a parameter,  generate a `markdown` string. [@vuese/markdown-render](http://vuese.org/markdown-render/) is also used for [@vuese/cli](http://vuese.org/cli/)'s document generation, in other words, you can use [@vuese/markdown-render](http://vuese.org/markdown-render/) and [@vuese/parser](http://vuese.org/parser/) alone to write your own `CLI` tool to do something interesting.
+[@vuese/markdown-render](http://vuese.org/markdown-render/) receives the result of the Vue file parsed by [@vuese/parser](http://vuese.org/parser/) as a parameter, generate a `markdown` string. [@vuese/markdown-render](http://vuese.org/markdown-render/) is also used for [@vuese/cli](http://vuese.org/cli/)'s document generation, in other words, you can use [@vuese/markdown-render](http://vuese.org/markdown-render/) and [@vuese/parser](http://vuese.org/parser/) alone to write your own `CLI` tool to do something interesting.
 
 ## @vuese/loader
 
@@ -54,11 +54,11 @@ Visit the following 👇 link to intuitively feel `@vuese/parser`:
 
 Our goal is to focus only on the parts that can be automated, and does not limit how your document project is organized and what document framework is used. Of course, we can also provide fast solutions.
 
-[WIP] [TODO]
+[WIP][todo]
 
 ## @vuese/webpack-plugin
 
-[WIP] [TODO]
+[WIP][todo]
 
 ## Roadmap
 
@@ -72,6 +72,49 @@ Planning for vuese2.x: [Read our roadmap](https://github.com/vuese/roadmap)
 4. Push to the branch: `git push origin my-new-feature`
 5. Submit a pull request :D
 
+Instructions on how to run the library locally can be found [here](./LOCAL_RUN.md)
+
+### Developer Resources
+
+<details><summary>Running a Local Build</summary>
+<p>
+
+In root directory of your Vuese project:
+
+1. Run `yarn run build`
+2. Run `yarn link`
+
+In project that you want to use the libaries:
+
+1. If `@vuese/cli` is not yet installed, add it: `yarn add @vuese/cli`
+2. Run `yarn link vuese-monorepo`
+3. Navigate to `node_modules/.bin` and open `vuese.cmd` and `vuese`
+4. Change any instance of `@vuese` to `vuese-monorepo\packages` in both files
+
+To generate the documentation locally, run the vuese binary from `node_modules/.bin` :
+
+1. Run `node_modules\.bin\vuese gen` (cmd)
+   or
+1. Run `node_modules/.bin/vuese gen` (powershell)
+
+</p>
+</details>
+
+<details><summary>Samples</summary>
+<p>
+
+#### Component Notation
+
+1. [Samples/Components Folder](/samples/components)
+2. [Vuese Explorer](https://vuese.github.io/vuese-explorer/)
+
+#### Component Documentation
+
+1. [Samples/Docs Folder](/samples/docs)
+
+</p>
+</details>
+
 Get started immediately in a free online dev environment:
 
 [![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/vuese/vuese)
@@ -84,6 +127,7 @@ Thanks goes to these wonderful people:
 <!-- prettier-ignore -->
 | [<img src="https://avatars2.githubusercontent.com/u/14146560?v=4" width="100px;"/><br /><sub><b>HcySunYang</b></sub>](http://hcysun.me/homepage)<br />[💻](https://github.com/HcySunYang/vuese/commits?author=HcySunYang "Code") [⚠️](https://github.com/HcySunYang/vuese/commits?author=HcySunYang "Tests") [📖](https://github.com/HcySunYang/vuese/commits?author=HcySunYang "Documentation") [💡](#example-HcySunYang "Examples") | [<img src="https://avatars1.githubusercontent.com/u/5592465?v=4" width="100px;"/><br /><sub><b>Barthélémy Ledoux</b></sub>](https://github.com/elevatebart)<br />[🐛](https://github.com/HcySunYang/vuese/issues?q=author%3Aelevatebart "Bug reports") [💻](https://github.com/HcySunYang/vuese/commits?author=elevatebart "Code") | [<img src="https://avatars1.githubusercontent.com/u/17594215?v=4" width="100px;"/><br /><sub><b>Bernhard Wittmann</b></sub>](http://bernhardwittmann.com)<br />[💻](https://github.com/HcySunYang/vuese/commits?author=BerniWittmann "Code") [🤔](#ideas-BerniWittmann "Ideas, Planning, & Feedback") | [<img src="https://avatars2.githubusercontent.com/u/11501493?v=4" width="100px;"/><br /><sub><b>Steve Young</b></sub>](https://buptsteve.github.io)<br />[🐛](https://github.com/HcySunYang/vuese/issues?q=author%3ABuptStEve "Bug reports") [💻](https://github.com/HcySunYang/vuese/commits?author=BuptStEve "Code") | [<img src="https://avatars3.githubusercontent.com/u/15170275?v=4" width="100px;"/><br /><sub><b>wulunyi</b></sub>](https://github.com/wulunyi)<br />[💻](https://github.com/HcySunYang/vuese/commits?author=wulunyi "Code") | [<img src="https://avatars2.githubusercontent.com/u/5432828?v=4" width="100px;"/><br /><sub><b>Estelle00</b></sub>](https://github.com/Estelle00)<br />[💻](https://github.com/HcySunYang/vuese/commits?author=Estelle00 "Code") | [<img src="https://avatars2.githubusercontent.com/u/8364818?v=4" width="100px;"/><br /><sub><b>Matt Roxburgh</b></sub>](https://github.com/roxburghm)<br />[🐛](https://github.com/HcySunYang/vuese/issues?q=author%3Aroxburghm "Bug reports") [💻](https://github.com/HcySunYang/vuese/commits?author=roxburghm "Code") |
 | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
+
 <!-- ALL-CONTRIBUTORS-LIST:END -->
 
 ## Author

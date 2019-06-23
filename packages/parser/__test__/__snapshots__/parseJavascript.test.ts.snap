@@ -211,3 +211,93 @@ exports[`The validator function should be used as a string representation 1`] = 
 `;
 
 exports[`When the \`type\` definition contains \`Function\`, should get a string representation of the \`default\` function. 1`] = `"default() {}"`;
+
+exports[`computed in the object 1`] = `
+Array [
+  "String",
+]
+`;
+
+exports[`computed in the object 2`] = `
+Array [
+  "Returns filtered paths",
+]
+`;
+
+exports[`computed in the object 3`] = `false`;
+
+exports[`computed in the object 4`] = `
+Array [
+  "Array",
+]
+`;
+
+exports[`computed in the object 5`] = `
+Array [
+  "Returns filtered paths",
+]
+`;
+
+exports[`computed in the object 6`] = `true`;
+
+exports[`data in the object 1`] = `"Number"`;
+
+exports[`data in the object 2`] = `
+Array [
+  "Is a value",
+]
+`;
+
+exports[`data in the object 3`] = `"5"`;
+
+exports[`data in the object 4`] = `"String"`;
+
+exports[`data in the object 5`] = `
+Array [
+  "Is a string variable",
+]
+`;
+
+exports[`data in the object 6`] = `"A String"`;
+
+exports[`data in the object 7`] = `"Array"`;
+
+exports[`data in the object 8`] = `
+Array [
+  "Is an array variable",
+]
+`;
+
+exports[`data in the object 9`] = `"[An,Array]"`;
+
+exports[`watch in the object 1`] = `
+Array [
+  "Stores paths in store",
+]
+`;
+
+exports[`watch in the object 2`] = `
+Array [
+  "val - the value",
+]
+`;
+
+exports[`watch in the object 3`] = `
+Array [
+  "Sets the current page to 1",
+]
+`;
+
+exports[`watch in the object 4`] = `
+Array [
+  "variable - does something",
+]
+`;
+
+exports[`watch in the object 5`] = `
+Array [
+  "Sets the current page to 1",
+]
+`;
+
+exports[`watch in the object 6`] = `undefined`;

@@ -5,7 +5,10 @@ import {
   EventResult,
   MethodResult,
   SlotResult,
-  MixInResult
+  MixInResult,
+  DataResult,
+  ComputedResult,
+  WatchResult
 } from '@vuese/parser'
 import * as path from 'path'
 import * as fs from 'fs'
@@ -484,6 +487,105 @@ test('Mixin in the object', () => {
   expect((arg1 as MixInResult).mixIn).toBe('MixinA')
   expect((arg2 as MixInResult).mixIn).toBe('MixinB')
   expect((arg3 as MixInResult).mixIn).toBe('MixinC')
+})
+
+test('data in the object', () => {
+  const sfc: AstResult = getAST('data.vue')
+  const mockOnData = jest.fn(() => {})
+  const options: ParserOptions = {
+    onData: mockOnData
+  }
+  parseJavascript(sfc.jsAst as bt.File, options)
+
+  expect(mockOnData.mock.calls.length).toBe(3)
+  const arg1 = mockOnData.mock.calls[0][0]
+  const arg2 = mockOnData.mock.calls[1][0]
+  const arg3 = mockOnData.mock.calls[2][0]
+
+  expect((arg1 as DataResult).name).toBe('value')
+  expect((arg1 as DataResult).type).toBe('Number')
+  expect(((arg1 as DataResult).describe as string[]).length).toBe(1)
+  expect((arg1 as DataResult).default).toBe('5')
+  expect((arg1 as DataResult).type).toMatchSnapshot()
+  expect((arg1 as DataResult).describe).toMatchSnapshot()
+  expect((arg1 as DataResult).default).toMatchSnapshot()
+
+  expect((arg2 as DataResult).name).toBe('stringVariable')
+  expect((arg2 as DataResult).type).toBe('String')
+  expect(((arg2 as DataResult).describe as string[]).length).toBe(1)
+  expect((arg2 as DataResult).default).toBe('A String')
+  expect((arg2 as DataResult).type).toMatchSnapshot()
+  expect((arg2 as DataResult).describe).toMatchSnapshot()
+  expect((arg2 as DataResult).default).toMatchSnapshot()
+
+  expect((arg3 as DataResult).name).toBe('arrayVariable')
+  expect((arg3 as DataResult).type).toBe('Array')
+  expect(((arg3 as DataResult).describe as string[]).length).toBe(1)
+  expect((arg3 as DataResult).default).toBe('[An,Array]')
+  expect((arg3 as DataResult).type).toMatchSnapshot()
+  expect((arg3 as DataResult).describe).toMatchSnapshot()
+  expect((arg3 as DataResult).default).toMatchSnapshot()
+})
+
+test('computed in the object', () => {
+  const sfc: AstResult = getAST('computed.vue')
+  const mockOnComputed = jest.fn(() => {})
+  const options: ParserOptions = {
+    onComputed: mockOnComputed
+  }
+  parseJavascript(sfc.jsAst as bt.File, options)
+
+  expect(mockOnComputed.mock.calls.length).toBe(2)
+  const arg1 = mockOnComputed.mock.calls[0][0]
+  const arg2 = mockOnComputed.mock.calls[1][0]
+
+  expect((arg1 as ComputedResult).name).toBe('normalComputedValue')
+  expect((arg1 as ComputedResult).type).toEqual(['String'])
+  expect(((arg1 as ComputedResult).describe as string[]).length).toBe(1)
+  expect((arg1 as ComputedResult).isFromStore).toBe(false)
+  expect((arg1 as ComputedResult).type).toMatchSnapshot()
+  expect((arg1 as ComputedResult).describe).toMatchSnapshot()
+  expect((arg1 as ComputedResult).isFromStore).toMatchSnapshot()
+
+  expect((arg2 as ComputedResult).name).toBe('storeValue')
+  expect((arg2 as ComputedResult).type).toEqual(['Array'])
+  expect(((arg2 as ComputedResult).describe as string[]).length).toBe(1)
+  expect((arg2 as ComputedResult).isFromStore).toBe(true)
+  expect((arg2 as ComputedResult).type).toMatchSnapshot()
+  expect((arg2 as ComputedResult).describe).toMatchSnapshot()
+  expect((arg2 as ComputedResult).isFromStore).toMatchSnapshot()
+})
+
+test('watch in the object', () => {
+  const sfc: AstResult = getAST('watch.vue')
+  const mockOnWatch = jest.fn(() => {})
+  const options: ParserOptions = {
+    onWatch: mockOnWatch
+  }
+  parseJavascript(sfc.jsAst as bt.File, options)
+
+  expect(mockOnWatch.mock.calls.length).toBe(3)
+  const arg1 = mockOnWatch.mock.calls[0][0]
+  const arg2 = mockOnWatch.mock.calls[1][0]
+  const arg3 = mockOnWatch.mock.calls[2][0]
+
+  expect((arg1 as WatchResult).name).toBe('watchArrow')
+  expect(((arg1 as WatchResult).describe as string[]).length).toBe(1)
+  expect(((arg1 as WatchResult).argumentsDesc as string[]).length).toBe(1)
+  expect((arg1 as WatchResult).describe).toMatchSnapshot()
+  expect((arg1 as WatchResult).argumentsDesc).toMatchSnapshot()
+
+  expect((arg2 as WatchResult).name).toBe('watchFunction')
+  expect(((arg2 as WatchResult).describe as string[]).length).toBe(1)
+  expect(((arg2 as WatchResult).argumentsDesc as string[]).length).toBe(1)
+  expect((arg2 as WatchResult).describe).toMatchSnapshot()
+  expect((arg2 as WatchResult).argumentsDesc).toMatchSnapshot()
+
+  expect((arg3 as WatchResult).name).toBe('noArgument')
+  expect(((arg3 as WatchResult).describe as string[]).length).toBe(1)
+  expect((arg3 as WatchResult).argumentsDesc).toBe(undefined)
+  expect((arg3 as WatchResult).describe).toMatchSnapshot()
+  expect((arg3 as WatchResult).argumentsDesc).toMatchSnapshot()
 })
 
 test('Set jsx to false to use `<any>Var` in ts', () => {

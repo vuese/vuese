@@ -65,3 +65,42 @@ export function getValueFromGenerate(node: any) {
     console.error(e)
   }
 }
+
+export function computesFromStore(node: any): boolean {
+  if (node === undefined) {
+    return false
+  }
+
+  let fromStore = false
+  if (bt.isObjectMethod(node) || bt.isArrowFunctionExpression(node)) {
+    fromStore = computesFromStore(node.body)
+  } else if (bt.isObjectProperty(node)) {
+    fromStore = computesFromStore(node.value)
+  } else if (bt.isBlockStatement(node)) {
+    fromStore = computesFromStore(node.body[node.body.length - 1])
+  } else if (bt.isCallExpression(NodePath)) {
+    fromStore = computesFromStore(node.callee)
+  } else if (bt.isMemberExpression(node)) {
+    if (bt.isThisExpression(node.object)) {
+      fromStore = node.property.name.toLowerCase().includes('store')
+    } else {
+      fromStore = computesFromStore(node.object)
+    }
+  } else if (bt.isReturnStatement(node) || node.type.includes('Expression')) {
+    fromStore = computesFromStore(node.argument)
+  }
+
+  return fromStore
+}
+
+export function getLiteralValue(node: bt.Node): string {
+  let data = ''
+  if (
+    bt.isStringLiteral(node) ||
+    bt.isBooleanLiteral(node) ||
+    bt.isNumericLiteral(node)
+  ) {
+    data = node.value.toString()
+  }
+  return data
+}

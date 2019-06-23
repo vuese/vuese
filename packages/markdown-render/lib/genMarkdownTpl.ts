@@ -16,6 +16,8 @@ export default function(parserRes: ParserResult) {
   templateStr += parserRes.methods ? genBaseTemplate('methods') : ''
   templateStr += parserRes.computed ? genBaseTemplate('computed') : ''
   templateStr += parserRes.mixIns ? genBaseTemplate('mixIns') : ''
+  templateStr += parserRes.data ? genBaseTemplate('data') : ''
+  templateStr += parserRes.watch ? genBaseTemplate('watch') : ''
 
   return !forceGenerate && original === templateStr ? '' : templateStr
 }
