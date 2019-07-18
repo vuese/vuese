@@ -112,10 +112,10 @@ export class Render {
               desc = prop.describe.concat(prop.validatorDesc)
             }
           }
-          row.push(desc.join(''))
+          row.push(desc.join(' '))
         } else if (propConfig[i] === 'Type') {
           if (prop.typeDesc) {
-            row.push(prop.typeDesc.join(''))
+            row.push(prop.typeDesc.join(' '))
           } else if (!prop.type) {
             row.push('—')
           } else if (typeof prop.type === 'string') {
@@ -124,7 +124,7 @@ export class Render {
             row.push(
               prop.type
                 .map(t => `\`${t}\` / `)
-                .join('')
+                .join(' ')
                 .slice(0, -3)
             )
           } else {
@@ -140,7 +140,7 @@ export class Render {
           }
         } else if (propConfig[i] === 'Default') {
           if (prop.defaultDesc) {
-            row.push(prop.defaultDesc.join(''))
+            row.push(prop.defaultDesc.join(' '))
           } else if (prop.default) {
             row.push(prop.default)
           } else {
@@ -216,13 +216,13 @@ export class Render {
           row.push(event.name)
         } else if (eventConfig[i] === 'Description') {
           if (event.describe && event.describe.length) {
-            row.push(event.describe.join(''))
+            row.push(event.describe.join(' '))
           } else {
             row.push('-')
           }
         } else if (eventConfig[i] === 'Parameters') {
           if (event.argumentsDesc) {
-            row.push(event.argumentsDesc.join(''))
+            row.push(event.argumentsDesc.join(' '))
           } else {
             row.push('-')
           }
@@ -246,13 +246,13 @@ export class Render {
           row.push(method.name)
         } else if (methodConfig[i] === 'Description') {
           if (method.describe) {
-            row.push(method.describe.join(''))
+            row.push(method.describe.join(' '))
           } else {
             row.push('-')
           }
         } else if (methodConfig[i] === 'Parameters') {
           if (method.argumentsDesc) {
-            row.push(method.argumentsDesc.join(''))
+            row.push(method.argumentsDesc.join(' '))
           } else {
             row.push('-')
           }
@@ -276,14 +276,14 @@ export class Render {
           row.push(computed.name)
         } else if (computedConfig[i] === 'Type') {
           if (computed.type) {
-            row.push(`\`${computed.type.join('')}\``)
+            row.push(`\`${computed.type.join(' ')}\``)
             row.push()
           } else {
             row.push('-')
           }
         } else if (computedConfig[i] === 'Description') {
           if (computed.describe) {
-            row.push(computed.describe.join(''))
+            row.push(computed.describe.join(' '))
           } else {
             row.push('-')
           }
@@ -331,7 +331,7 @@ export class Render {
           row.push(data.name)
         } else if (dataConfig[i] === 'Description') {
           if (data.describe) {
-            row.push(data.describe.join(''))
+            row.push(data.describe.join(' '))
           } else {
             row.push('-')
           }
@@ -367,13 +367,13 @@ export class Render {
           row.push(watch.name)
         } else if (watchConfig[i] === 'Description') {
           if (watch.describe) {
-            row.push(watch.describe.join(''))
+            row.push(watch.describe.join(' '))
           } else {
             row.push('-')
           }
         } else if (watchConfig[i] === 'Parameters') {
           if (watch.argumentsDesc) {
-            row.push(watch.argumentsDesc.join(''))
+            row.push(watch.argumentsDesc.join(' '))
           } else {
             row.push('-')
           }
