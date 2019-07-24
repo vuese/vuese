@@ -93,6 +93,7 @@ cli
   .option('--open', 'Open the browser automatically')
   .option('--host [host]', 'Host name')
   .option('--port [port]', 'The port number')
+  .allowUnknownOptions()
   .action(async flags => {
     const config = await getConfig(flags)
     server(config as CliOptions)
