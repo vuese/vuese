@@ -184,6 +184,34 @@ test('Get comments as a description', () => {
   expect(arg.describe).toMatchSnapshot()
 })
 
+test('Get comments maintaining markdown code blocks original indentation', () => {
+  const sfc: AstResult = getAST('markdownCodeBlocks.vue')
+  const mockOnDesc = jest.fn(() => {})
+  const options: ParserOptions = {
+    onDesc: mockOnDesc
+  }
+  parseJavascript(sfc.jsAst as bt.File, options)
+  const arg = mockOnDesc.mock.calls[0][0]
+
+  expect(mockOnDesc.mock.calls.length).toBe(1)
+  expect((arg.default as []).length).toBe(10)
+  expect(arg.default).toMatchSnapshot()
+})
+
+test('Get comments maintaining markdown code blocks original indentation with block comment', () => {
+  const sfc: AstResult = getAST('markdownCodeBlocksWithBlockComment.vue')
+  const mockOnDesc = jest.fn(() => {})
+  const options: ParserOptions = {
+    onDesc: mockOnDesc
+  }
+  parseJavascript(sfc.jsAst as bt.File, options)
+  const arg = mockOnDesc.mock.calls[0][0]
+
+  expect(mockOnDesc.mock.calls.length).toBe(1)
+  expect((arg.default as []).length).toBe(10)
+  expect(arg.default).toMatchSnapshot()
+})
+
 test('Gets a description of the default value and a description of the validator', () => {
   const sfc: AstResult = getAST('propFieldComment.vue')
   const mockOnProp = jest.fn(() => {})

@@ -80,6 +80,36 @@ Array [
 ]
 `;
 
+exports[`Get comments maintaining markdown code blocks original indentation 1`] = `
+Array [
+  "Use this component to do awesome things.",
+  "Example:",
+  "\`\`\`xml",
+  "<my-component-wrapper>",
+  "  <my-component-main>",
+  "    <another-component />",
+  "  </my-component-main>",
+  "</my-component-wrapper>",
+  "\`\`\`",
+  "Any other comment",
+]
+`;
+
+exports[`Get comments maintaining markdown code blocks original indentation with block comment 1`] = `
+Array [
+  "Use this component to do awesome things.",
+  "Example:",
+  "\`\`\`xml",
+  "<my-component-wrapper>",
+  "  <my-component-main>",
+  "    <another-component />",
+  "  </my-component-main>",
+  "</my-component-wrapper>",
+  "\`\`\`",
+  "Any other comment",
+]
+`;
+
 exports[`Get the component name correctly 1`] = `
 Object {
   "default": Array [
