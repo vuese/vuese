@@ -4,7 +4,7 @@ export interface CommentResult {
   default: string[]
   [key: string]: string[]
 }
-const commentRE = /\s*\*\s*/g
+const commentRE = /\s*\*\s{1}/g
 const leadRE = /^@(\w+)\b/
 
 /**
@@ -21,10 +21,23 @@ export function getComments(cnode: bt.Node, trailing?: boolean): CommentResult {
   if (!commentNodes || !commentNodes.length) return res
 
   let comments: string | string[] = '',
-    matchs: RegExpMatchArray | null
+    matchs: RegExpMatchArray | null,
+    codeBlockStarted: boolean
   ;(commentNodes as []).forEach((node: bt.Comment) => {
     if (isCommentLine(node)) {
-      comments = node.value.trim()
+      if (isCodeBlockDeclaration(node.value) && codeBlockStarted)
+        codeBlockStarted = false
+
+      comments = codeBlockStarted
+        ? node.value.replace(/^\s/, '')
+        : node.value.trim()
+
+      if (
+        isCodeBlockDeclaration(node.value) &&
+        typeof codeBlockStarted === 'undefined'
+      )
+        codeBlockStarted = true
+
       matchs = comments.match(leadRE)
       if (matchs) {
         const key: string = matchs[1]
@@ -38,8 +51,7 @@ export function getComments(cnode: bt.Node, trailing?: boolean): CommentResult {
         .replace(commentRE, '\n')
         .replace(/^\*/, '')
         .split('\n')
-        .map(t => t.trim())
-        .filter(t => t)
+      comments = filterBlockComments(comments)
       let currentKey = 'default'
       ;(comments as string[]).forEach(c => {
         if ((matchs = c.match(leadRE))) {
@@ -84,4 +96,26 @@ export function isCommentLine(node: { type: string }): boolean {
 
 export function isCommentBlock(node: { type: string }): boolean {
   return node.type === 'CommentBlock'
+}
+
+export function isCodeBlockDeclaration(value: string): boolean {
+  return value.indexOf('```') > -1
+}
+
+export function filterBlockComments(comments: string[]): string[] {
+  let codeBlockStarted: boolean
+
+  return comments
+    .map(t => {
+      if (isCodeBlockDeclaration(t) && codeBlockStarted)
+        codeBlockStarted = false
+
+      const res: string = codeBlockStarted ? t : t.trim()
+
+      if (isCodeBlockDeclaration(t) && typeof codeBlockStarted === 'undefined')
+        codeBlockStarted = true
+
+      return res
+    })
+    .filter(t => t)
 }

@@ -45,7 +45,7 @@
   },
   "lint-staged": {
     "*.ts": [
-      "npm run lint",
+      "yarn run lint",
       "git add"
     ]
   },
