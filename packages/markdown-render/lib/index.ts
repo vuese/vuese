@@ -7,7 +7,11 @@ import {
   DataResult,
   MethodResult,
   ComputedResult,
-  WatchResult
+  WatchResult,
+  GetterResult,
+  ActionResult,
+  MutationResult,
+  StateResult
 } from '@vuese/parser'
 import renderMarkdown, { MarkdownResult } from './renderMarkdown'
 
@@ -22,6 +26,10 @@ interface RenderOptions {
   mixIns: string[]
   data: string[]
   watch: string[]
+  getters: string[]
+  actions: string[]
+  mutations: string[]
+  state: string[]
 }
 
 export interface RenderResult {
@@ -33,6 +41,10 @@ export interface RenderResult {
   mixIns?: string
   data?: string
   watch?: string
+  getters?: string
+  actions?: string
+  mutations?: string
+  state?: string
 }
 
 export class Render {
@@ -50,7 +62,11 @@ export class Render {
         computed: ['Computed', 'Type', 'Description', 'From Store'],
         mixIns: ['MixIn'],
         data: ['Name', 'Type', 'Description', 'Default'],
-        watch: ['Name', 'Description', 'Parameters']
+        watch: ['Name', 'Description', 'Parameters'],
+        getters: ['Getter', 'Type', 'Description'],
+        actions: ['Action', 'Description', 'Parameters'],
+        mutations: ['Mutation', 'Description', 'Parameters'],
+        state: ['Name', 'Description']
       },
       this.options
     )
@@ -65,7 +81,11 @@ export class Render {
       mixIns,
       data,
       computed,
-      watch
+      watch,
+      getters,
+      actions,
+      mutations,
+      state
     } = this.parserResult
     let md: RenderResult = {}
     if (props) {
@@ -91,6 +111,18 @@ export class Render {
     }
     if (watch) {
       md.watch = this.watchRender(watch)
+    }
+    if (getters) {
+      md.getters = this.getterRender(getters)
+    }
+    if (actions) {
+      md.actions = this.actionRender(actions)
+    }
+    if (mutations) {
+      md.mutations = this.mutationRender(mutations)
+    }
+    if (state) {
+      md.state = this.stateRender(state)
     }
 
     return md
@@ -374,6 +406,121 @@ export class Render {
         } else if (watchConfig[i] === 'Parameters') {
           if (watch.argumentsDesc) {
             row.push(watch.argumentsDesc.join(' '))
+          } else {
+            row.push('-')
+          }
+        } else {
+          row.push('-')
+        }
+      }
+      code += this.renderTabelRow(row)
+    })
+
+    return code
+  }
+
+  getterRender(getterRes: GetterResult[]) {
+    const getterConfig = (this.options as RenderOptions).getters
+    let code = this.renderTabelHeader(getterConfig)
+    getterRes.forEach((getter: GetterResult) => {
+      const row: string[] = []
+      for (let i = 0; i < getterConfig.length; i++) {
+        if (getterConfig[i] === 'Getter') {
+          row.push(getter.name)
+        } else if (getterConfig[i] === 'Type') {
+          if (getter.type) {
+            row.push(`\`${getter.type.join(' ')}\``)
+            row.push()
+          } else {
+            row.push('-')
+          }
+        } else if (getterConfig[i] === 'Description') {
+          if (getter.describe) {
+            row.push(getter.describe.join(' '))
+          } else {
+            row.push('-')
+          }
+        } else {
+          row.push('-')
+        }
+      }
+      code += this.renderTabelRow(row)
+    })
+
+    return code
+  }
+
+  actionRender(actionRes: ActionResult[]) {
+    const actionConfig = (this.options as RenderOptions).actions
+    let code = this.renderTabelHeader(actionConfig)
+    actionRes.forEach((action: ActionResult) => {
+      const row: string[] = []
+      for (let i = 0; i < actionConfig.length; i++) {
+        if (actionConfig[i] === 'Action') {
+          row.push(action.name)
+        } else if (actionConfig[i] === 'Description') {
+          if (action.describe) {
+            row.push(action.describe.join(' '))
+          } else {
+            row.push('-')
+          }
+        } else if (actionConfig[i] === 'Parameters') {
+          if (action.argumentsDesc) {
+            row.push(action.argumentsDesc.join(' '))
+          } else {
+            row.push('-')
+          }
+        } else {
+          row.push('-')
+        }
+      }
+      code += this.renderTabelRow(row)
+    })
+
+    return code
+  }
+
+  mutationRender(mutationRes: MutationResult[]) {
+    const mutationConfig = (this.options as RenderOptions).mutations
+    let code = this.renderTabelHeader(mutationConfig)
+    mutationRes.forEach((mutation: MutationResult) => {
+      const row: string[] = []
+      for (let i = 0; i < mutationConfig.length; i++) {
+        if (mutationConfig[i] === 'Mutation') {
+          row.push(mutation.name)
+        } else if (mutationConfig[i] === 'Description') {
+          if (mutation.describe) {
+            row.push(mutation.describe.join(' '))
+          } else {
+            row.push('-')
+          }
+        } else if (mutationConfig[i] === 'Parameters') {
+          if (mutation.argumentsDesc) {
+            row.push(mutation.argumentsDesc.join(' '))
+          } else {
+            row.push('-')
+          }
+        } else {
+          row.push('-')
+        }
+      }
+      code += this.renderTabelRow(row)
+    })
+
+    return code
+  }
+
+  stateRender(stateRes: StateResult[]) {
+    const stateConfig = (this.options as RenderOptions).state
+    let code = this.renderTabelHeader(stateConfig)
+    stateRes.forEach((state: StateResult) => {
+      const row: string[] = []
+      for (let i = 0; i < stateConfig.length; i++) {
+        if (stateConfig[i] === 'Name') {
+          row.push(state.name)
+        } else if (stateConfig[i] === 'Description') {
+          if (state.describe) {
+            row.push(state.describe.join(' '))
           } else {
             row.push('-')
           }

@@ -66,6 +66,11 @@ export interface EventResult {
   argumentsDesc?: string[]
 }
 
+export interface StateResult {
+  name: string
+  describe?: string[]
+}
+
 export interface MethodResult {
   name: string
   describe?: string[]
@@ -109,6 +114,24 @@ export interface SlotResult {
   target: 'template' | 'script'
 }
 
+export interface GetterResult {
+  name: string
+  type?: string[]
+  describe?: string[]
+}
+
+export interface ActionResult {
+  name: string
+  describe?: string[]
+  argumentsDesc?: string[]
+}
+
+export interface MutationResult {
+  name: string
+  describe?: string[]
+  argumentsDesc?: string[]
+}
+
 export interface ParserOptions {
   onProp?: {
     (propsRes: PropsResult): void
@@ -140,7 +163,20 @@ export interface ParserOptions {
   onWatch?: {
     (watch: WatchResult): void
   }
+  onState?: {
+    (stateRes: StateResult): void
+  }
+  onGetter?: {
+    (getterRes: MethodResult): void
+  }
+  onMutation?: {
+    (mutationRes: MethodResult): void
+  }
+  onAction?: {
+    (actionRes: MethodResult): void
+  }
   babelParserPlugins?: BabelParserPlugins
+  jsFile?: any
 }
 
 export interface ParserResult {
@@ -149,6 +185,10 @@ export interface ParserResult {
   slots?: SlotResult[]
   mixIns?: MixInResult[]
   methods?: MethodResult[]
+  getters?: MethodResult[]
+  mutations?: MethodResult[]
+  actions?: MethodResult[]
+  state?: StateResult[]
   computed?: ComputedResult[]
   data?: DataResult[]
   watch?: WatchResult[]
@@ -160,7 +200,8 @@ export function parser(
   source: string,
   options: ParserOptions = {}
 ): ParserResult {
-  const astRes = sfcToAST(source, options.babelParserPlugins)
+  const astRes = sfcToAST(source, options.babelParserPlugins, options.jsFile)
+
   const res: ParserResult = {}
   const defaultOptions: ParserOptions = {
     onName(name: string) {
@@ -183,6 +224,18 @@ export function parser(
     },
     onMethod(methodRes: MethodResult) {
       ;(res.methods || (res.methods = [])).push(methodRes)
+    },
+    onGetter(getterRes: MethodResult) {
+      ;(res.getters || (res.getters = [])).push(getterRes)
+    },
+    onAction(actionRes: MethodResult) {
+      ;(res.actions || (res.actions = [])).push(actionRes)
+    },
+    onMutation(mutationRes: MethodResult) {
+      ;(res.mutations || (res.mutations = [])).push(mutationRes)
+    },
+    onState(stateRes: StateResult) {
+      ;(res.state || (res.state = [])).push(stateRes)
     },
     onComputed(computedRes: ComputedResult) {
       ;(res.computed || (res.computed = [])).push(computedRes)

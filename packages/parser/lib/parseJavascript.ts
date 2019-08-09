@@ -10,7 +10,11 @@ import {
   DataResult,
   MixInResult,
   SlotResult,
-  WatchResult
+  WatchResult,
+  GetterResult,
+  ActionResult,
+  MutationResult,
+  StateResult
 } from '@vuese/parser'
 import { getValueFromGenerate, isVueOption, computesFromStore } from './helper'
 import {
@@ -23,6 +27,29 @@ import { processDataValue } from './processData'
 import { processEventName, getEmitDecorator } from './processEvents'
 import { determineChildren } from './processRenderFunction'
 import { Seen } from './seen'
+
+function handleMethod(path: NodePath<bt.ObjectProperty>, handler: Function) {
+  const properties = (path.node.value as bt.ObjectExpression).properties.filter(
+    n => bt.isObjectMethod(n) || bt.isObjectProperty(n)
+  ) as (bt.ObjectMethod | bt.ObjectProperty)[]
+
+  properties.forEach(node => {
+    const commentsRes: CommentResult = getComments(node)
+    // Collect only methods that have @vuese annotations
+    if (commentsRes.vuese) {
+      const result:
+        | MethodResult
+        | GetterResult
+        | ActionResult
+        | MutationResult = {
+        name: node.key.name,
+        describe: commentsRes.default,
+        argumentsDesc: commentsRes.arg
+      }
+      handler(result)
+    }
+  })
+}
 
 export function parseJavascript(ast: bt.File, options: ParserOptions = {}) {
   const seenEvent = new Seen()
@@ -42,8 +69,40 @@ export function parseJavascript(ast: bt.File, options: ParserOptions = {}) {
             onSlot,
             onMixIn,
             onData,
-            onWatch
+            onWatch,
+            onGetter,
+            onAction,
+            onMutation,
+            onState
           } = options
+
+          // Processing store getters
+          if (onGetter && isVueOption(path, 'getters')) {
+            handleMethod(path, onGetter)
+          }
+
+          if (onAction && isVueOption(path, 'actions')) {
+            handleMethod(path, onAction)
+          }
+
+          if (onMutation && isVueOption(path, 'mutations')) {
+            handleMethod(path, onMutation)
+          }
+
+          if (onState && isVueOption(path, 'state')) {
+            const properties = (path.node.value as bt.ObjectExpression)
+              .properties as (bt.ObjectMethod | bt.ObjectProperty)[]
+
+            properties.forEach(node => {
+              const commentsRes: CommentResult = getComments(node)
+              const result: StateResult = {
+                name: node.key.name,
+                describe: commentsRes.default
+              }
+              onState(result)
+            })
+          }
+
           // Processing name
           if (isVueOption(path, 'name')) {
             let componentName = (path.node.value as bt.StringLiteral).value
@@ -155,25 +214,8 @@ export function parseJavascript(ast: bt.File, options: ParserOptions = {}) {
             })
           }
 
-          // Processing methods
           if (onMethod && isVueOption(path, 'methods')) {
-            const properties = (path.node
-              .value as bt.ObjectExpression).properties.filter(
-              n => bt.isObjectMethod(n) || bt.isObjectProperty(n)
-            ) as (bt.ObjectMethod | bt.ObjectProperty)[]
-
-            properties.forEach(node => {
-              const commentsRes: CommentResult = getComments(node)
-              // Collect only methods that have @vuese annotations
-              if (commentsRes.vuese) {
-                const result: MethodResult = {
-                  name: node.key.name,
-                  describe: commentsRes.default,
-                  argumentsDesc: commentsRes.arg
-                }
-                onMethod(result)
-              }
-            })
+            handleMethod(path, onMethod)
           }
 
           // Processing watch

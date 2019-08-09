@@ -18,6 +18,10 @@ export default function(parserRes: ParserResult) {
   templateStr += parserRes.mixIns ? genBaseTemplate('mixIns') : ''
   templateStr += parserRes.data ? genBaseTemplate('data') : ''
   templateStr += parserRes.watch ? genBaseTemplate('watch') : ''
+  templateStr += parserRes.getters ? genBaseTemplate('getters') : ''
+  templateStr += parserRes.actions ? genBaseTemplate('actions') : ''
+  templateStr += parserRes.mutations ? genBaseTemplate('mutations') : ''
+  templateStr += parserRes.state ? genBaseTemplate('state') : ''
 
   return !forceGenerate && original === templateStr ? '' : templateStr
 }
