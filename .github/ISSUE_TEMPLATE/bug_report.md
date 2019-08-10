@@ -22,7 +22,8 @@ A clear and concise description of what you expected to happen.
 **Screenshots**
 If applicable, add screenshots to help explain your problem.
 
-**Which version do you use:**
+**Environmental information:**
+For convenience, you can get environmental information by executing the `vuese info` command.
 
 **Additional information**
 Add any other information about the problem here.
