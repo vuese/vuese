@@ -8,6 +8,9 @@ import genDocute from './genDocute'
 import genMarkdown from './genMarkdown'
 import server from './server'
 
+// Gotta fix after https://github.com/tabrindle/envinfo/pull/105 gets merged (type-definitions)
+const envinfo = require('envinfo')
+
 const logger = Log.create()
 const cli = cac()
 const joycon = new JoyCon({
@@ -97,6 +100,22 @@ cli
   .action(async flags => {
     const config = await getConfig(flags)
     server(config as CliOptions)
+  })
+
+cli
+  .command(
+    'info',
+    'Show debugging information concerning the local environment'
+  )
+  .action(async () => {
+    logger.log('\nEnvironment Info:')
+    const data = await envinfo.run({
+      System: ['OS', 'CPU'],
+      Binaries: ['Node', 'Yarn', 'npm'],
+      Browsers: ['Chrome', 'Edge', 'Firefox', 'Safari'],
+      npmGlobalPackages: ['vuese']
+    })
+    logger.log(data)
   })
 
 cli.version(require('../package.json').version)

@@ -38,6 +38,7 @@
     "cac": "^6.4.0",
     "carlo": "^0.9.10",
     "chokidar": "^2.0.4",
+    "envinfo": "^7.3.1",
     "fast-glob": "^2.2.6",
     "fs-extra": "^7.0.1",
     "get-port": "^4.1.0",
