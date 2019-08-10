@@ -7,7 +7,7 @@
 <p align="center">This project is supported by our <a href="./BACKERS.md">Backers</a></p>
 <p align="center">
   <a href="https://circleci.com/gh/vue-contrib/vuese/tree/master"><img src="https://img.shields.io/circleci/project/github/vue-contrib/vuese/monorepo.svg" alt="build status"/></a>
-  <a href="https://github.com/vuese/vuese"><img src="https://img.shields.io/github/license/vuese/vuese.svg" alt="License"/></a>
+  <a href="https://github.com/vue-contrib/vuese/blob/monorepo/LICENSE"><img src="https://img.shields.io/github/license/vuese/vuese.svg" alt="License"/></a>
   <a href="http://commitizen.github.io/cz-cli/"><img src="https://img.shields.io/badge/commitizen-friendly-brightgreen.svg" alt="Commitizen friendly"/></a>
   <a href="https://github.com/prettier/prettier"><img src="https://img.shields.io/badge/code_style-prettier-ff69b4.svg" alt="Code style"/></a>
   <a href="https://www.patreon.com/HcySunYang"><img src="https://badgen.net/badge/support%20me/donate/ff00ff" alt="Support me"/></a>
