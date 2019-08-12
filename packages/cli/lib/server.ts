@@ -1,6 +1,6 @@
 import path from 'path'
 import getPort from 'get-port'
-import opn from 'opn'
+import open from 'open'
 import Log from 'log-horizon'
 import { CliOptions } from '.'
 
@@ -19,6 +19,6 @@ export default async (config: CliOptions) => {
   server.listen(port, config.host, () => {
     const addr = `http://${config.host}:${port}/`
     logger.success(`Server running at ${addr}`)
-    if (config.open) opn(addr)
+    if (config.open) open(addr)
   })
 }
