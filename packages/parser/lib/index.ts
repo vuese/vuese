@@ -116,7 +116,6 @@ export interface SlotResult {
 
 export interface GetterResult {
   name: string
-  type?: string[]
   describe?: string[]
 }
 
@@ -167,13 +166,13 @@ export interface ParserOptions {
     (stateRes: StateResult): void
   }
   onGetter?: {
-    (getterRes: MethodResult): void
+    (getterRes: GetterResult): void
   }
   onMutation?: {
-    (mutationRes: MethodResult): void
+    (mutationRes: MutationResult): void
   }
   onAction?: {
-    (actionRes: MethodResult): void
+    (actionRes: ActionResult): void
   }
   babelParserPlugins?: BabelParserPlugins
   jsFile?: any
@@ -185,9 +184,9 @@ export interface ParserResult {
   slots?: SlotResult[]
   mixIns?: MixInResult[]
   methods?: MethodResult[]
-  getters?: MethodResult[]
-  mutations?: MethodResult[]
-  actions?: MethodResult[]
+  getters?: GetterResult[]
+  mutations?: MutationResult[]
+  actions?: ActionResult[]
   state?: StateResult[]
   computed?: ComputedResult[]
   data?: DataResult[]

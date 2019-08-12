@@ -8,7 +8,11 @@ import {
   MixInResult,
   DataResult,
   ComputedResult,
-  WatchResult
+  WatchResult,
+  GetterResult,
+  ActionResult,
+  MutationResult,
+  StateResult
 } from '@vuese/parser'
 import * as path from 'path'
 import * as fs from 'fs'
@@ -17,11 +21,12 @@ import * as bt from '@babel/types'
 
 function getAST(
   fileName: string,
-  babelParserPlugins?: BabelParserPlugins
+  babelParserPlugins?: BabelParserPlugins,
+  jsFile?: boolean
 ): object {
   const p = path.resolve(__dirname, `./__fixtures__/${fileName}`)
   const source = fs.readFileSync(p, 'utf-8')
-  return sfcToAST(source, babelParserPlugins)
+  return sfcToAST(source, babelParserPlugins, jsFile)
 }
 
 test('Get the component name correctly', () => {
@@ -651,4 +656,69 @@ test('The default value of Props', () => {
   expect((arg1 as PropsResult).defaultDesc).toMatchSnapshot()
   expect((arg2 as PropsResult).defaultDesc).toMatchSnapshot()
   expect((arg3 as PropsResult).defaultDesc).toMatchSnapshot()
+})
+
+test('Correct handling of getters', () => {
+  const sfc: AstResult = getAST('store.js', { jsx: false }, true)
+  const mockOnGetter = jest.fn(() => {})
+  const options: ParserOptions = {
+    onGetter: mockOnGetter
+  }
+  parseJavascript(sfc.jsAst as bt.File, options)
+  const arg = mockOnGetter.mock.calls[0][0]
+
+  expect(mockOnGetter.mock.calls.length).toBe(1)
+  expect((arg as GetterResult).name).toBe('formattedObject')
+  expect(((arg as GetterResult).describe as string[]).length).toBe(1)
+  expect((arg as GetterResult).describe).toMatchSnapshot()
+})
+
+test('Correct handling of actions', () => {
+  const sfc: AstResult = getAST('store.js', { jsx: false }, true)
+  const mockOnAction = jest.fn(() => {})
+  const options: ParserOptions = {
+    onAction: mockOnAction
+  }
+  parseJavascript(sfc.jsAst as bt.File, options)
+  const arg = mockOnAction.mock.calls[0][0]
+
+  expect(mockOnAction.mock.calls.length).toBe(1)
+  expect((arg as ActionResult).name).toBe('fetchObject')
+  expect(((arg as ActionResult).describe as string[]).length).toBe(1)
+  expect(((arg as ActionResult).argumentsDesc as string[]).length).toBe(1)
+  expect((arg as ActionResult).describe).toMatchSnapshot()
+  expect((arg as ActionResult).argumentsDesc).toMatchSnapshot()
+})
+
+test('Correct handling of mutations', () => {
+  const sfc: AstResult = getAST('store.js', { jsx: false }, true)
+  const mockOnMutation = jest.fn(() => {})
+  const options: ParserOptions = {
+    onMutation: mockOnMutation
+  }
+  parseJavascript(sfc.jsAst as bt.File, options)
+  const arg = mockOnMutation.mock.calls[0][0]
+
+  expect(mockOnMutation.mock.calls.length).toBe(1)
+  expect((arg as MutationResult).name).toBe('MUTATE_OBJECT')
+  expect(((arg as MutationResult).describe as string[]).length).toBe(1)
+  expect(((arg as MutationResult).argumentsDesc as string[]).length).toBe(1)
+  expect((arg as MutationResult).describe).toMatchSnapshot()
+  expect((arg as MutationResult).argumentsDesc).toMatchSnapshot()
+})
+
+test('Correct handling of mutations', () => {
+  const sfc: AstResult = getAST('store.js', { jsx: false }, true)
+  const mockOnState = jest.fn(() => {})
+  const options: ParserOptions = {
+    onState: mockOnState
+  }
+  parseJavascript(sfc.jsAst as bt.File, options)
+
+  expect(mockOnState.mock.calls.length).toBe(1)
+  const arg = mockOnState.mock.calls[0][0]
+
+  expect((arg as StateResult).name).toBe('stateObject')
+  expect(((arg as StateResult).describe as string[]).length).toBe(1)
+  expect((arg as StateResult).describe).toMatchSnapshot()
 })

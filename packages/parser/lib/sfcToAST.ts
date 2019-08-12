@@ -23,7 +23,7 @@ export function sfcToAST(
   const res: AstResult = {}
 
   if ((sfc.script && sfc.script.content) || jsFile) {
-    res.sourceType = sfc.script ? sfc.script.lang : 'js'
+    res.sourceType = sfc.script && sfc.script.lang ? sfc.script.lang : 'js'
     res.jsAst = babelParse(jsFile ? source : sfc.script.content, {
       sourceType: 'module',
       plugins

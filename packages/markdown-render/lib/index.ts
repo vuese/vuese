@@ -63,7 +63,7 @@ export class Render {
         mixIns: ['MixIn'],
         data: ['Name', 'Type', 'Description', 'Default'],
         watch: ['Name', 'Description', 'Parameters'],
-        getters: ['Getter', 'Type', 'Description'],
+        getters: ['Getter', 'Description'],
         actions: ['Action', 'Description', 'Parameters'],
         mutations: ['Mutation', 'Description', 'Parameters'],
         state: ['Name', 'Description']
@@ -427,13 +427,6 @@ export class Render {
       for (let i = 0; i < getterConfig.length; i++) {
         if (getterConfig[i] === 'Getter') {
           row.push(getter.name)
-        } else if (getterConfig[i] === 'Type') {
-          if (getter.type) {
-            row.push(`\`${getter.type.join(' ')}\``)
-            row.push()
-          } else {
-            row.push('-')
-          }
         } else if (getterConfig[i] === 'Description') {
           if (getter.describe) {
             row.push(getter.describe.join(' '))

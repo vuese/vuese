@@ -81,14 +81,17 @@ export function parseJavascript(ast: bt.File, options: ParserOptions = {}) {
             handleMethod(path, onGetter)
           }
 
+          // Processing store actions
           if (onAction && isVueOption(path, 'actions')) {
             handleMethod(path, onAction)
           }
 
+          // Processing store mutations
           if (onMutation && isVueOption(path, 'mutations')) {
             handleMethod(path, onMutation)
           }
 
+          // Processing store state
           if (onState && isVueOption(path, 'state')) {
             const properties = (path.node.value as bt.ObjectExpression)
               .properties as (bt.ObjectMethod | bt.ObjectProperty)[]

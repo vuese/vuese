@@ -40,6 +40,18 @@ Array [
 ]
 `;
 
+exports[`Correct handling of actions 1`] = `
+Array [
+  "Grabs the action from the API",
+]
+`;
+
+exports[`Correct handling of actions 2`] = `
+Array [
+  "the url to get",
+]
+`;
+
 exports[`Correct handling of events 1`] = `
 Array [
   "Triggered when clicked",
@@ -56,6 +68,12 @@ exports[`Correct handling of events 3`] = `Array []`;
 
 exports[`Correct handling of events 4`] = `undefined`;
 
+exports[`Correct handling of getters 1`] = `
+Array [
+  "Returns a correctly formatted object",
+]
+`;
+
 exports[`Correct handling of methods 1`] = `
 Array [
   "Do something",
@@ -65,6 +83,24 @@ Array [
 exports[`Correct handling of methods 2`] = `
 Array [
   "The first parameter is a Boolean value that represents...",
+]
+`;
+
+exports[`Correct handling of mutations 1`] = `
+Array [
+  "Set the object in the store",
+]
+`;
+
+exports[`Correct handling of mutations 2`] = `
+Array [
+  "object with key/value to set",
+]
+`;
+
+exports[`Correct handling of mutations 3`] = `
+Array [
+  "stores the object",
 ]
 `;
 

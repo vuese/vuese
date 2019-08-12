@@ -80,6 +80,43 @@ test('Proper rendering of the table header', () => {
   expect(markdownRes).toMatchSnapshot()
 })
 
+test('Proper rendering of store', () => {
+  const res: ParserResult = {
+    name: 'Store',
+    getters: [
+      {
+        name: 'formattedObject',
+        describe: ['Returns a correctly formatted object']
+      }
+    ],
+    actions: [
+      {
+        name: 'fetchObject',
+        describe: ['Grabs the action from the API'],
+        argumentsDesc: ['the url to get']
+      }
+    ],
+    mutations: [
+      {
+        name: 'MUTATE_OBJECT',
+        describe: ['Set the object in the store'],
+        argumentsDesc: ['object with key/value to set']
+      }
+    ],
+    state: [
+      {
+        name: 'stateObject',
+        describe: ['stores the object']
+      }
+    ]
+  }
+  const render = new Render(res)
+  const renderRes: RenderResult = render.render()
+  const markdownRes = render.renderMarkdown() as MarkdownResult
+  expect(renderRes).toMatchSnapshot()
+  expect(markdownRes).toMatchSnapshot()
+})
+
 describe('Empty Components (without slots,methods,props,events) can be forced to be rendered', () => {
   test('Does not render an empty component by defaut', () => {
     const res: ParserResult = {
