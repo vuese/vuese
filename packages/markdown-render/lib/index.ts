@@ -142,7 +142,11 @@ export class Render {
           if (prop.defaultDesc) {
             row.push(prop.defaultDesc.join(' '))
           } else if (prop.default) {
-            row.push(prop.default)
+            row.push(
+              typeof prop.default === 'object'
+                ? JSON.stringify(prop.default)
+                : prop.default
+            )
           } else {
             row.push('-')
           }
