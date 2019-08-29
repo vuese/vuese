@@ -21,7 +21,7 @@ function getAST(
 ): object {
   const p = path.resolve(__dirname, `./__fixtures__/${fileName}`)
   const source = fs.readFileSync(p, 'utf-8')
-  return sfcToAST(source, babelParserPlugins)
+  return sfcToAST(source, babelParserPlugins, path.dirname(p))
 }
 
 test('Get the component name correctly', () => {
@@ -651,4 +651,20 @@ test('The default value of Props', () => {
   expect((arg1 as PropsResult).defaultDesc).toMatchSnapshot()
   expect((arg2 as PropsResult).defaultDesc).toMatchSnapshot()
   expect((arg3 as PropsResult).defaultDesc).toMatchSnapshot()
+})
+
+test('The seperated block should be handled correctly', () => {
+  const sfc: AstResult = getAST('seperate/seperate.vue')
+  const mockOnProp = jest.fn(() => {})
+  const options: ParserOptions = {
+    onProp: mockOnProp
+  }
+  parseJavascript(sfc.jsAst as bt.File, options)
+  const arg = mockOnProp.mock.calls[0][0]
+
+  expect(mockOnProp.mock.calls.length).toBe(1)
+  expect(arg as PropsResult).toEqual({
+    type: null,
+    name: 'a'
+  })
 })

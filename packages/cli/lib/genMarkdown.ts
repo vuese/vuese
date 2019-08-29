@@ -32,7 +32,10 @@ export default async (config: CliOptions) => {
     const abs = path.resolve(p)
     const source = await fs.readFile(abs, 'utf-8')
     try {
-      const parserRes = parser(source, { babelParserPlugins })
+      const parserRes = parser(source, {
+        babelParserPlugins,
+        basedir: path.dirname(abs)
+      })
       const r = new Render(parserRes)
       let markdownRes = r.renderMarkdown()
 
