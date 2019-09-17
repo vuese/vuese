@@ -35,15 +35,22 @@ export function processPropValue(propValueNode: bt.Node, result: PropsResult) {
         result.typeDesc = typeDesc
       }
     }
-
+    // Processing props's default value
     otherNodes.forEach((node: any) => {
       const n = node.key.name
       if (n === 'default') {
-        if (!hasFunctionTypeDef(result.type) && bt.isFunction(node.value)) {
+        if (bt.isFunction(node.value)) {
           result.default = runFunction(node.value)
         } else {
           if (bt.isObjectMethod(node)) {
-            result.default = generate(node).code
+            // Using functionExpression instead of ObjectMethod
+            let params = node.params || []
+            let body = node.body
+            if (!bt.isBlockStatement(body)) {
+              body = bt.blockStatement(body)
+            }
+            let r = bt.functionExpression(null, params, body, false, false)
+            result.default = runFunction(r)
           } else {
             result.default = generate(node.value).code
           }
@@ -129,13 +136,4 @@ function getTypeByTypeNode(typeNode: bt.Node): PropType {
 // eg. String or [String, Number]
 function isAllowPropsType(typeNode: bt.Node): boolean {
   return bt.isIdentifier(typeNode) || bt.isArrayExpression(typeNode)
-}
-
-function hasFunctionTypeDef(type: PropType): boolean {
-  if (typeof type === 'string') {
-    return type.toLowerCase() === 'function'
-  } else if (Array.isArray(type)) {
-    return type.map(a => a.toLowerCase()).some(b => b === 'function')
-  }
-  return false
 }
