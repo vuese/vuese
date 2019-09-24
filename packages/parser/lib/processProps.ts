@@ -35,16 +35,27 @@ export function processPropValue(propValueNode: bt.Node, result: PropsResult) {
         result.typeDesc = typeDesc
       }
     }
-
+    // Processing props's default value
     otherNodes.forEach((node: any) => {
       const n = node.key.name
       if (n === 'default') {
-        if (!hasFunctionTypeDef(result.type) && bt.isFunction(node.value)) {
-          result.default = runFunction(node.value)
+        if (!hasFunctionTypeDef(result.type)) {
+          if (bt.isObjectMethod(node)) {
+            // Using functionExpression instead of ObjectMethod
+            let params = node.params || []
+            let body = node.body
+            if (!bt.isBlockStatement(body)) {
+              body = bt.blockStatement(body)
+            }
+            let r = bt.functionExpression(null, params, body, false, false)
+            result.default = runFunction(r)
+          } else if (bt.isFunction(node.value)) {
+            result.default = runFunction(node.value)
+          }
         } else {
           if (bt.isObjectMethod(node)) {
             result.default = generate(node).code
-          } else {
+          } else if (bt.isFunction(node.value)) {
             result.default = generate(node.value).code
           }
         }

@@ -100,9 +100,7 @@ test('Execute the default function and get the default value correctly', () => {
 
   expect(mockOnProp.mock.calls.length).toBe(6)
   expect(arg.name).toBe('c')
-  expect(arg.default).toEqual({
-    val: 1
-  })
+  expect(arg.default).toEqual('{"val":1}')
 })
 
 test('Get the `required` value correctly', () => {

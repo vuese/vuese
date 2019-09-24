@@ -48,6 +48,9 @@ export function runFunction(fnCode: bt.Node): any {
   const code = `return (${genCode})()`
   try {
     const fn = new Function(code)
+    if (typeof fn() === 'object') {
+      return JSON.stringify(fn())
+    }
     return fn()
   } catch (e) {
     return
