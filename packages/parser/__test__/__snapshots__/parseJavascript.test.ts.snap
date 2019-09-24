@@ -229,7 +229,7 @@ exports[`The validator function should be used as a string representation 1`] = 
 }"
 `;
 
-exports[`When the \`type\` definition contains \`Function\`, should get a string representation of the \`default\` function. 1`] = `undefined`;
+exports[`When the \`type\` definition contains \`Function\`, should get a string representation of the \`default\` function. 1`] = `"default() {}"`;
 
 exports[`computed in the object 1`] = `
 Array [
