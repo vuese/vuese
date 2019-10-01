@@ -18,32 +18,33 @@ export interface AstResult {
 export function sfcToAST(
   source: string,
   babelParserPlugins?: BabelParserPlugins,
-  basedir?: string
+  basedir?: string,
+  jsFile?: boolean
 ): AstResult {
   const plugins = getBabelParserPlugins(babelParserPlugins)
   const sfc = parseComponent(source)
   const res: AstResult = {}
-  if (sfc.script) {
-    if (!sfc.script.content && sfc.script.src) {
-      // Src Imports
-      if (basedir) {
-        try {
-          sfc.script.content = fs.readFileSync(
-            path.resolve(basedir, sfc.script.src),
-            'utf-8'
-          )
-        } catch (e) {
-          console.error(e)
-          sfc.script.content = ''
-        }
+  if (sfc.script && !sfc.script.content && sfc.script.src) {
+    // Src Imports
+    if (basedir) {
+      try {
+        sfc.script.content = fs.readFileSync(
+          path.resolve(basedir, sfc.script.src),
+          'utf-8'
+        )
+      } catch (e) {
+        console.error(e)
+        sfc.script.content = ''
       }
     }
-    res.sourceType = sfc.script.lang || 'js'
-    res.jsAst = babelParse(sfc.script.content, {
-      sourceType: 'module',
-      plugins
-    })
   }
+
+  res.sourceType = sfc.script && sfc.script.lang ? sfc.script.lang : 'js'
+  res.jsAst = babelParse(jsFile ? source : sfc.script.content, {
+    sourceType: 'module',
+    plugins
+  })
+
   if (sfc.template) {
     if (!sfc.template.content && sfc.template.src) {
       // Src Imports

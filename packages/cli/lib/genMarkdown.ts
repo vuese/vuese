@@ -24,7 +24,7 @@ export default async (config: CliOptions) => {
 
   if (typeof include === 'string') include = [include]
   if (typeof exclude === 'string') exclude = [exclude]
-  exclude = exclude.concat('node_modules/**/*.vue')
+  exclude = exclude.concat('node_modules/**/*.(vue|js)')
 
   const files = await fg(include.concat(exclude.map(p => `!${p}`)))
 
@@ -34,7 +34,8 @@ export default async (config: CliOptions) => {
     try {
       const parserRes = parser(source, {
         babelParserPlugins,
-        basedir: path.dirname(abs)
+        basedir: path.dirname(abs),
+        jsFile: abs.endsWith('.js')
       })
       const r = new Render(parserRes)
       let markdownRes = r.renderMarkdown()

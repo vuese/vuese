@@ -17,11 +17,12 @@ import * as bt from '@babel/types'
 
 function getAST(
   fileName: string,
-  babelParserPlugins?: BabelParserPlugins
+  babelParserPlugins?: BabelParserPlugins,
+  jsFile?: boolean
 ): object {
   const p = path.resolve(__dirname, `./__fixtures__/${fileName}`)
   const source = fs.readFileSync(p, 'utf-8')
-  return sfcToAST(source, babelParserPlugins, path.dirname(p))
+  return sfcToAST(source, babelParserPlugins, path.dirname(p), jsFile)
 }
 
 test('Get the component name correctly', () => {
@@ -665,4 +666,42 @@ test('The seperated block should be handled correctly', () => {
     type: null,
     name: 'a'
   })
+})
+
+test('data in a mixin', () => {
+  const sfc: AstResult = getAST('common.js', { jsx: false }, true)
+  const mockOnData = jest.fn(() => {})
+  const options: ParserOptions = {
+    onData: mockOnData
+  }
+  parseJavascript(sfc.jsAst as bt.File, options)
+
+  expect(mockOnData.mock.calls.length).toBe(3)
+  const arg1 = mockOnData.mock.calls[0][0]
+  const arg2 = mockOnData.mock.calls[1][0]
+  const arg3 = mockOnData.mock.calls[2][0]
+
+  expect((arg1 as DataResult).name).toBe('value')
+  expect((arg1 as DataResult).type).toBe('Number')
+  expect(((arg1 as DataResult).describe as string[]).length).toBe(1)
+  expect((arg1 as DataResult).default).toBe('5')
+  expect((arg1 as DataResult).type).toMatchSnapshot()
+  expect((arg1 as DataResult).describe).toMatchSnapshot()
+  expect((arg1 as DataResult).default).toMatchSnapshot()
+
+  expect((arg2 as DataResult).name).toBe('stringVariable')
+  expect((arg2 as DataResult).type).toBe('String')
+  expect(((arg2 as DataResult).describe as string[]).length).toBe(1)
+  expect((arg2 as DataResult).default).toBe('A String')
+  expect((arg2 as DataResult).type).toMatchSnapshot()
+  expect((arg2 as DataResult).describe).toMatchSnapshot()
+  expect((arg2 as DataResult).default).toMatchSnapshot()
+
+  expect((arg3 as DataResult).name).toBe('arrayVariable')
+  expect((arg3 as DataResult).type).toBe('Array')
+  expect(((arg3 as DataResult).describe as string[]).length).toBe(1)
+  expect((arg3 as DataResult).default).toBe('[An,Array]')
+  expect((arg3 as DataResult).type).toMatchSnapshot()
+  expect((arg3 as DataResult).describe).toMatchSnapshot()
+  expect((arg3 as DataResult).default).toMatchSnapshot()
 })
