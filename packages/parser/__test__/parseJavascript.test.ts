@@ -166,6 +166,7 @@ test('Props: gets correct name for a quoted property', () => {
 
   expect(mockOnProp.mock.calls.length).toBe(6)
   expect(arg.name).toBe('g')
+  expect(arg.default).toBe('HELLO')
 })
 
 test('Get comments as a description', () => {

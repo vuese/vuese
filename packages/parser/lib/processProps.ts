@@ -51,6 +51,12 @@ export function processPropValue(propValueNode: bt.Node, result: PropsResult) {
             result.default = runFunction(r)
           } else if (bt.isFunction(node.value)) {
             result.default = runFunction(node.value)
+          } else if (
+            bt.isNumberLiteral(node.value) ||
+            bt.isStringLiteral(node.value)
+          ) {
+            // Primitive value
+            result.default = node.value.value
           }
         } else {
           if (bt.isObjectMethod(node)) {

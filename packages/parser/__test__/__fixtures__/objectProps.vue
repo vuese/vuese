@@ -24,7 +24,10 @@ export default {
       type: Function,
       default () {}
     },
-    'g': String
+    'g': {
+      type: String,
+      default: 'HELLO'
+    }
   }
 }
 </script>
