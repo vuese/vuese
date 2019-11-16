@@ -99,7 +99,7 @@ export function isCommentBlock(node: { type: string }): boolean {
 }
 
 export function isCodeBlockDeclaration(value: string): boolean {
-  return value.indexOf('```') > -1
+  return value.includes('```')
 }
 
 export function filterBlockComments(comments: string[]): string[] {
