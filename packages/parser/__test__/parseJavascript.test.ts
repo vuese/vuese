@@ -8,7 +8,8 @@ import {
   MixInResult,
   DataResult,
   ComputedResult,
-  WatchResult
+  WatchResult,
+  parseTemplate
 } from '@vuese/parser'
 import * as path from 'path'
 import * as fs from 'fs'
@@ -254,10 +255,12 @@ test('Correct handling of events', () => {
   }
   const seen = new Seen()
   parseJavascript(sfc.jsAst as bt.File, seen, options)
+  parseTemplate(sfc.templateAst, seen, options)
   const arg1 = mockOnEvent.mock.calls[0][0]
   const arg2 = mockOnEvent.mock.calls[1][0]
+  const arg3 = mockOnEvent.mock.calls[2][0]
 
-  expect(mockOnEvent.mock.calls.length).toBe(2)
+  expect(mockOnEvent.mock.calls.length).toBe(3)
   expect((arg1 as EventResult).name).toBe('click')
   expect(((arg1 as EventResult).describe as string[]).length).toBe(1)
   expect(((arg1 as EventResult).argumentsDesc as string[]).length).toBe(1)
@@ -272,6 +275,15 @@ test('Correct handling of events', () => {
   expect((arg2 as EventResult).argumentsDesc).toBe(undefined)
   expect((arg2 as EventResult).describe).toMatchSnapshot()
   expect((arg2 as EventResult).argumentsDesc).toMatchSnapshot()
+  // event emit from template
+  // two CallExpression should only call once, valid is $emit, invalid is `that.$emit`.
+  expect((arg3 as EventResult).name).toBe('close')
+  expect((arg3 as EventResult).isSync).toBe(false)
+  expect((arg3 as EventResult).syncProp).toBe('')
+  expect(((arg3 as EventResult).describe as string[]).length).toBe(0)
+  expect((arg3 as EventResult).argumentsDesc).toBe(undefined)
+  expect((arg3 as EventResult).describe).toMatchSnapshot()
+  expect((arg3 as EventResult).argumentsDesc).toMatchSnapshot()
 })
 
 test('Only call onEvent once for the same event', () => {

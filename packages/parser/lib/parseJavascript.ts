@@ -414,7 +414,7 @@ export function parseJavascript(
   })
 }
 
-function processEmitCallExpression(
+export function processEmitCallExpression(
   path: NodePath<bt.CallExpression>,
   seenEvent: Seen,
   options: ParserOptions

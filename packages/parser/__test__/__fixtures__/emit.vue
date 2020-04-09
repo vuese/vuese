@@ -1,5 +1,5 @@
 <template>
-  <div></div>
+  <div @click="$emit('close'); that.$emit('some')" ></div>
 </template>
 
 <script>
