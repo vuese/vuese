@@ -276,7 +276,7 @@ test('Correct handling of events', () => {
   expect((arg2 as EventResult).describe).toMatchSnapshot()
   expect((arg2 as EventResult).argumentsDesc).toMatchSnapshot()
   // event emit from template
-  // two CallExpression should only call once, valid is $emit, invalid is `that.$emit`.
+  // two CallExpression should only call once, valid is $emit, invalid is `that.$emit`, the `$emit('click')` in template will ignore, cause emit in the javascript file.
   expect((arg3 as EventResult).name).toBe('close')
   expect((arg3 as EventResult).isSync).toBe(false)
   expect((arg3 as EventResult).syncProp).toBe('')
