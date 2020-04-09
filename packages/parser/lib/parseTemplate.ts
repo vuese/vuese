@@ -1,6 +1,11 @@
 import { ParserOptions, SlotResult, AttrsMap } from '@vuese/parser'
+import { Seen } from './seen'
 
-export function parseTemplate(templateAst: any, options: ParserOptions) {
+export function parseTemplate(
+  templateAst: any,
+  seenEvent: Seen,
+  options: ParserOptions
+) {
   const parent = templateAst.parent
   if (templateAst.type === 1) {
     if (templateAst.tag === 'slot') {
@@ -63,7 +68,7 @@ export function parseTemplate(templateAst: any, options: ParserOptions) {
 
     const parseChildren = (templateAst: any) => {
       for (let i = 0; i < templateAst.children.length; i++) {
-        parseTemplate(templateAst.children[i], options)
+        parseTemplate(templateAst.children[i], seenEvent, options)
       }
     }
     if (templateAst.if && templateAst.ifConditions) {

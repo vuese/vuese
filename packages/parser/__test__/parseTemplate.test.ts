@@ -7,6 +7,7 @@ import {
   SlotResult,
   ParserOptions
 } from '@vuese/parser'
+import { Seen } from '../lib/seen'
 
 function getAST(fileName: string): object {
   const p = path.resolve(__dirname, `./__fixtures__/${fileName}`)
@@ -24,7 +25,8 @@ test('Default slot with slot description', () => {
       expect((slotRes as SlotResult).bindings).toEqual({})
     })
   }
-  parseTemplate(sfc.templateAst, options)
+  const seen = new Seen()
+  parseTemplate(sfc.templateAst, seen, options)
   expect(options.onSlot).toBeCalled()
 })
 
@@ -35,7 +37,8 @@ test('Default slot with slot description in a v-if', () => {
       expect((slotRes as SlotResult).name).toBe('default')
     })
   }
-  parseTemplate(sfc.templateAst, options)
+  const seen = new Seen()
+  parseTemplate(sfc.templateAst, seen, options)
   expect(options.onSlot).toBeCalled()
 })
 
@@ -45,7 +48,8 @@ test('Named slot with slot description', () => {
   const options: ParserOptions = {
     onSlot: mockOnSlot
   }
-  parseTemplate(sfc.templateAst, options)
+  const seen = new Seen()
+  parseTemplate(sfc.templateAst, seen, options)
 
   expect(mockOnSlot.mock.calls.length).toBe(1)
   const arg = mockOnSlot.mock.calls[0][0]
@@ -68,5 +72,6 @@ test('Named slot with slot description and bingdings', () => {
       })
     }
   }
-  parseTemplate(sfc.templateAst, options)
+  const seen = new Seen()
+  parseTemplate(sfc.templateAst, seen, options)
 })
