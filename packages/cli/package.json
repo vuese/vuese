@@ -1,6 +1,6 @@
 {
   "name": "@vuese/cli",
-  "version": "2.8.3",
+  "version": "2.9.0",
   "description": "Automatically generate markdown documents based on your vue file",
   "keywords": [
     "markdown",
@@ -33,8 +33,8 @@
     "extractDts": false
   },
   "dependencies": {
-    "@vuese/markdown-render": "^2.5.3",
-    "@vuese/parser": "^2.4.3",
+    "@vuese/markdown-render": "^2.6.0",
+    "@vuese/parser": "^2.5.0",
     "cac": "^6.4.0",
     "carlo": "^0.9.10",
     "chokidar": "^2.0.4",
