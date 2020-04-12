@@ -56,6 +56,10 @@ exports[`Correct handling of events 3`] = `Array []`;
 
 exports[`Correct handling of events 4`] = `undefined`;
 
+exports[`Correct handling of events 5`] = `Array []`;
+
+exports[`Correct handling of events 6`] = `undefined`;
+
 exports[`Correct handling of methods 1`] = `
 Array [
   "Do something",

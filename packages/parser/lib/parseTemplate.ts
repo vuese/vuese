@@ -1,7 +1,38 @@
-import { ParserOptions, SlotResult, AttrsMap } from '@vuese/parser'
+import {
+  ParserOptions,
+  SlotResult,
+  AttrsMap,
+  processEmitCallExpression
+} from '@vuese/parser'
+import { parse as babelParse } from '@babel/parser'
+import { Seen } from './seen'
+import { File } from '@babel/types'
+import traverse, { NodePath } from '@babel/traverse'
+import * as bt from '@babel/types'
 
-export function parseTemplate(templateAst: any, options: ParserOptions) {
+export function parseTemplate(
+  templateAst: any,
+  seenEvent: Seen,
+  options: ParserOptions
+) {
   const parent = templateAst.parent
+  if (templateAst.attrsMap) {
+    for (let [attr, value] of Object.entries(templateAst.attrsMap)) {
+      if (
+        (attr.startsWith('v-on:') || attr.startsWith('@')) &&
+        /\$emit\(.*?\)/.test(value as string)
+      ) {
+        try {
+          const astFile = babelParse(value as string)
+          if (astFile && astFile.type === 'File') {
+            parseExpression(astFile, seenEvent, options)
+          }
+        } catch (err) {
+          console.error(err)
+        }
+      }
+    }
+  }
   if (templateAst.type === 1) {
     if (templateAst.tag === 'slot') {
       const slot: SlotResult = {
@@ -63,7 +94,7 @@ export function parseTemplate(templateAst: any, options: ParserOptions) {
 
     const parseChildren = (templateAst: any) => {
       for (let i = 0; i < templateAst.children.length; i++) {
-        parseTemplate(templateAst.children[i], options)
+        parseTemplate(templateAst.children[i], seenEvent, options)
       }
     }
     if (templateAst.if && templateAst.ifConditions) {
@@ -89,4 +120,24 @@ function extractAndFilterAttr(attrsMap: AttrsMap): AttrsMap {
     }
   }
   return res
+}
+
+function parseExpression(
+  astFile: File,
+  seenEvent: Seen,
+  options: ParserOptions
+) {
+  traverse(astFile, {
+    CallExpression(path: NodePath<bt.CallExpression>) {
+      const node = path.node
+      // $emit()
+      if (
+        bt.isIdentifier(node.callee) &&
+        node.callee.name === '$emit' &&
+        bt.isExpressionStatement(path.parentPath.node)
+      ) {
+        processEmitCallExpression(path, seenEvent, options)
+      }
+    }
+  })
 }

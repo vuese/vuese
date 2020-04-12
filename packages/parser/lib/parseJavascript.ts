@@ -24,8 +24,11 @@ import { processEventName, getEmitDecorator } from './processEvents'
 import { determineChildren } from './processRenderFunction'
 import { Seen } from './seen'
 
-export function parseJavascript(ast: bt.File, options: ParserOptions = {}) {
-  const seenEvent = new Seen()
+export function parseJavascript(
+  ast: bt.File,
+  seenEvent: Seen,
+  options: ParserOptions = {}
+) {
   const seenSlot = new Seen()
   traverse(ast, {
     ExportDefaultDeclaration(rootPath: NodePath<bt.ExportDefaultDeclaration>) {
@@ -137,7 +140,7 @@ export function parseJavascript(ast: bt.File, options: ParserOptions = {}) {
               : path.node.value
             const properties = (value as bt.ObjectExpression).properties.filter(
               n => bt.isObjectMethod(n) || bt.isObjectProperty(n)
-            ) as (bt.ObjectProperty)[]
+            ) as bt.ObjectProperty[]
 
             properties.forEach(node => {
               const commentsRes: CommentResult = getComments(node)
@@ -228,7 +231,7 @@ export function parseJavascript(ast: bt.File, options: ParserOptions = {}) {
               if (bt.isReturnStatement(body)) {
                 const properties = (body.argument as bt.ObjectExpression).properties.filter(
                   n => bt.isObjectMethod(n) || bt.isObjectProperty(n)
-                ) as (bt.ObjectProperty)[]
+                ) as bt.ObjectProperty[]
 
                 properties.forEach(node => {
                   const commentsRes: CommentResult = getComments(node)
@@ -257,29 +260,7 @@ export function parseJavascript(ast: bt.File, options: ParserOptions = {}) {
             node.callee.property.name === '$emit' &&
             bt.isExpressionStatement(path.parentPath.node)
           ) {
-            const { onEvent } = options
-            const args = node.arguments
-            const result: EventResult = {
-              name: '',
-              isSync: false,
-              syncProp: ''
-            }
-            const firstArg = args[0]
-            if (firstArg) {
-              if (bt.isStringLiteral(firstArg)) {
-                result.name = firstArg.value
-              } else {
-                if (bt.isIdentifier(firstArg)) {
-                  result.name = '`' + firstArg.name + '`'
-                }
-              }
-            }
-
-            if (!result.name || seenEvent.seen(result.name)) return
-
-            processEventName(result.name, path.parentPath, result)
-
-            if (onEvent) onEvent(result)
+            processEmitCallExpression(path, seenEvent, options)
           } else if (
             options.onSlot &&
             bt.isMemberExpression(node.callee) &&
@@ -431,4 +412,35 @@ export function parseJavascript(ast: bt.File, options: ParserOptions = {}) {
       })
     }
   })
+}
+
+export function processEmitCallExpression(
+  path: NodePath<bt.CallExpression>,
+  seenEvent: Seen,
+  options: ParserOptions
+) {
+  const node = path.node
+  const { onEvent } = options
+  const args = node.arguments
+  const result: EventResult = {
+    name: '',
+    isSync: false,
+    syncProp: ''
+  }
+  const firstArg = args[0]
+  if (firstArg) {
+    if (bt.isStringLiteral(firstArg)) {
+      result.name = firstArg.value
+    } else {
+      if (bt.isIdentifier(firstArg)) {
+        result.name = '`' + firstArg.name + '`'
+      }
+    }
+  }
+
+  if (!result.name || seenEvent.seen(result.name)) return
+
+  processEventName(result.name, path.parentPath, result)
+
+  if (onEvent) onEvent(result)
 }

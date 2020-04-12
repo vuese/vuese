@@ -8,12 +8,14 @@ import {
   MixInResult,
   DataResult,
   ComputedResult,
-  WatchResult
+  WatchResult,
+  parseTemplate
 } from '@vuese/parser'
 import * as path from 'path'
 import * as fs from 'fs'
 import { sfcToAST, AstResult, BabelParserPlugins } from '@vuese/parser'
 import * as bt from '@babel/types'
+import { Seen } from '../lib/seen'
 
 function getAST(
   fileName: string,
@@ -32,7 +34,8 @@ test('Get the component name correctly', () => {
     onName: mockOnName,
     onDesc: mockOnDesc
   }
-  parseJavascript(sfc.jsAst as bt.File, options)
+  const seen = new Seen()
+  parseJavascript(sfc.jsAst as bt.File, seen, options)
   const arg1 = mockOnName.mock.calls[0][0]
   const arg2 = mockOnDesc.mock.calls[0][0]
 
@@ -47,7 +50,8 @@ test('Ability to correctly handle props that is an array of string', () => {
   const options: ParserOptions = {
     onProp: mockOnProp
   }
-  parseJavascript(sfc.jsAst as bt.File, options)
+  const seen = new Seen()
+  parseJavascript(sfc.jsAst as bt.File, seen, options)
   const arg = mockOnProp.mock.calls[0][0]
 
   expect(mockOnProp.mock.calls.length).toBe(1)
@@ -63,7 +67,8 @@ test('Is a prop using a shorthand type', () => {
   const options: ParserOptions = {
     onProp: mockOnProp
   }
-  parseJavascript(sfc1.jsAst as bt.File, options)
+  const seen = new Seen()
+  parseJavascript(sfc1.jsAst as bt.File, seen, options)
   const arg = mockOnProp.mock.calls[0][0]
 
   expect(mockOnProp.mock.calls.length).toBe(6)
@@ -79,7 +84,8 @@ test('`prop` defined using a type array', () => {
   const options: ParserOptions = {
     onProp: mockOnProp
   }
-  parseJavascript(sfc1.jsAst as bt.File, options)
+  const seen = new Seen()
+  parseJavascript(sfc1.jsAst as bt.File, seen, options)
   const arg = mockOnProp.mock.calls[1][0]
 
   expect(mockOnProp.mock.calls.length).toBe(6)
@@ -95,7 +101,8 @@ test('Execute the default function and get the default value correctly', () => {
   const options: ParserOptions = {
     onProp: mockOnProp
   }
-  parseJavascript(sfc1.jsAst as bt.File, options)
+  const seen = new Seen()
+  parseJavascript(sfc1.jsAst as bt.File, seen, options)
   const arg = mockOnProp.mock.calls[2][0]
 
   expect(mockOnProp.mock.calls.length).toBe(6)
@@ -108,7 +115,8 @@ test('Get the `required` value correctly', () => {
   const options: ParserOptions = {
     onProp: mockOnProp
   }
-  parseJavascript(sfc1.jsAst as bt.File, options)
+  const seen = new Seen()
+  parseJavascript(sfc1.jsAst as bt.File, seen, options)
   const arg = mockOnProp.mock.calls[2][0]
 
   expect(mockOnProp.mock.calls.length).toBe(6)
@@ -120,7 +128,8 @@ test('The validator function should be used as a string representation', () => {
   const options: ParserOptions = {
     onProp: mockOnProp
   }
-  parseJavascript(sfc1.jsAst as bt.File, options)
+  const seen = new Seen()
+  parseJavascript(sfc1.jsAst as bt.File, seen, options)
   const arg = mockOnProp.mock.calls[2][0]
 
   expect(mockOnProp.mock.calls.length).toBe(6)
@@ -132,7 +141,8 @@ test('The `prop` that does not satisfy the `prop` writing specification should b
   const options: ParserOptions = {
     onProp: mockOnProp
   }
-  parseJavascript(sfc1.jsAst as bt.File, options)
+  const seen = new Seen()
+  parseJavascript(sfc1.jsAst as bt.File, seen, options)
   const arg = mockOnProp.mock.calls[3][0]
 
   expect(mockOnProp.mock.calls.length).toBe(6)
@@ -148,7 +158,8 @@ test('When the `type` definition contains `Function`, should get a string repres
   const options: ParserOptions = {
     onProp: mockOnProp
   }
-  parseJavascript(sfc1.jsAst as bt.File, options)
+  const seen = new Seen()
+  parseJavascript(sfc1.jsAst as bt.File, seen, options)
   const arg = mockOnProp.mock.calls[4][0]
 
   expect(mockOnProp.mock.calls.length).toBe(6)
@@ -161,7 +172,8 @@ test('Props: gets correct name for a quoted property', () => {
   const options: ParserOptions = {
     onProp: mockOnProp
   }
-  parseJavascript(sfc1.jsAst as bt.File, options)
+  const seen = new Seen()
+  parseJavascript(sfc1.jsAst as bt.File, seen, options)
   const arg = mockOnProp.mock.calls[5][0]
 
   expect(mockOnProp.mock.calls.length).toBe(6)
@@ -175,7 +187,8 @@ test('Get comments as a description', () => {
   const options: ParserOptions = {
     onProp: mockOnProp
   }
-  parseJavascript(sfc.jsAst as bt.File, options)
+  const seen = new Seen()
+  parseJavascript(sfc.jsAst as bt.File, seen, options)
   const arg = mockOnProp.mock.calls[0][0]
 
   expect(mockOnProp.mock.calls.length).toBe(1)
@@ -189,7 +202,8 @@ test('Get comments maintaining markdown code blocks original indentation', () =>
   const options: ParserOptions = {
     onDesc: mockOnDesc
   }
-  parseJavascript(sfc.jsAst as bt.File, options)
+  const seen = new Seen()
+  parseJavascript(sfc.jsAst as bt.File, seen, options)
   const arg = mockOnDesc.mock.calls[0][0]
 
   expect(mockOnDesc.mock.calls.length).toBe(1)
@@ -203,7 +217,8 @@ test('Get comments maintaining markdown code blocks original indentation with bl
   const options: ParserOptions = {
     onDesc: mockOnDesc
   }
-  parseJavascript(sfc.jsAst as bt.File, options)
+  const seen = new Seen()
+  parseJavascript(sfc.jsAst as bt.File, seen, options)
   const arg = mockOnDesc.mock.calls[0][0]
 
   expect(mockOnDesc.mock.calls.length).toBe(1)
@@ -217,7 +232,8 @@ test('Gets a description of the default value and a description of the validator
   const options: ParserOptions = {
     onProp: mockOnProp
   }
-  parseJavascript(sfc.jsAst as bt.File, options)
+  const seen = new Seen()
+  parseJavascript(sfc.jsAst as bt.File, seen, options)
   const arg1 = mockOnProp.mock.calls[0][0]
   const arg2 = mockOnProp.mock.calls[1][0]
   const arg3 = mockOnProp.mock.calls[2][0]
@@ -237,11 +253,14 @@ test('Correct handling of events', () => {
   const options: ParserOptions = {
     onEvent: mockOnEvent
   }
-  parseJavascript(sfc.jsAst as bt.File, options)
+  const seen = new Seen()
+  parseJavascript(sfc.jsAst as bt.File, seen, options)
+  parseTemplate(sfc.templateAst, seen, options)
   const arg1 = mockOnEvent.mock.calls[0][0]
   const arg2 = mockOnEvent.mock.calls[1][0]
+  const arg3 = mockOnEvent.mock.calls[2][0]
 
-  expect(mockOnEvent.mock.calls.length).toBe(2)
+  expect(mockOnEvent.mock.calls.length).toBe(3)
   expect((arg1 as EventResult).name).toBe('click')
   expect(((arg1 as EventResult).describe as string[]).length).toBe(1)
   expect(((arg1 as EventResult).argumentsDesc as string[]).length).toBe(1)
@@ -256,6 +275,15 @@ test('Correct handling of events', () => {
   expect((arg2 as EventResult).argumentsDesc).toBe(undefined)
   expect((arg2 as EventResult).describe).toMatchSnapshot()
   expect((arg2 as EventResult).argumentsDesc).toMatchSnapshot()
+  // event emit from template
+  // two CallExpression should only call once, valid is $emit, invalid is `that.$emit`, the `$emit('click')` in template will ignore, cause emit in the javascript file.
+  expect((arg3 as EventResult).name).toBe('close')
+  expect((arg3 as EventResult).isSync).toBe(false)
+  expect((arg3 as EventResult).syncProp).toBe('')
+  expect(((arg3 as EventResult).describe as string[]).length).toBe(0)
+  expect((arg3 as EventResult).argumentsDesc).toBe(undefined)
+  expect((arg3 as EventResult).describe).toMatchSnapshot()
+  expect((arg3 as EventResult).argumentsDesc).toMatchSnapshot()
 })
 
 test('Only call onEvent once for the same event', () => {
@@ -264,7 +292,8 @@ test('Only call onEvent once for the same event', () => {
   const options: ParserOptions = {
     onEvent: mockOnEvent
   }
-  parseJavascript(sfc.jsAst as bt.File, options)
+  const seen = new Seen()
+  parseJavascript(sfc.jsAst as bt.File, seen, options)
 
   expect(mockOnEvent.mock.calls.length).toBe(1)
 })
@@ -275,7 +304,8 @@ test('Correct handling of methods', () => {
   const options: ParserOptions = {
     onMethod: mockOnMethod
   }
-  parseJavascript(sfc.jsAst as bt.File, options)
+  const seen = new Seen()
+  parseJavascript(sfc.jsAst as bt.File, seen, options)
   const arg = mockOnMethod.mock.calls[0][0]
 
   expect(mockOnMethod.mock.calls.length).toBe(1)
@@ -298,7 +328,8 @@ test('The options in @Component should be parsed correctly', () => {
     onProp: mockOnProp,
     onDesc: mockOnDesc
   }
-  parseJavascript(sfc.jsAst as bt.File, options)
+  const seen = new Seen()
+  parseJavascript(sfc.jsAst as bt.File, seen, options)
 
   const arg = mockOnMethod.mock.calls[0][0]
   expect(mockOnMethod.mock.calls.length).toBe(1)
@@ -330,7 +361,8 @@ test('@Prop decorator', () => {
   const options: ParserOptions = {
     onProp: mockOnProp
   }
-  parseJavascript(sfc.jsAst as bt.File, options)
+  const seen = new Seen()
+  parseJavascript(sfc.jsAst as bt.File, seen, options)
 
   const arg1 = mockOnProp.mock.calls[0][0]
   const arg2 = mockOnProp.mock.calls[1][0]
@@ -361,7 +393,8 @@ test('Class method', () => {
   const options: ParserOptions = {
     onMethod: mockOnMethod
   }
-  parseJavascript(sfc.jsAst as bt.File, options)
+  const seen = new Seen()
+  parseJavascript(sfc.jsAst as bt.File, seen, options)
 
   const arg = mockOnMethod.mock.calls[0][0]
   expect(mockOnMethod.mock.calls.length).toBe(1)
@@ -378,7 +411,8 @@ test('@Emit decorator', () => {
   const options: ParserOptions = {
     onEvent: mockOnEvent
   }
-  parseJavascript(sfc.jsAst as bt.File, options)
+  const seen = new Seen()
+  parseJavascript(sfc.jsAst as bt.File, seen, options)
 
   const arg1 = mockOnEvent.mock.calls[0][0]
   const arg2 = mockOnEvent.mock.calls[1][0]
@@ -404,7 +438,8 @@ test('Slots in script', () => {
   const options: ParserOptions = {
     onSlot: mockOnSlot
   }
-  parseJavascript(sfc.jsAst as bt.File, options)
+  const seen = new Seen()
+  parseJavascript(sfc.jsAst as bt.File, seen, options)
 
   const arg1 = mockOnSlot.mock.calls[0][0]
   const arg2 = mockOnSlot.mock.calls[1][0]
@@ -435,7 +470,8 @@ test('Scoped slots in script', () => {
   const options: ParserOptions = {
     onSlot: mockOnSlot
   }
-  parseJavascript(sfc.jsAst as bt.File, options)
+  const seen = new Seen()
+  parseJavascript(sfc.jsAst as bt.File, seen, options)
 
   const arg1 = mockOnSlot.mock.calls[0][0]
   const arg2 = mockOnSlot.mock.calls[1][0]
@@ -456,7 +492,8 @@ test('Functional children', () => {
   const options: ParserOptions = {
     onSlot: mockOnSlot
   }
-  parseJavascript(sfc.jsAst as bt.File, options)
+  const seen = new Seen()
+  parseJavascript(sfc.jsAst as bt.File, seen, options)
 
   const arg = mockOnSlot.mock.calls[0][0]
 
@@ -472,7 +509,8 @@ test('@Component: Functional children', () => {
   const options: ParserOptions = {
     onSlot: mockOnSlot
   }
-  parseJavascript(sfc.jsAst as bt.File, options)
+  const seen = new Seen()
+  parseJavascript(sfc.jsAst as bt.File, seen, options)
 
   expect(mockOnSlot.mock.calls.length).toBe(1)
   const arg = mockOnSlot.mock.calls[0][0]
@@ -488,7 +526,8 @@ test('Render function in class method: Functional children', () => {
   const options: ParserOptions = {
     onSlot: mockOnSlot
   }
-  parseJavascript(sfc.jsAst as bt.File, options)
+  const seen = new Seen()
+  parseJavascript(sfc.jsAst as bt.File, seen, options)
 
   expect(mockOnSlot.mock.calls.length).toBe(1)
   const arg = mockOnSlot.mock.calls[0][0]
@@ -504,7 +543,8 @@ test('Mixin in the object', () => {
   const options: ParserOptions = {
     onMixIn: mockOnMixin
   }
-  parseJavascript(sfc.jsAst as bt.File, options)
+  const seen = new Seen()
+  parseJavascript(sfc.jsAst as bt.File, seen, options)
 
   expect(mockOnMixin.mock.calls.length).toBe(3)
   const arg1 = mockOnMixin.mock.calls[0][0]
@@ -522,7 +562,8 @@ test('data in the object', () => {
   const options: ParserOptions = {
     onData: mockOnData
   }
-  parseJavascript(sfc.jsAst as bt.File, options)
+  const seen = new Seen()
+  parseJavascript(sfc.jsAst as bt.File, seen, options)
 
   expect(mockOnData.mock.calls.length).toBe(3)
   const arg1 = mockOnData.mock.calls[0][0]
@@ -560,7 +601,8 @@ test('computed in the object', () => {
   const options: ParserOptions = {
     onComputed: mockOnComputed
   }
-  parseJavascript(sfc.jsAst as bt.File, options)
+  const seen = new Seen()
+  parseJavascript(sfc.jsAst as bt.File, seen, options)
 
   expect(mockOnComputed.mock.calls.length).toBe(2)
   const arg1 = mockOnComputed.mock.calls[0][0]
@@ -589,7 +631,8 @@ test('watch in the object', () => {
   const options: ParserOptions = {
     onWatch: mockOnWatch
   }
-  parseJavascript(sfc.jsAst as bt.File, options)
+  const seen = new Seen()
+  parseJavascript(sfc.jsAst as bt.File, seen, options)
 
   expect(mockOnWatch.mock.calls.length).toBe(3)
   const arg1 = mockOnWatch.mock.calls[0][0]
@@ -624,7 +667,8 @@ test('Set jsx to false to use `<any>Var` in ts', () => {
     }
   }
   const sfc: AstResult = getAST('noTSX.vue', options.babelParserPlugins)
-  parseJavascript(sfc.jsAst as bt.File, options)
+  const seen = new Seen()
+  parseJavascript(sfc.jsAst as bt.File, seen, options)
 
   expect(mockOnMethod.mock.calls.length).toBe(1)
   const arg = mockOnMethod.mock.calls[0][0]
@@ -637,7 +681,8 @@ test('The default value of Props', () => {
     onProp: mockOnProp
   }
   const sfc: AstResult = getAST('propsDefault.vue')
-  parseJavascript(sfc.jsAst as bt.File, options)
+  const seen = new Seen()
+  parseJavascript(sfc.jsAst as bt.File, seen, options)
 
   expect(mockOnProp.mock.calls.length).toBe(3)
   const arg1 = mockOnProp.mock.calls[0][0]
@@ -658,7 +703,8 @@ test('The seperated block should be handled correctly', () => {
   const options: ParserOptions = {
     onProp: mockOnProp
   }
-  parseJavascript(sfc.jsAst as bt.File, options)
+  const seen = new Seen()
+  parseJavascript(sfc.jsAst as bt.File, seen, options)
   const arg = mockOnProp.mock.calls[0][0]
 
   expect(mockOnProp.mock.calls.length).toBe(1)
