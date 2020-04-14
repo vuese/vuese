@@ -27,8 +27,10 @@ import { Seen } from './seen'
 export function parseJavascript(
   ast: bt.File,
   seenEvent: Seen,
-  options: ParserOptions = {}
+  options: ParserOptions
 ) {
+  // backward compatibility
+  options = { includeSyncEvent: true, ...options }
   const seenSlot = new Seen()
   traverse(ast, {
     ExportDefaultDeclaration(rootPath: NodePath<bt.ExportDefaultDeclaration>) {
@@ -351,8 +353,14 @@ export function parseJavascript(
             if (!result.name || seenEvent.seen(result.name)) return
 
             processEventName(result.name, path, result)
-
-            if (options.onEvent) options.onEvent(result)
+            // trigger onEvent if options has an onEvent callback function and
+            // if excludeSyncEvent, should `result.isSync` be true, otherwise just call the callback
+            if (
+              options.onEvent &&
+              (!!options.includeSyncEvent || !result.isSync)
+            ) {
+              options.onEvent(result)
+            }
           }
         },
         MemberExpression(path: NodePath<bt.MemberExpression>) {
@@ -420,7 +428,7 @@ export function processEmitCallExpression(
   options: ParserOptions
 ) {
   const node = path.node
-  const { onEvent } = options
+  const { onEvent, includeSyncEvent } = options
   const args = node.arguments
   const result: EventResult = {
     name: '',
@@ -442,5 +450,7 @@ export function processEmitCallExpression(
 
   processEventName(result.name, path.parentPath, result)
 
-  if (onEvent) onEvent(result)
+  if (onEvent && (!!includeSyncEvent || !result.isSync)) {
+    onEvent(result)
+  }
 }

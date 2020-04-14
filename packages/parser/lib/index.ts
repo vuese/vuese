@@ -141,6 +141,7 @@ export interface ParserOptions {
   }
   babelParserPlugins?: BabelParserPlugins
   basedir?: string
+  includeSyncEvent?: boolean
 }
 
 export interface ParserResult {
@@ -163,6 +164,7 @@ export function parser(
   const astRes = sfcToAST(source, options.babelParserPlugins, options.basedir)
   const res: ParserResult = {}
   const defaultOptions: ParserOptions = {
+    includeSyncEvent: true,
     onName(name: string) {
       res.name = name
     },
@@ -195,7 +197,7 @@ export function parser(
     }
   }
 
-  const finallyOptions: ParserOptions = Object.assign(defaultOptions, options)
+  const finallyOptions: ParserOptions = { ...defaultOptions, ...options }
   const seenEvent = new Seen()
   if (astRes.jsAst) {
     parseJavascript(astRes.jsAst, seenEvent, finallyOptions)
