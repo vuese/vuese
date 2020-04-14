@@ -30,7 +30,6 @@ export function parseJavascript(
   options: ParserOptions
 ) {
   // backward compatibility
-  options = { includeSyncEvent: true, ...options }
   const seenSlot = new Seen()
   traverse(ast, {
     ExportDefaultDeclaration(rootPath: NodePath<bt.ExportDefaultDeclaration>) {

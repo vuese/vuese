@@ -251,7 +251,8 @@ test('Correct handling of events', () => {
   const sfc: AstResult = getAST('emit.vue')
   const mockOnEvent = jest.fn(() => {})
   const options: ParserOptions = {
-    onEvent: mockOnEvent
+    onEvent: mockOnEvent,
+    includeSyncEvent: true
   }
   const seen = new Seen()
   parseJavascript(sfc.jsAst as bt.File, seen, options)
@@ -290,8 +291,7 @@ test('Correct handling of events, but exclude syncEvent', () => {
   const sfc: AstResult = getAST('emit.vue')
   const mockOnEvent = jest.fn(() => {})
   const options: ParserOptions = {
-    onEvent: mockOnEvent,
-    includeSyncEvent: false
+    onEvent: mockOnEvent
   }
   const seen = new Seen()
   parseJavascript(sfc.jsAst as bt.File, seen, options)
@@ -430,7 +430,8 @@ test('@Emit decorator', () => {
   const sfc: AstResult = getAST('tsEmit.vue')
   const mockOnEvent = jest.fn(() => {})
   const options: ParserOptions = {
-    onEvent: mockOnEvent
+    onEvent: mockOnEvent,
+    includeSyncEvent: true
   }
   const seen = new Seen()
   parseJavascript(sfc.jsAst as bt.File, seen, options)
@@ -457,12 +458,10 @@ test('@Emit decorator, exclude syncEvent', () => {
   const sfc: AstResult = getAST('tsEmit.vue')
   const mockOnEvent = jest.fn(() => {})
   const options: ParserOptions = {
-    onEvent: mockOnEvent,
-    includeSyncEvent: false
+    onEvent: mockOnEvent
   }
   const seen = new Seen()
   parseJavascript(sfc.jsAst as bt.File, seen, options)
-  console.log(options.includeSyncEvent)
   const arg1 = mockOnEvent.mock.calls[0][0]
   const arg2 = mockOnEvent.mock.calls[1][0]
 

@@ -164,7 +164,6 @@ export function parser(
   const astRes = sfcToAST(source, options.babelParserPlugins, options.basedir)
   const res: ParserResult = {}
   const defaultOptions: ParserOptions = {
-    includeSyncEvent: true,
     onName(name: string) {
       res.name = name
     },

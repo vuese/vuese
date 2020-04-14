@@ -15,8 +15,6 @@ export function parseTemplate(
   seenEvent: Seen,
   options: ParserOptions
 ) {
-  // backward compatibility
-  options = { includeSyncEvent: true, ...options }
   const parent = templateAst.parent
   if (templateAst.attrsMap) {
     for (let [attr, value] of Object.entries(templateAst.attrsMap)) {
