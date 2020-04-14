@@ -1,6 +1,6 @@
 {
   "projectName": "vuese",
-  "projectOwner": "HcySunYang",
+  "projectOwner": "shuidi-fed",
   "contributors": [
     {
       "login": "HcySunYang",
@@ -83,5 +83,11 @@
       ]
     }
   ],
-  "repoType": "github"
+  "repoType": "github",
+  "repoHost": "https://github.com",
+  "skipCi": true,
+  "files": [
+    "README.md"
+  ],
+  "contributorsPerLine": 7
 }
