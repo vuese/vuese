@@ -41,6 +41,7 @@ test('Get the component name correctly', () => {
 
   expect(mockOnName.mock.calls.length).toBe(1)
   expect(arg1).toBe('compName')
+  expect(arg2).toEqual({ default: ['This is a description of the component'] })
   expect(arg2).toMatchSnapshot()
 })
 
@@ -332,6 +333,7 @@ test('Correct handling of methods', () => {
   expect(mockOnMethod.mock.calls.length).toBe(1)
   expect((arg as MethodResult).name).toBe('fn')
   expect(((arg as MethodResult).describe as string[]).length).toBe(1)
+  expect((arg as MethodResult).describe as string[]).toEqual(['Do something'])
   expect(((arg as MethodResult).argumentsDesc as string[]).length).toBe(1)
   expect((arg as MethodResult).describe).toMatchSnapshot()
   expect((arg as MethodResult).argumentsDesc).toMatchSnapshot()
