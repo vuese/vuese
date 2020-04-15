@@ -300,7 +300,7 @@ export function parseJavascript(
             /**
              * if ClassProperty like this
              *` b: number | string`
-             * null for backward compatibility, if classProperty has typeAnnotation just use it as its type, unless it has decorator
+             *  if classProperty has typeAnnotation just use it as its type, unless it has decorator
              */
             if (
               path.node.typeAnnotation &&
@@ -312,7 +312,7 @@ export function parseJavascript(
             }
             const result: PropsResult = {
               name: (path.node.key as bt.Identifier).name,
-
+              //null for backward compatibility,
               type:
                 source.slice(typeAnnotationStart, typeAnnotationEnd) || null,
               describe: getComments(path.node).default
