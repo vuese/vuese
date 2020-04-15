@@ -4,7 +4,7 @@ import * as fs from 'fs'
 import { sfcToAST, AstResult, isVueComponent, isVueOption } from '@vuese/parser'
 import * as bt from '@babel/types'
 
-function getAST(fileName: string): object {
+function getAST(fileName: string): AstResult {
   const p = path.resolve(__dirname, `./__fixtures__/${fileName}`)
   const source = fs.readFileSync(p, 'utf-8')
   return sfcToAST(source)
