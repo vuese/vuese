@@ -27,7 +27,8 @@ import { Seen } from './seen'
 export function parseJavascript(
   ast: bt.File,
   seenEvent: Seen,
-  options: ParserOptions
+  options: ParserOptions,
+  source: string = ''
 ) {
   // backward compatibility
   const seenSlot = new Seen()
@@ -294,9 +295,26 @@ export function parseJavascript(
         ClassProperty(path: NodePath<bt.ClassProperty>) {
           const propDeco = getPropDecorator(path.node)
           if (propDeco) {
+            let typeAnnotationStart = 0
+            let typeAnnotationEnd = 0
+            /**
+             * if ClassProperty like this
+             *` b: number | string`
+             * null for backward compatibility, if classProperty has typeAnnotation just use it as its type, unless it has decorator
+             */
+            if (
+              path.node.typeAnnotation &&
+              bt.isTSTypeAnnotation(path.node.typeAnnotation)
+            ) {
+              let { start, end } = path.node.typeAnnotation.typeAnnotation
+              typeAnnotationStart = start || 0
+              typeAnnotationEnd = end || 0
+            }
             const result: PropsResult = {
               name: (path.node.key as bt.Identifier).name,
-              type: null,
+
+              type:
+                source.slice(typeAnnotationStart, typeAnnotationEnd) || null,
               describe: getComments(path.node).default
             }
             const propDecoratorArg = getArgumentFromPropDecorator(propDeco)
