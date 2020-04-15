@@ -333,8 +333,11 @@ test('Correct handling of methods', () => {
   expect(mockOnMethod.mock.calls.length).toBe(1)
   expect((arg as MethodResult).name).toBe('fn')
   expect(((arg as MethodResult).describe as string[]).length).toBe(1)
-  expect((arg as MethodResult).describe as string[]).toEqual(['Do something'])
+  expect((arg as MethodResult).describe).toEqual(['Do something'])
   expect(((arg as MethodResult).argumentsDesc as string[]).length).toBe(1)
+  expect((arg as MethodResult).argumentsDesc).toEqual([
+    'The first parameter is a Boolean value that represents...'
+  ])
   expect((arg as MethodResult).describe).toMatchSnapshot()
   expect((arg as MethodResult).argumentsDesc).toMatchSnapshot()
 })
