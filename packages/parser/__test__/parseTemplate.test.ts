@@ -9,7 +9,7 @@ import {
 } from '@vuese/parser'
 import { Seen } from '../lib/seen'
 
-function getAST(fileName: string): object {
+function getAST(fileName: string): AstResult {
   const p = path.resolve(__dirname, `./__fixtures__/${fileName}`)
   const source = fs.readFileSync(p, 'utf-8')
   return sfcToAST(source)

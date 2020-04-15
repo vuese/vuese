@@ -20,7 +20,7 @@ import { Seen } from '../lib/seen'
 function getAST(
   fileName: string,
   babelParserPlugins?: BabelParserPlugins
-): object {
+): AstResult {
   const p = path.resolve(__dirname, `./__fixtures__/${fileName}`)
   const source = fs.readFileSync(p, 'utf-8')
   return sfcToAST(source, babelParserPlugins, path.dirname(p))
@@ -35,7 +35,7 @@ test('Get the component name correctly', () => {
     onDesc: mockOnDesc
   }
   const seen = new Seen()
-  parseJavascript(sfc.jsAst as bt.File, seen, options)
+  parseJavascript(sfc.jsAst as bt.File, seen, options, sfc.jsSource)
   const arg1 = mockOnName.mock.calls[0][0]
   const arg2 = mockOnDesc.mock.calls[0][0]
 
@@ -383,20 +383,22 @@ test('The options in @Component should be parsed correctly', () => {
 
 test('@Prop decorator', () => {
   const sfc: AstResult = getAST('tsProp.vue')
+
   const mockOnProp = jest.fn(() => {})
   const options: ParserOptions = {
     onProp: mockOnProp
   }
   const seen = new Seen()
-  parseJavascript(sfc.jsAst as bt.File, seen, options)
+  parseJavascript(sfc.jsAst as bt.File, seen, options, sfc.jsSource)
 
   const arg1 = mockOnProp.mock.calls[0][0]
   const arg2 = mockOnProp.mock.calls[1][0]
   const arg3 = mockOnProp.mock.calls[2][0]
   const arg4 = mockOnProp.mock.calls[3][0]
   const arg5 = mockOnProp.mock.calls[4][0]
+  const arg6 = mockOnProp.mock.calls[5][0]
 
-  expect(mockOnProp.mock.calls.length).toBe(5)
+  expect(mockOnProp.mock.calls.length).toBe(6)
   expect((arg1 as PropsResult).name).toBe('a')
   expect((arg1 as PropsResult).type).toBe('Number')
   expect((arg1 as PropsResult).describe).toMatchSnapshot()
@@ -410,7 +412,13 @@ test('@Prop decorator', () => {
   expect((arg3 as PropsResult).defaultDesc).toMatchSnapshot()
 
   expect((arg4 as PropsResult).name).toBe('d')
+  expect((arg4 as PropsResult).type).toBe('string')
+
   expect((arg5 as PropsResult).name).toBe('e')
+  expect((arg5 as PropsResult).type).toBe('number')
+
+  expect((arg6 as PropsResult).name).toBe('comment')
+  expect((arg6 as PropsResult).type).toBe('CommentType')
 })
 
 test('Class method', () => {
