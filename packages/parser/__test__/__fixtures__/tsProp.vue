@@ -22,7 +22,12 @@ export default class Child extends Vue {
 
   @Prop() d: string
   @Prop e: number
-
+  @Prop
+  /**
+   * Passed comment from the parent component.
+   */
+  
+  comment!: CommentType
   @Action g: string // Non prop
 }
 </script>

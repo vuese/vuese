@@ -199,7 +199,7 @@ export function parser(
   const finallyOptions: ParserOptions = { ...defaultOptions, ...options }
   const seenEvent = new Seen()
   if (astRes.jsAst) {
-    parseJavascript(astRes.jsAst, seenEvent, finallyOptions)
+    parseJavascript(astRes.jsAst, seenEvent, finallyOptions, astRes.jsSource)
   }
   if (astRes.templateAst) {
     parseTemplate(astRes.templateAst, seenEvent, finallyOptions)
