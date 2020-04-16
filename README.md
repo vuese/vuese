@@ -137,7 +137,7 @@ Thanks goes to these wonderful people:
   </tr>
   <tr>
     <td align="center"><a href="https://ghuser.io/jamesgeorge007"><img src="https://avatars2.githubusercontent.com/u/25279263?v=4" width="100px;" alt=""/><br /><sub><b>James George</b></sub></a><br /><a href="https://github.com/shuidi-fed/vuese/commits?author=jamesgeorge007" title="Code">💻</a> <a href="https://github.com/shuidi-fed/vuese/commits?author=jamesgeorge007" title="Documentation">📖</a></td>
-    <td align="center"><a href="https://github.com/IWANABETHATGUY"><img src="https://avatars1.githubusercontent.com/u/17974631?v=4" width="100px;" alt=""/><br /><sub><b>IWANABETHATGUY</b></sub></a><br /><a href="https://github.com/shuidi-fed/vuese/commits?author=IWANABETHATGUY" title="Code">💻</a> <a href="https://github.com/shuidi-fed/vuese/commits?author=IWANABETHATGUY" title="Tests">⚠️</a></td>
+    <td align="center"><a href="https://github.com/IWANABETHATGUY"><img src="https://avatars1.githubusercontent.com/u/17974631?v=4" width="100px;" alt=""/><br /><sub><b>IWANABETHATGUY</b></sub></a><br /><a href="https://github.com/shuidi-fed/vuese/commits?author=IWANABETHATGUY" title="Code">💻</a> <a href="https://github.com/shuidi-fed/vuese/commits?author=IWANABETHATGUY" title="Tests">⚠️</a> <a href="https://github.com/shuidi-fed/vuese/commits?author=IWANABETHATGUY" title="Documentation">📖</a></td>
   </tr>
 </table>
 
