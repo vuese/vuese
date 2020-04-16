@@ -255,14 +255,22 @@ export function parseJavascript(
         },
         CallExpression(path: NodePath<bt.CallExpression>) {
           const node = path.node
+          let parentExpressionStatementNode = path.findParent(path =>
+            bt.isExpressionStatement(path)
+          )
           // $emit()
           if (
             bt.isMemberExpression(node.callee) &&
             bt.isIdentifier(node.callee.property) &&
             node.callee.property.name === '$emit' &&
-            bt.isExpressionStatement(path.parentPath.node)
+            bt.isExpressionStatement(parentExpressionStatementNode)
           ) {
-            processEmitCallExpression(path, seenEvent, options)
+            processEmitCallExpression(
+              path,
+              seenEvent,
+              options,
+              parentExpressionStatementNode
+            )
           } else if (
             options.onSlot &&
             bt.isMemberExpression(node.callee) &&
@@ -442,7 +450,8 @@ export function parseJavascript(
 export function processEmitCallExpression(
   path: NodePath<bt.CallExpression>,
   seenEvent: Seen,
-  options: ParserOptions
+  options: ParserOptions,
+  parentExpressionStatementNodePath: NodePath<bt.Node>
 ) {
   const node = path.node
   const { onEvent, includeSyncEvent } = options
@@ -465,7 +474,7 @@ export function processEmitCallExpression(
 
   if (!result.name || seenEvent.seen(result.name)) return
 
-  processEventName(result.name, path.parentPath, result)
+  processEventName(result.name, parentExpressionStatementNodePath, result)
 
   if (onEvent && (!!includeSyncEvent || !result.isSync)) {
     onEvent(result)

@@ -15,6 +15,11 @@ export default {
       this.$emit('click', someVal)
       
       this.$emit('update:some-prop', 1)
+    },
+    trick() {
+      let someVal = true
+      // event desc
+      someVar && this.$emit('some-event')
     }
   }
 }

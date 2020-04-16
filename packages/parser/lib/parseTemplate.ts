@@ -130,13 +130,21 @@ function parseExpression(
   traverse(astFile, {
     CallExpression(path: NodePath<bt.CallExpression>) {
       const node = path.node
+      let parentExpressionStatementNodePath = path.findParent(path =>
+        bt.isExpressionStatement(path)
+      )
       // $emit()
       if (
         bt.isIdentifier(node.callee) &&
         node.callee.name === '$emit' &&
         bt.isExpressionStatement(path.parentPath.node)
       ) {
-        processEmitCallExpression(path, seenEvent, options)
+        processEmitCallExpression(
+          path,
+          seenEvent,
+          options,
+          parentExpressionStatementNodePath
+        )
       }
     }
   })
