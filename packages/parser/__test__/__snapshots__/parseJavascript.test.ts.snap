@@ -162,23 +162,27 @@ exports[`The default value of Props 2`] = `undefined`;
 
 exports[`The default value of Props 3`] = `"{\\"val\\":1}"`;
 
-exports[`The default value of Props 4`] = `
+exports[`The default value of Props 4`] = `true`;
+
+exports[`The default value of Props 5`] = `
 Array [
   "\`{ val: 1 }\`",
 ]
 `;
 
-exports[`The default value of Props 5`] = `
+exports[`The default value of Props 6`] = `
 Array [
   "\`{ val: 1, a: 2 }\`",
 ]
 `;
 
-exports[`The default value of Props 6`] = `
+exports[`The default value of Props 7`] = `
 Array [
   "\`{ val: 1}\`",
 ]
 `;
+
+exports[`The default value of Props 8`] = `undefined`;
 
 exports[`The options in @Component should be parsed correctly 1`] = `
 Array [
