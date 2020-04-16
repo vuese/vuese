@@ -37,7 +37,15 @@ export default {
     f: {
       type: Number,
       default: 2
-    }
+    },
+    g: {
+      type: Date,
+      default: Date.now()
+    },
+    h: {
+      type: RegExp,
+      default: /test/
+    },
   }
 }
 </script>

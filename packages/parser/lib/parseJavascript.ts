@@ -82,7 +82,7 @@ export function parseJavascript(
                       describe: getComments(propPath.node).default
                     }
 
-                    processPropValue(propValueNode, result)
+                    processPropValue(propValueNode, result, source)
 
                     onProp(result)
                   }
@@ -319,7 +319,7 @@ export function parseJavascript(
             }
             const propDecoratorArg = getArgumentFromPropDecorator(propDeco)
             if (propDecoratorArg) {
-              processPropValue(propDecoratorArg, result)
+              processPropValue(propDecoratorArg, result, source)
             }
 
             if (options.onProp) options.onProp(result)
