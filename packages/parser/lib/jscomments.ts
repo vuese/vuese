@@ -64,6 +64,9 @@ export function getComments(cnode: bt.Node, trailing?: boolean): CommentResult {
       })
     }
   })
+  Object.keys(res).forEach(k => {
+    res[k] = res[k].filter(comment => !comment.includes('eslint-disable'))
+  })
   return res
 }
 

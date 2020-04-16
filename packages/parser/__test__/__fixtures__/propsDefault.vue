@@ -25,6 +25,18 @@ export default {
       default(){
         return { val: 1 }
       }
+    },
+    d: {
+      type: Boolean,
+      default: true
+    },
+    e: {
+      type: String,
+      default: 'string literal'
+    },
+    f: {
+      type: Number,
+      default: 2
     }
   }
 }

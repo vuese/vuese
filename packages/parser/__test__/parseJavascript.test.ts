@@ -41,6 +41,7 @@ test('Get the component name correctly', () => {
 
   expect(mockOnName.mock.calls.length).toBe(1)
   expect(arg1).toBe('compName')
+  expect(arg2).toEqual({ default: ['This is a description of the component'] })
   expect(arg2).toMatchSnapshot()
 })
 
@@ -332,7 +333,11 @@ test('Correct handling of methods', () => {
   expect(mockOnMethod.mock.calls.length).toBe(1)
   expect((arg as MethodResult).name).toBe('fn')
   expect(((arg as MethodResult).describe as string[]).length).toBe(1)
+  expect((arg as MethodResult).describe).toEqual(['Do something'])
   expect(((arg as MethodResult).argumentsDesc as string[]).length).toBe(1)
+  expect((arg as MethodResult).argumentsDesc).toEqual([
+    'The first parameter is a Boolean value that represents...'
+  ])
   expect((arg as MethodResult).describe).toMatchSnapshot()
   expect((arg as MethodResult).argumentsDesc).toMatchSnapshot()
 })
@@ -732,17 +737,32 @@ test('The default value of Props', () => {
   const seen = new Seen()
   parseJavascript(sfc.jsAst as bt.File, seen, options)
 
-  expect(mockOnProp.mock.calls.length).toBe(3)
+  expect(mockOnProp.mock.calls.length).toBe(6)
   const arg1 = mockOnProp.mock.calls[0][0]
   const arg2 = mockOnProp.mock.calls[1][0]
   const arg3 = mockOnProp.mock.calls[2][0]
+  const arg4 = mockOnProp.mock.calls[3][0]
+  const arg5 = mockOnProp.mock.calls[4][0]
+  const arg6 = mockOnProp.mock.calls[5][0]
+
   expect((arg1 as PropsResult).default).toMatchSnapshot()
   expect((arg2 as PropsResult).default).toMatchSnapshot()
   expect((arg3 as PropsResult).default).toMatchSnapshot()
+  expect((arg4 as PropsResult).default).toMatchSnapshot()
 
   expect((arg1 as PropsResult).defaultDesc).toMatchSnapshot()
   expect((arg2 as PropsResult).defaultDesc).toMatchSnapshot()
   expect((arg3 as PropsResult).defaultDesc).toMatchSnapshot()
+  expect((arg4 as PropsResult).defaultDesc).toMatchSnapshot()
+
+  expect((arg4 as PropsResult).default).toEqual(true)
+  expect((arg4 as PropsResult).type).toEqual('Boolean')
+
+  expect((arg5 as PropsResult).default).toEqual('string literal')
+  expect((arg5 as PropsResult).type).toEqual('String')
+
+  expect((arg6 as PropsResult).default).toEqual(2)
+  expect((arg6 as PropsResult).type).toEqual('Number')
 })
 
 test('The seperated block should be handled correctly', () => {
