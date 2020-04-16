@@ -173,7 +173,7 @@ test('Props: gets correct name for a quoted property', () => {
     onProp: mockOnProp
   }
   const seen = new Seen()
-  parseJavascript(sfc1.jsAst as bt.File, seen, options)
+  parseJavascript(sfc1.jsAst as bt.File, seen, options, sfc1.jsSource)
   const arg = mockOnProp.mock.calls[5][0]
 
   expect(mockOnProp.mock.calls.length).toBe(6)
@@ -730,34 +730,40 @@ test('The default value of Props', () => {
   }
   const sfc: AstResult = getAST('propsDefault.vue')
   const seen = new Seen()
-  parseJavascript(sfc.jsAst as bt.File, seen, options)
+  parseJavascript(sfc.jsAst as bt.File, seen, options, sfc.jsSource)
 
-  expect(mockOnProp.mock.calls.length).toBe(6)
+  expect(mockOnProp.mock.calls.length).toBe(8)
   const arg1 = mockOnProp.mock.calls[0][0]
   const arg2 = mockOnProp.mock.calls[1][0]
   const arg3 = mockOnProp.mock.calls[2][0]
   const arg4 = mockOnProp.mock.calls[3][0]
   const arg5 = mockOnProp.mock.calls[4][0]
   const arg6 = mockOnProp.mock.calls[5][0]
+  const arg7 = mockOnProp.mock.calls[6][0]
+  const arg8 = mockOnProp.mock.calls[7][0]
 
   expect((arg1 as PropsResult).default).toMatchSnapshot()
   expect((arg2 as PropsResult).default).toMatchSnapshot()
   expect((arg3 as PropsResult).default).toMatchSnapshot()
-  expect((arg4 as PropsResult).default).toMatchSnapshot()
 
   expect((arg1 as PropsResult).defaultDesc).toMatchSnapshot()
   expect((arg2 as PropsResult).defaultDesc).toMatchSnapshot()
   expect((arg3 as PropsResult).defaultDesc).toMatchSnapshot()
-  expect((arg4 as PropsResult).defaultDesc).toMatchSnapshot()
 
-  expect((arg4 as PropsResult).default).toEqual(true)
+  expect((arg4 as PropsResult).default).toEqual('true')
   expect((arg4 as PropsResult).type).toEqual('Boolean')
 
   expect((arg5 as PropsResult).default).toEqual('string literal')
   expect((arg5 as PropsResult).type).toEqual('String')
 
-  expect((arg6 as PropsResult).default).toEqual(2)
+  expect((arg6 as PropsResult).default).toEqual('2')
   expect((arg6 as PropsResult).type).toEqual('Number')
+
+  expect((arg7 as PropsResult).default).toEqual('Date.now()')
+  expect((arg7 as PropsResult).type).toEqual('Date')
+
+  expect((arg8 as PropsResult).default).toEqual('/test/')
+  expect((arg8 as PropsResult).type).toEqual('RegExp')
 })
 
 test('The seperated block should be handled correctly', () => {

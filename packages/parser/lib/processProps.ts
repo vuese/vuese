@@ -4,7 +4,11 @@ import { getComments } from './jscomments'
 import { PropType, PropsResult } from './index'
 import { runFunction } from './helper'
 
-export function processPropValue(propValueNode: bt.Node, result: PropsResult) {
+export function processPropValue(
+  propValueNode: bt.Node,
+  result: PropsResult,
+  source: string
+) {
   if (isAllowPropsType(propValueNode)) {
     result.type = getTypeByTypeNode(propValueNode)
   } else if (bt.isObjectExpression(propValueNode)) {
@@ -54,9 +58,16 @@ export function processPropValue(propValueNode: bt.Node, result: PropsResult) {
             result.default = runFunction(r)
           } else if (bt.isFunction(node.value)) {
             result.default = runFunction(node.value)
-          } else if (bt.isLiteral(node.value)) {
+          } else {
+            let start = node.value.start || 0
+            let end = node.value.end || 0
+            // if node.value is stringliteral , e.g: "string literal" need to exclude quote
+            if (bt.isStringLiteral(node.value)) {
+              start++
+              end--
+            }
             // type sucks, fix it use any...
-            result.default = (node.value as any).value
+            result.default = source.slice(start, end) || undefined
           }
         } else {
           if (bt.isObjectMethod(node)) {
