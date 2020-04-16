@@ -39,9 +39,9 @@
     "rollup-plugin-auto-external": "^2.0.0",
     "rollup-plugin-typescript2": "^0.19.0",
     "ts-jest": "^23.10.1",
-    "tslint": "^5.11.0",
+    "tslint": "^5.18.0",
     "tslint-plugin-prettier": "^2.0.0",
-    "typescript": "^3.0.3"
+    "typescript": "^3.8.3"
   },
   "lint-staged": {
     "*.ts": [
