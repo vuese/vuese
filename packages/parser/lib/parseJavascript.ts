@@ -28,8 +28,8 @@ export function parseJavascript(
   ast: bt.File,
   seenEvent: Seen,
   options: ParserOptions,
-  source: string = ''
-) {
+  source = ''
+): void {
   // backward compatibility
   const seenSlot = new Seen()
   traverse(ast, {
@@ -51,7 +51,7 @@ export function parseJavascript(
           } = options
           // Processing name
           if (isVueOption(path, 'name')) {
-            let componentName = (path.node.value as bt.StringLiteral).value
+            const componentName = (path.node.value as bt.StringLiteral).value
             if (onName) onName(componentName)
           }
 
@@ -306,7 +306,7 @@ export function parseJavascript(
               path.node.typeAnnotation &&
               bt.isTSTypeAnnotation(path.node.typeAnnotation)
             ) {
-              let { start, end } = path.node.typeAnnotation.typeAnnotation
+              const { start, end } = path.node.typeAnnotation.typeAnnotation
               typeAnnotationStart = start || 0
               typeAnnotationEnd = end || 0
             }
@@ -443,7 +443,7 @@ export function processEmitCallExpression(
   path: NodePath<bt.CallExpression>,
   seenEvent: Seen,
   options: ParserOptions
-) {
+): void {
   const node = path.node
   const { onEvent, includeSyncEvent } = options
   const args = node.arguments

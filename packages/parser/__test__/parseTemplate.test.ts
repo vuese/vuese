@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-empty-function */
 import * as path from 'path'
 import * as fs from 'fs'
 import {
