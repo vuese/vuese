@@ -36,7 +36,10 @@ export function processPropValue(propValueNode: bt.Node, result: PropsResult) {
       }
     }
     // Processing props's default value
-    otherNodes.forEach((node: any) => {
+    otherNodes.forEach(node => {
+      if (bt.isSpreadElement(node)) {
+        return
+      }
       const n = node.key.name
       if (n === 'default') {
         if (!hasFunctionTypeDef(result.type)) {
@@ -51,12 +54,9 @@ export function processPropValue(propValueNode: bt.Node, result: PropsResult) {
             result.default = runFunction(r)
           } else if (bt.isFunction(node.value)) {
             result.default = runFunction(node.value)
-          } else if (
-            bt.isNumericLiteral(node.value) ||
-            bt.isStringLiteral(node.value)
-          ) {
-            // Primitive value
-            result.default = node.value.value
+          } else if (bt.isLiteral(node.value)) {
+            // type sucks, fix it use any...
+            result.default = (node.value as any).value
           }
         } else {
           if (bt.isObjectMethod(node)) {
@@ -72,7 +72,7 @@ export function processPropValue(propValueNode: bt.Node, result: PropsResult) {
           result.defaultDesc = defaultDesc
         }
       } else if (n === 'required') {
-        if (bt.isBooleanLiteral(node.value)) {
+        if (bt.isObjectProperty(node) && bt.isBooleanLiteral(node.value)) {
           result.required = node.value.value
         }
       } else if (n === 'validator') {
