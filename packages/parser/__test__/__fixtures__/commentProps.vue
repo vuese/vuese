@@ -10,6 +10,7 @@ export default {
      * For input form
      * and something
      */
+    // eslint-disable-next-line
     a: String
   }
 }

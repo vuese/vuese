@@ -10,6 +10,7 @@ export default {
     /**
      * @arg The first parameter is a Boolean value that represents...
      */
+    // eslint-disable-next-line camelcase
     fn (bol) {}
   }
 }

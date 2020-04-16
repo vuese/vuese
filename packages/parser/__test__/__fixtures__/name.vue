@@ -4,6 +4,7 @@
 
 <script>
 // This is a description of the component
+/* eslint-disable camelcase */
 export default {
   name: 'compName',
   props: {
