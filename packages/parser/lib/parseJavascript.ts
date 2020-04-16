@@ -255,22 +255,25 @@ export function parseJavascript(
         },
         CallExpression(path: NodePath<bt.CallExpression>) {
           const node = path.node
-          let parentExpressionStatementNode = path.findParent(path =>
-            bt.isExpressionStatement(path)
-          )
+
           // $emit()
           if (
             bt.isMemberExpression(node.callee) &&
             bt.isIdentifier(node.callee.property) &&
-            node.callee.property.name === '$emit' &&
-            bt.isExpressionStatement(parentExpressionStatementNode)
+            node.callee.property.name === '$emit'
           ) {
-            processEmitCallExpression(
-              path,
-              seenEvent,
-              options,
-              parentExpressionStatementNode
+            // for performance issue only check when it is like a `$emit` CallExpression
+            let parentExpressionStatementNode = path.findParent(path =>
+              bt.isExpressionStatement(path)
             )
+            if (bt.isExpressionStatement(parentExpressionStatementNode)) {
+              processEmitCallExpression(
+                path,
+                seenEvent,
+                options,
+                parentExpressionStatementNode
+              )
+            }
           } else if (
             options.onSlot &&
             bt.isMemberExpression(node.callee) &&
