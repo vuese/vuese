@@ -133,7 +133,7 @@ function parseExpression(
 
       // $emit()
       if (bt.isIdentifier(node.callee) && node.callee.name === '$emit') {
-        let parentExpressionStatementNodePath = path.findParent(path =>
+        const parentExpressionStatementNodePath = path.findParent(path =>
           bt.isExpressionStatement(path)
         )
         if (bt.isExpressionStatement(parentExpressionStatementNodePath)) {

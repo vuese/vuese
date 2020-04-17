@@ -263,7 +263,7 @@ export function parseJavascript(
             node.callee.property.name === '$emit'
           ) {
             // for performance issue only check when it is like a `$emit` CallExpression
-            let parentExpressionStatementNode = path.findParent(path =>
+            const parentExpressionStatementNode = path.findParent(path =>
               bt.isExpressionStatement(path)
             )
             if (bt.isExpressionStatement(parentExpressionStatementNode)) {
@@ -455,7 +455,7 @@ export function processEmitCallExpression(
   seenEvent: Seen,
   options: ParserOptions,
   parentExpressionStatementNodePath: NodePath<bt.Node>
-):void {
+): void {
 
   const node = path.node
   const { onEvent, includeSyncEvent } = options
