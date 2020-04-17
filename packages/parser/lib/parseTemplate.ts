@@ -130,13 +130,20 @@ function parseExpression(
   traverse(astFile, {
     CallExpression(path: NodePath<bt.CallExpression>) {
       const node = path.node
+
       // $emit()
-      if (
-        bt.isIdentifier(node.callee) &&
-        node.callee.name === '$emit' &&
-        bt.isExpressionStatement(path.parentPath.node)
-      ) {
-        processEmitCallExpression(path, seenEvent, options)
+      if (bt.isIdentifier(node.callee) && node.callee.name === '$emit') {
+        let parentExpressionStatementNodePath = path.findParent(path =>
+          bt.isExpressionStatement(path)
+        )
+        if (bt.isExpressionStatement(parentExpressionStatementNodePath)) {
+          processEmitCallExpression(
+            path,
+            seenEvent,
+            options,
+            parentExpressionStatementNodePath
+          )
+        }
       }
     }
   })

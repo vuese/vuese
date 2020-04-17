@@ -262,8 +262,9 @@ test('Correct handling of events', () => {
   const arg1 = mockOnEvent.mock.calls[0][0]
   const arg2 = mockOnEvent.mock.calls[1][0]
   const arg3 = mockOnEvent.mock.calls[2][0]
+  const arg4 = mockOnEvent.mock.calls[3][0]
 
-  expect(mockOnEvent.mock.calls.length).toBe(3)
+  expect(mockOnEvent.mock.calls.length).toBe(4)
   expect((arg1 as EventResult).name).toBe('click')
   expect(((arg1 as EventResult).describe as string[]).length).toBe(1)
   expect(((arg1 as EventResult).argumentsDesc as string[]).length).toBe(1)
@@ -278,15 +279,21 @@ test('Correct handling of events', () => {
   expect((arg2 as EventResult).argumentsDesc).toBe(undefined)
   expect((arg2 as EventResult).describe).toMatchSnapshot()
   expect((arg2 as EventResult).argumentsDesc).toMatchSnapshot()
+
+  expect((arg3 as EventResult).name).toBe('some-event')
+  expect((arg3 as EventResult).isSync).toBe(false)
+  expect((arg3 as EventResult).describe).toEqual(['event desc'])
+  expect((arg4 as EventResult).argumentsDesc).toBe(undefined)
+
   // event emit from template
   // two CallExpression should only call once, valid is $emit, invalid is `that.$emit`, the `$emit('click')` in template will ignore, cause emit in the javascript file.
-  expect((arg3 as EventResult).name).toBe('close')
-  expect((arg3 as EventResult).isSync).toBe(false)
-  expect((arg3 as EventResult).syncProp).toBe('')
-  expect(((arg3 as EventResult).describe as string[]).length).toBe(0)
-  expect((arg3 as EventResult).argumentsDesc).toBe(undefined)
-  expect((arg3 as EventResult).describe).toMatchSnapshot()
-  expect((arg3 as EventResult).argumentsDesc).toMatchSnapshot()
+  expect((arg4 as EventResult).name).toBe('close')
+  expect((arg4 as EventResult).isSync).toBe(false)
+  expect((arg4 as EventResult).syncProp).toBe('')
+  expect(((arg4 as EventResult).describe as string[]).length).toBe(0)
+  expect((arg4 as EventResult).argumentsDesc).toBe(undefined)
+  expect((arg4 as EventResult).describe).toMatchSnapshot()
+  expect((arg4 as EventResult).argumentsDesc).toMatchSnapshot()
 })
 
 test('Correct handling of events, but exclude syncEvent', () => {
@@ -300,13 +307,15 @@ test('Correct handling of events, but exclude syncEvent', () => {
   parseTemplate(sfc.templateAst, seen, options)
   const arg1 = mockOnEvent.mock.calls[0][0]
   const arg2 = mockOnEvent.mock.calls[1][0]
+  const arg3 = mockOnEvent.mock.calls[2][0]
 
-  expect(mockOnEvent.mock.calls.length).toBe(2)
+  expect(mockOnEvent.mock.calls.length).toBe(3)
   expect((arg1 as EventResult).name).toBe('click')
 
+  expect((arg2 as EventResult).name).toBe('some-event')
   // event emit from template
   // two CallExpression should only call once, valid is $emit, invalid is `that.$emit`, the `$emit('click')` in template will ignore, cause emit in the javascript file.
-  expect((arg2 as EventResult).name).toBe('close')
+  expect((arg3 as EventResult).name).toBe('close')
 })
 
 test('Only call onEvent once for the same event', () => {

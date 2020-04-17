@@ -1,5 +1,5 @@
 <template>
-  <div @click="$emit('close'); that.$emit('some'); $emit('click')" ></div>
+  <div @click="trueValue && $emit('close'); that.$emit('some'); $emit('click')" ></div>
 </template>
 
 <script>
@@ -15,6 +15,11 @@ export default {
       this.$emit('click', someVal)
       
       this.$emit('update:some-prop', 1)
+    },
+    trick() {
+      let someVal = true
+      // event desc
+      someVar && this.$emit('some-event')
     }
   }
 }
