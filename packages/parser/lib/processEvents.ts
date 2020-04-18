@@ -13,7 +13,7 @@ export function processEventName(
   eventName: string,
   cnodePath: NodePath<bt.Node>,
   result: EventResult
-) {
+): void {
   const cnode = cnodePath.node
   const syncRE = /^update:(.+)/
   const eventNameMatchs = eventName.match(syncRE)

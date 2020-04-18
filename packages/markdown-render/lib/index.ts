@@ -67,7 +67,7 @@ export class Render {
       computed,
       watch
     } = this.parserResult
-    let md: RenderResult = {}
+    const md: RenderResult = {}
     if (props) {
       md.props = this.propRender(props)
     }

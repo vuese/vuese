@@ -8,7 +8,7 @@ export function processPropValue(
   propValueNode: bt.Node,
   result: PropsResult,
   source: string
-) {
+): void {
   if (isAllowPropsType(propValueNode)) {
     result.type = getTypeByTypeNode(propValueNode)
   } else if (bt.isObjectExpression(propValueNode)) {
@@ -49,12 +49,12 @@ export function processPropValue(
         if (!hasFunctionTypeDef(result.type)) {
           if (bt.isObjectMethod(node)) {
             // Using functionExpression instead of ObjectMethod
-            let params = node.params || []
+            const params = node.params || []
             let body = node.body
             if (!bt.isBlockStatement(body)) {
               body = bt.blockStatement(body)
             }
-            let r = bt.functionExpression(null, params, body, false, false)
+            const r = bt.functionExpression(null, params, body, false, false)
             result.default = runFunction(r)
           } else if (bt.isFunction(node.value)) {
             result.default = runFunction(node.value)

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
 import path from 'path'
 import getPort from 'get-port'
 import open from 'open'

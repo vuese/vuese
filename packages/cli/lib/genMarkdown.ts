@@ -1,3 +1,4 @@
+/* eslint-disable prefer-const */
 import path from 'path'
 import fg from 'fast-glob'
 import fs from 'fs-extra'
@@ -37,12 +38,12 @@ export default async (config: CliOptions) => {
         basedir: path.dirname(abs)
       })
       const r = new Render(parserRes)
-      let markdownRes = r.renderMarkdown()
+      const markdownRes = r.renderMarkdown()
 
       if (!markdownRes) return
 
       let str = markdownRes.content
-      let compName = markdownRes.componentName
+      const compName = markdownRes.componentName
         ? markdownRes.componentName
         : path.basename(abs, '.vue')
       const groupName = markdownRes.groupName
