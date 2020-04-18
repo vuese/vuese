@@ -28,8 +28,8 @@ export function parseJavascript(
   ast: bt.File,
   seenEvent: Seen,
   options: ParserOptions,
-  source: string = ''
-) {
+  source = ''
+): void {
   // backward compatibility
   const seenSlot = new Seen()
   traverse(ast, {
@@ -51,7 +51,7 @@ export function parseJavascript(
           } = options
           // Processing name
           if (isVueOption(path, 'name')) {
-            let componentName = (path.node.value as bt.StringLiteral).value
+            const componentName = (path.node.value as bt.StringLiteral).value
             if (onName) onName(componentName)
           }
 
@@ -263,7 +263,7 @@ export function parseJavascript(
             node.callee.property.name === '$emit'
           ) {
             // for performance issue only check when it is like a `$emit` CallExpression
-            let parentExpressionStatementNode = path.findParent(path =>
+            const parentExpressionStatementNode = path.findParent(path =>
               bt.isExpressionStatement(path)
             )
             if (bt.isExpressionStatement(parentExpressionStatementNode)) {
@@ -317,7 +317,7 @@ export function parseJavascript(
               path.node.typeAnnotation &&
               bt.isTSTypeAnnotation(path.node.typeAnnotation)
             ) {
-              let { start, end } = path.node.typeAnnotation.typeAnnotation
+              const { start, end } = path.node.typeAnnotation.typeAnnotation
               typeAnnotationStart = start || 0
               typeAnnotationEnd = end || 0
             }
@@ -455,7 +455,8 @@ export function processEmitCallExpression(
   seenEvent: Seen,
   options: ParserOptions,
   parentExpressionStatementNodePath: NodePath<bt.Node>
-) {
+): void {
+
   const node = path.node
   const { onEvent, includeSyncEvent } = options
   const args = node.arguments

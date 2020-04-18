@@ -11,7 +11,7 @@ export function isVueComponent(node: bt.Node): boolean {
   return bt.isExportDefaultDeclaration(node)
 }
 
-function isValidObjectProperty(node: Node) {
+function isValidObjectProperty(node: Node): boolean {
   return bt.isObjectProperty(node) || bt.isObjectMethod(node)
 }
 
@@ -57,8 +57,8 @@ export function runFunction(fnCode: bt.Node): any {
   }
 }
 
-export function getValueFromGenerate(node: any) {
-  let code: string = 'return'
+export function getValueFromGenerate(node: any): any {
+  let code = 'return'
   const { code: genCode } = generate(node)
   code += genCode
   const fn = new Function(code)

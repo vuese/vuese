@@ -11,7 +11,7 @@ import { CommentResult, getComments } from './jscomments'
 export function determineChildren(
   functionPath: NodePath,
   onSlot: ParserOptions['onSlot']
-) {
+): void {
   if (!bt.isFunction(functionPath.node)) return
 
   // Get the last argument of the render function and use it as the render context

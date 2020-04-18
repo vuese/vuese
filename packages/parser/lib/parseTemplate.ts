@@ -14,10 +14,10 @@ export function parseTemplate(
   templateAst: any,
   seenEvent: Seen,
   options: ParserOptions
-) {
+): void {
   const parent = templateAst.parent
   if (templateAst.attrsMap) {
-    for (let [attr, value] of Object.entries(templateAst.attrsMap)) {
+    for (const [attr, value] of Object.entries(templateAst.attrsMap)) {
       if (
         (attr.startsWith('v-on:') || attr.startsWith('@')) &&
         /\$emit\(.*?\)/.test(value as string)
@@ -56,7 +56,7 @@ export function parseTemplate(
         const list: [] = parent.children
         let currentSlotIndex = 0
         for (let i = 0; i < list.length; i++) {
-          let el = list[i]
+          const el = list[i]
           if (el === templateAst) {
             currentSlotIndex = i
             break
@@ -66,7 +66,7 @@ export function parseTemplate(
         // Find the first leading comment node as a description of the slot
         const copies = list.slice(0, currentSlotIndex).reverse()
         for (let i = 0; i < copies.length; i++) {
-          let el: any = copies[i]
+          const el: any = copies[i]
           if (el.type !== 3 || (!el.isComment && el.text.trim())) break
           if (
             el.isComment &&
@@ -80,7 +80,7 @@ export function parseTemplate(
         // Find the first child comment node as a description of the default slot content
         if (templateAst.children.length) {
           for (let i = 0; i < templateAst.children.length; i++) {
-            let el: any = templateAst.children[i]
+            const el: any = templateAst.children[i]
             if (el.type !== 3 || (!el.isComment && el.text.trim())) break
             if (el.isComment) {
               slot.backerDesc = el.text.trim()
@@ -126,14 +126,14 @@ function parseExpression(
   astFile: File,
   seenEvent: Seen,
   options: ParserOptions
-) {
+): void {
   traverse(astFile, {
     CallExpression(path: NodePath<bt.CallExpression>) {
       const node = path.node
 
       // $emit()
       if (bt.isIdentifier(node.callee) && node.callee.name === '$emit') {
-        let parentExpressionStatementNodePath = path.findParent(path =>
+        const parentExpressionStatementNodePath = path.findParent(path =>
           bt.isExpressionStatement(path)
         )
         if (bt.isExpressionStatement(parentExpressionStatementNodePath)) {

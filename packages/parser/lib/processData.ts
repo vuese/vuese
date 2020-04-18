@@ -5,7 +5,7 @@ import { DataResult } from './index'
 export function processDataValue(
   dataNode: bt.ObjectProperty,
   result: DataResult
-) {
+): void {
   result.type = getTypeByDataNode(dataNode)
   result.default = getValueByDataNode(dataNode.value)
 }
@@ -13,7 +13,7 @@ export function processDataValue(
 function getTypeByDataNode(node: bt.ObjectProperty): string {
   if (bt.isObjectMethod(node) || bt.isArrowFunctionExpression(node.value))
     return 'Function'
-  let dataNode = node.value
+  const dataNode = node.value
   if (bt.isIdentifier(dataNode)) return dataNode.name
 
   if (bt.isAssignmentExpression(dataNode) || bt.isAssignmentPattern(dataNode)) {
@@ -57,8 +57,8 @@ function getValueByDataNode(dataNode: bt.Node): string {
   return ''
 }
 
-function literalToType(literal: string) {
-  let type = literal
+function literalToType(literal: string): string {
+  const type = literal
     .replace('Literal', '')
     .replace('Expression', '')
     .replace('Numeric', 'Number')
