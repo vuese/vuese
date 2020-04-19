@@ -7,9 +7,20 @@ import { CliOptions } from '.'
 import { parser } from '@vuese/parser'
 import Render from '@vuese/markdown-render'
 
+type GetMarkdownResult = Promise<
+  Promise<
+    | {
+        compName: string
+        groupName: string
+        content: string
+      }
+    | undefined
+  >[]
+>
+
 const logger = Log.create()
 
-export default async (config: CliOptions) => {
+export default async (config: CliOptions): GetMarkdownResult => {
   let {
     include,
     exclude,
@@ -18,7 +29,8 @@ export default async (config: CliOptions) => {
     markdownFile,
     babelParserPlugins,
     isPreview,
-    genType
+    genType,
+    keepFolderStructure
   } = config
 
   if (!isPreview) logger.progress('Start creating markdown files...')
@@ -62,10 +74,16 @@ export default async (config: CliOptions) => {
         targetFile = compName
       }
 
-      const target = path.resolve(targetDir, targetFile + '.md')
-
+      const folderStructureMiddlePath: string = keepFolderStructure
+        ? getGlobPatternMatchPath(include as string[], path.dirname(p))
+        : ''
+      const target = path.resolve(
+        targetDir,
+        folderStructureMiddlePath,
+        targetFile + '.md'
+      )
       if (!isPreview) {
-        await fs.ensureDir(targetDir)
+        await fs.ensureDir(path.resolve(targetDir, folderStructureMiddlePath))
         await fs.writeFile(target, str)
         logger.success(`Successfully created: ${target}`)
       }
@@ -80,4 +98,30 @@ export default async (config: CliOptions) => {
       logger.error(e)
     }
   })
+}
+
+function getGlobPatternMatchPath(
+  globPatternList: string[],
+  targetPath: string
+): string {
+  let index = Infinity
+  let res = ''
+  for (let i = 0; i < globPatternList.length; i++) {
+    let ep: string = explicitPrefix(globPatternList[i])
+    if (targetPath.startsWith(ep) && ep.length < index) {
+      index = ep.length
+      res = ep
+    }
+  }
+  res = targetPath.slice(res.length)
+  return res[0] === '/' ? res.slice(1) : res
+}
+
+function explicitPrefix(pattern: string): string {
+  let patternList = pattern.split('/')
+  let resi = 0
+  while (patternList[resi] && patternList[resi] !== '**') {
+    resi++
+  }
+  return patternList.slice(0, resi).join('/')
 }
