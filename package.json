@@ -14,8 +14,7 @@
     "changelog": "conventional-changelog -i CHANGELOG.md -s",
     "contributors:add": "all-contributors add",
     "contributors:generate": "all-contributors generate",
-    "vuese-cli": "./packages/cli/bin/index.js",
-    "gen": "rm -rf test-website && npm run vuese-cli -- gen -k"
+    "vuese-cli": "./packages/cli/bin/index.js"
   },
   "devDependencies": {
     "@types/babel__generator": "^7.0.0",
