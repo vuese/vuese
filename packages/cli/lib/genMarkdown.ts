@@ -7,7 +7,7 @@ import { CliOptions } from '.'
 import { parser } from '@vuese/parser'
 import Render from '@vuese/markdown-render'
 
-type GetMarkdownResult = Promise<
+type MarkdownResult = Promise<
   Promise<
     | {
         compName: string
@@ -20,7 +20,7 @@ type GetMarkdownResult = Promise<
 
 const logger = Log.create()
 
-export default async (config: CliOptions): GetMarkdownResult => {
+export default async (config: CliOptions): MarkdownResult => {
   let {
     include,
     exclude,
