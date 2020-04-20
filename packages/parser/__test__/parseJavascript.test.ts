@@ -658,7 +658,7 @@ test('data in the object', () => {
   expect((arg3 as DataResult).default).toMatchSnapshot()
 })
 
-test('data in the object, arrow function with returnStatement', () => {
+test('data in the object, arrow function with returnStatement.', () => {
   const sfc: AstResult = getAST('data2.vue')
   const mockOnData = jest.fn(() => {})
   const options: ParserOptions = {
