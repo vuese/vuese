@@ -293,35 +293,35 @@ Array [
 
 exports[`data in the object 9`] = `"[An,Array]"`;
 
-exports[`data in the object, arrow function with return body 1`] = `"Number"`;
+exports[`data in the object, arrow function with returnStatement. 1`] = `"Number"`;
 
-exports[`data in the object, arrow function with return body 2`] = `
+exports[`data in the object, arrow function with returnStatement. 2`] = `
 Array [
   "Is a value",
 ]
 `;
 
-exports[`data in the object, arrow function with return body 3`] = `"5"`;
+exports[`data in the object, arrow function with returnStatement. 3`] = `"5"`;
 
-exports[`data in the object, arrow function with return body 4`] = `"String"`;
+exports[`data in the object, arrow function with returnStatement. 4`] = `"String"`;
 
-exports[`data in the object, arrow function with return body 5`] = `
+exports[`data in the object, arrow function with returnStatement. 5`] = `
 Array [
   "Is a string variable",
 ]
 `;
 
-exports[`data in the object, arrow function with return body 6`] = `"A String"`;
+exports[`data in the object, arrow function with returnStatement. 6`] = `"A String"`;
 
-exports[`data in the object, arrow function with return body 7`] = `"Array"`;
+exports[`data in the object, arrow function with returnStatement. 7`] = `"Array"`;
 
-exports[`data in the object, arrow function with return body 8`] = `
+exports[`data in the object, arrow function with returnStatement. 8`] = `
 Array [
   "Is an array variable",
 ]
 `;
 
-exports[`data in the object, arrow function with return body 9`] = `"[An,Array]"`;
+exports[`data in the object, arrow function with returnStatement. 9`] = `"[An,Array]"`;
 
 exports[`watch in the object 1`] = `
 Array [
