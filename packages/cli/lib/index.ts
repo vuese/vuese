@@ -38,6 +38,7 @@ export type CliOptions = {
   open: boolean
   port: number
   host: string
+  keepFolderStructure: boolean
 }
 type PartialCliOptions = Partial<CliOptions>
 
@@ -57,7 +58,8 @@ async function getConfig(
     outDir: 'website',
     markdownDir: 'components',
     markdownFile: '',
-    host: '127.0.0.1'
+    host: '127.0.0.1',
+    keepFolderStructure: false
   }
   if (path) Object.assign(config, data, flags)
   Object.assign(config, flags || {})
@@ -84,6 +86,7 @@ cli
 
 cli
   .command('gen', 'Generate target resources')
+  .option('-k, --keepFolderStructure', 'keep original folder structure')
   .allowUnknownOptions()
   .action(async (flags: Partial<CliOptions>) => {
     const config = await getConfig(flags)

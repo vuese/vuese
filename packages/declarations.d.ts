@@ -1,6 +1,6 @@
 declare module 'vue-template-compiler/build'
 declare module 'strip-ansi'
-declare module 'fs-extra'
+// declare module 'fs-extra'
 declare module 'log-horizon'
 declare module 'marked'
 declare module 'prismjs'
