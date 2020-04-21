@@ -137,27 +137,51 @@ export function parseJavascript(
             (bt.isObjectExpression(path.node.value) ||
               bt.isArrowFunctionExpression(path.node.value))
           ) {
-            const value = bt.isArrowFunctionExpression(path.node.value)
+            let value = bt.isArrowFunctionExpression(path.node.value)
               ? path.node.value.body
               : path.node.value
-            const properties = (value as bt.ObjectExpression).properties.filter(
-              n => bt.isObjectMethod(n) || bt.isObjectProperty(n)
-            ) as bt.ObjectProperty[]
-
-            properties.forEach(node => {
-              const commentsRes: CommentResult = getComments(node)
-              // Collect only data that have @vuese annotations
-              if (commentsRes.vuese) {
-                const result: DataResult = {
-                  name: node.key.name,
-                  type: '',
-                  describe: commentsRes.default,
-                  default: ''
-                }
-                processDataValue(node, result)
-                onData(result)
+            /**
+             * data: () => {
+             *  return {}
+             * }
+             * if data property is something like above, should process its return statement
+             * argument
+             */
+            if (bt.isBlockStatement(value)) {
+              const returnStatement: bt.ReturnStatement = value.body.filter(n =>
+                bt.isReturnStatement(n)
+              )[0] as bt.ReturnStatement
+              if (
+                returnStatement &&
+                returnStatement.argument &&
+                bt.isObjectExpression(returnStatement.argument)
+              ) {
+                value = returnStatement.argument
               }
-            })
+            }
+            if (bt.isObjectExpression(value)) {
+              const properties = value.properties.filter(n =>
+                bt.isObjectProperty(n)
+              )
+
+              properties.forEach(node => {
+                if (bt.isSpreadElement(node)) {
+                  return
+                }
+                const commentsRes: CommentResult = getComments(node)
+                // Collect only data that have @vuese annotations
+                if (commentsRes.vuese && bt.isObjectProperty(node)) {
+                  const result: DataResult = {
+                    name: node.key.name,
+                    type: '',
+                    describe: commentsRes.default,
+                    default: ''
+                  }
+                  processDataValue(node, result)
+                  onData(result)
+                }
+              })
+            }
           }
 
           // Processing methods
@@ -456,7 +480,6 @@ export function processEmitCallExpression(
   options: ParserOptions,
   parentExpressionStatementNodePath: NodePath<bt.Node>
 ): void {
-
   const node = path.node
   const { onEvent, includeSyncEvent } = options
   const args = node.arguments
