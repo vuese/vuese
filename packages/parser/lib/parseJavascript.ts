@@ -507,3 +507,14 @@ export function processEmitCallExpression(
     onEvent(result)
   }
 }
+
+// HACK: 获取到当前所有定义中哪一个节点被
+// const bindings = p.scope.bindings
+//         console.log(bindings)
+//         Object.keys(bindings).forEach(k => {
+// 			bindings[k].referencePaths.forEach(path => {
+//             	if (path.findParent(pp => t.isExportDefaultDeclaration(pp))) {
+//                 	console.log(bindings[k].path)
+//                 }
+//             })
+//         })
