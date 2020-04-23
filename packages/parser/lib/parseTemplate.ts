@@ -92,7 +92,7 @@ export function parseTemplate(
       if (options.onSlot) options.onSlot(slot)
     }
 
-    const parseChildren = (templateAst: any) => {
+    const parseChildren: (templateAst: any) => void = (templateAst: any) => {
       for (let i = 0; i < templateAst.children.length; i++) {
         parseTemplate(templateAst.children[i], seenEvent, options)
       }

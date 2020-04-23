@@ -27,6 +27,26 @@ function getAST(
   return sfcToAST(source, babelParserPlugins, path.dirname(p))
 }
 
+test('get namedExport component metadata correctly', () => {
+  const sfc: AstResult = getAST('namedExport.vue')
+  const mockOnName = jest.fn(() => {})
+  const mockOnDesc = jest.fn(() => {})
+  const options: ParserOptions = {
+    onName: mockOnName,
+    onDesc: mockOnDesc
+  }
+  const seen = new Seen()
+  parseJavascript(sfc.jsAst as bt.File, seen, options, sfc.jsSource)
+  const arg1 = mockOnName.mock.calls[0][0]
+  const arg2 = mockOnDesc.mock.calls[0][0]
+  
+  expect(mockOnName.mock.calls.length).toBe(1)
+  expect(mockOnDesc.mock.calls.length).toBe(1)
+
+  expect(arg1).toBe('compName')
+  expect(arg2).toEqual({ default: ['This is a description of the component'] })
+})
+
 test('Get the component name correctly', () => {
   const sfc: AstResult = getAST('name.vue')
   const mockOnName = jest.fn(() => {})

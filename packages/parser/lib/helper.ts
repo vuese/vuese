@@ -8,7 +8,10 @@ import * as bt from '@babel/types'
  * 2. others...
  */
 export function isVueComponent(node: bt.Node): boolean {
-  return bt.isExportDefaultDeclaration(node)
+  return (
+    bt.isExportDefaultDeclaration(node) || bt.isVariableDeclarator(node)
+    // (bt.isReturnStatement(node) && parentNode.type !== 'Object')
+  )
 }
 
 function isValidObjectProperty(node: Node): boolean {

@@ -6,3 +6,5 @@ dist
 test-website
 .profile
 yarn.lock
+packages/parser/lib/example.ts
+.vscode/launch.json
