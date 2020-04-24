@@ -35,7 +35,6 @@ export function parseJavascript(
   // backward compatibility
   const seenSlot = new Seen()
   let exportDefaultReferencePath: unknown = null
-  // XXX: not a common name 不够通用
   let componentLevel = 0
   const vueComponentVisitor = {
     Decorator(path: NodePath<bt.Decorator>): void {
@@ -567,7 +566,12 @@ export function processEmitCallExpression(
   }
 }
 
-// HACK: 获取到当前所有定义中哪一个节点被
+/**
+ * return export default referencePath for uncommon component export
+ *
+ * @param {NodePath<bt.Program>} programPath
+ * @returns {(NodePath<bt.Node> | null)}
+ */
 function getExportDefaultReferencePath(
   programPath: NodePath<bt.Program>
 ): NodePath<bt.Node> | null {
@@ -594,7 +598,6 @@ function getExportDefaultReferencePath(
       }
     })
   })
-  // if (bt.is)
   return exportDefaultReferencePath
 }
 
