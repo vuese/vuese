@@ -31,20 +31,37 @@ test('get namedExport component metadata correctly', () => {
   const sfc: AstResult = getAST('namedExport.vue')
   const mockOnName = jest.fn(() => {})
   const mockOnDesc = jest.fn(() => {})
+  const mockOnData = jest.fn(() => {})
+  const mockOnProp = jest.fn(() => {})
+
   const options: ParserOptions = {
     onName: mockOnName,
-    onDesc: mockOnDesc
+    onDesc: mockOnDesc,
+    onData: mockOnData,
+    onProp: mockOnProp
   }
   const seen = new Seen()
   parseJavascript(sfc.jsAst as bt.File, seen, options, sfc.jsSource)
-  const arg1 = mockOnName.mock.calls[0][0]
-  const arg2 = mockOnDesc.mock.calls[0][0]
-  
+
   expect(mockOnName.mock.calls.length).toBe(1)
   expect(mockOnDesc.mock.calls.length).toBe(1)
+  expect(mockOnData.mock.calls.length).toBe(1)
+  expect(mockOnProp.mock.calls.length).toBe(1)
+
+  const arg1 = mockOnName.mock.calls[0][0]
+  const arg2 = mockOnDesc.mock.calls[0][0]
+  const arg3 = mockOnData.mock.calls[0][0]
+  const arg4 = mockOnProp.mock.calls[0][0]
 
   expect(arg1).toBe('compName')
   expect(arg2).toEqual({ default: ['This is a description of the component'] })
+  expect(arg3).toEqual({
+    default: '1',
+    describe: [],
+    name: 'a',
+    type: 'Number'
+  })
+  expect(arg4).toEqual({ describe: [], name: 'a', type: 'String' })
 })
 
 test('Get the component name correctly', () => {

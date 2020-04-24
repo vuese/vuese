@@ -35,14 +35,10 @@ export function parseJavascript(
   // backward compatibility
   const seenSlot = new Seen()
   let exportDefaultReferencePath: unknown = null
-  // XXX: noto a common name 不够通用
+  // XXX: not a common name 不够通用
   let isTheFirstObjectExpression = true
-  let objectExpressionPath: bt.ObjectExpression | bt.ClassBody
   const vueComponentVisitor = {
     ObjectProperty(path: NodePath<bt.ObjectProperty>): void {
-      if (path.parent !== objectExpressionPath) {
-        return
-      }
       const {
         onProp,
         onMethod,
@@ -241,9 +237,6 @@ export function parseJavascript(
       }
     },
     ObjectMethod(path: NodePath<bt.ObjectMethod>): void {
-      if (path.parent !== objectExpressionPath) {
-        return
-      }
       const { onData } = options
       // @Component: functional component - `ctx.children` in the render function
       if (
@@ -264,7 +257,7 @@ export function parseJavascript(
 
             properties.forEach(node => {
               const commentsRes: CommentResult = getComments(node)
-              // Collect only data that have @vuese annotations
+              // Collect only data that have @vuese annotations for backward compability
               if (commentsRes.vuese) {
                 const result: DataResult = {
                   name: node.key.name,
@@ -477,9 +470,6 @@ export function parseJavascript(
         path.node.expression.arguments.length &&
         bt.isExpression(path.node.expression.arguments[0])
       ) {
-        const firstArg: bt.ObjectExpression = path.node.expression
-          .arguments[0] as bt.ObjectExpression
-        objectExpressionPath = firstArg
         path.traverse(vueComponentVisitor)
       }
     },
@@ -512,7 +502,6 @@ export function parseJavascript(
             const comments = getComments(traversePath.parentPath.node)
             options.onDesc(comments)
           }
-          objectExpressionPath = path.node
           isTheFirstObjectExpression = false
           path.traverse(vueComponentVisitor)
         },
@@ -520,7 +509,6 @@ export function parseJavascript(
           if (!isTheFirstObjectExpression) {
             return
           }
-          objectExpressionPath = path.node
           isTheFirstObjectExpression = false
           path.traverse(vueComponentVisitor)
         }
