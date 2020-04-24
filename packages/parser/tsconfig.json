@@ -13,5 +13,5 @@
     "esModuleInterop": true,
     "incremental": false
   },
-  "include": ["lib", "../declarations.d.ts"],
+  "include": ["lib", "../declarations.d.ts", "__test__"],
 }
