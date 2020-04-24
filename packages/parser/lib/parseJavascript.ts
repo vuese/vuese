@@ -198,7 +198,6 @@ export function parseJavascript(
 
       // Processing methods
       if (onMethod && isVueOption(path, 'methods', componentLevel)) {
-        debugger
         const properties = (path.node
           .value as bt.ObjectExpression).properties.filter(
           n => bt.isObjectMethod(n) || bt.isObjectProperty(n)
@@ -376,7 +375,6 @@ export function parseJavascript(
       const node = path.node
       const commentsRes: CommentResult = getComments(node)
       // Collect only methods that have @vuese annotations
-      debugger
       if (commentsRes.vuese) {
         const result: MethodResult = {
           name: (node.key as bt.Identifier).name,
@@ -483,7 +481,6 @@ export function parseJavascript(
     },
     ExportDefaultDeclaration(rootPath: NodePath<bt.ExportDefaultDeclaration>) {
       // Get a description of the component
-      debugger
       // if it is
       let traversePath:
         | NodePath<bt.VariableDeclarator>
@@ -508,6 +505,9 @@ export function parseJavascript(
             if (componentLevel === 1) {
               if (bt.isVariableDeclarator(traversePath) && options.onDesc) {
                 const comments = getComments(traversePath.parentPath.node)
+                options.onDesc(comments)
+              } else if (bt.isReturnStatement(traversePath) && options.onDesc) {
+                const comments = getComments(traversePath.node)
                 options.onDesc(comments)
               }
               path.traverse(vueComponentVisitor)
