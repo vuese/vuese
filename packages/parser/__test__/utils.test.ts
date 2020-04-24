@@ -16,7 +16,7 @@ describe('utils', () => {
   test('The default export should be a Vue component', () => {
     traverse(sfc1.jsAst as bt.File, {
       ExportDefaultDeclaration(path: any) {
-        expect(isVueComponent(path.node)).toBe(true)
+        expect(isVueComponent(path)).toBe(true)
       }
     })
   })

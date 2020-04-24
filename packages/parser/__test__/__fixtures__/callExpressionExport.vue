@@ -10,6 +10,7 @@ function callExpression() {
     name: 'compName',
     data() {
       return {
+        // @vuese
         a: 1
       }
     },

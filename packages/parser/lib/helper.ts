@@ -7,10 +7,15 @@ import * as bt from '@babel/types'
  * 1. It is a default export
  * 2. others...
  */
-export function isVueComponent(node: bt.Node): boolean {
+export function isVueComponent(
+  path: NodePath,
+  componentLevel: number
+): boolean {
+  const node = path.node
   return (
-    bt.isExportDefaultDeclaration(node) || bt.isVariableDeclarator(node)
-    // (bt.isReturnStatement(node) && parentNode.type !== 'Object')
+    bt.isExportDefaultDeclaration(node) ||
+    bt.isVariableDeclarator(node) ||
+    (bt.isReturnStatement(node) && componentLevel === 1)
   )
 }
 
@@ -20,13 +25,14 @@ function isValidObjectProperty(node: Node): boolean {
 
 export function isVueOption(
   path: NodePath<bt.ObjectProperty | bt.ObjectMethod>,
-  optionsName: string
+  optionsName: string,
+  componentLevel: number
 ): boolean {
   if (
     isValidObjectProperty(path.node) &&
     path.parentPath &&
     path.parentPath.parentPath &&
-    isVueComponent(path.parentPath.parentPath.node)
+    isVueComponent(path.parentPath.parentPath, componentLevel)
   ) {
     // General component options
     return path.node.key.name === optionsName

@@ -36,8 +36,19 @@ export function parseJavascript(
   const seenSlot = new Seen()
   let exportDefaultReferencePath: unknown = null
   // XXX: not a common name 不够通用
-  let isTheFirstObjectExpression = true
+  let componentLevel = 0
   const vueComponentVisitor = {
+    Decorator(path: NodePath<bt.Decorator>): void {
+      if (
+        componentLevel === 0 &&
+        bt.isCallExpression(path.node.expression) &&
+        bt.isIdentifier(path.node.expression.callee, { name: 'Component' }) &&
+        path.node.expression.arguments.length &&
+        bt.isObjectExpression(path.node.expression.arguments[0])
+      ) {
+        path.traverse(vueComponentVisitor)
+      }
+    },
     ObjectProperty(path: NodePath<bt.ObjectProperty>): void {
       const {
         onProp,
@@ -50,13 +61,14 @@ export function parseJavascript(
         onWatch
       } = options
       // Processing name
-      if (isVueOption(path, 'name')) {
+
+      if (isVueOption(path, 'name', componentLevel)) {
         const componentName = (path.node.value as bt.StringLiteral).value
         if (onName) onName(componentName)
       }
 
       // Processing props
-      if (onProp && isVueOption(path, 'props')) {
+      if (onProp && isVueOption(path, 'props', componentLevel)) {
         const valuePath = path.get('value')
 
         if (bt.isArrayExpression(valuePath.node)) {
@@ -92,7 +104,7 @@ export function parseJavascript(
       }
 
       // Processing mixins
-      if (onMixIn && isVueOption(path, 'mixins')) {
+      if (onMixIn && isVueOption(path, 'mixins', componentLevel)) {
         const properties = (path.node.value as bt.ArrayExpression).elements
 
         properties.forEach(mixIn => {
@@ -106,7 +118,7 @@ export function parseJavascript(
       // Processing computed
       if (
         onComputed &&
-        isVueOption(path, 'computed') &&
+        isVueOption(path, 'computed', componentLevel) &&
         bt.isObjectExpression(path.node.value)
       ) {
         const properties = (path.node
@@ -133,7 +145,7 @@ export function parseJavascript(
 
       if (
         onData &&
-        isVueOption(path, 'data') &&
+        isVueOption(path, 'data', componentLevel) &&
         (bt.isObjectExpression(path.node.value) ||
           bt.isArrowFunctionExpression(path.node.value))
       ) {
@@ -185,7 +197,8 @@ export function parseJavascript(
       }
 
       // Processing methods
-      if (onMethod && isVueOption(path, 'methods')) {
+      if (onMethod && isVueOption(path, 'methods', componentLevel)) {
+        debugger
         const properties = (path.node
           .value as bt.ObjectExpression).properties.filter(
           n => bt.isObjectMethod(n) || bt.isObjectProperty(n)
@@ -208,7 +221,7 @@ export function parseJavascript(
       // Processing watch
       if (
         onWatch &&
-        isVueOption(path, 'watch') &&
+        isVueOption(path, 'watch', componentLevel) &&
         bt.isObjectExpression(path.node.value)
       ) {
         const properties = (path.node
@@ -231,7 +244,11 @@ export function parseJavascript(
       }
 
       // functional component - `ctx.children` in the render function
-      if (onSlot && isVueOption(path, 'render') && !seenSlot.seen('default')) {
+      if (
+        onSlot &&
+        isVueOption(path, 'render', componentLevel) &&
+        !seenSlot.seen('default')
+      ) {
         const functionPath = path.get('value')
         determineChildren(functionPath, onSlot)
       }
@@ -241,14 +258,14 @@ export function parseJavascript(
       // @Component: functional component - `ctx.children` in the render function
       if (
         options.onSlot &&
-        isVueOption(path, 'render') &&
+        isVueOption(path, 'render', componentLevel) &&
         !seenSlot.seen('default')
       ) {
         determineChildren(path, options.onSlot)
       }
 
       // Data can be represented as a component or a method
-      if (onData && isVueOption(path, 'data')) {
+      if (onData && isVueOption(path, 'data', componentLevel)) {
         path.node.body.body.forEach(body => {
           if (bt.isReturnStatement(body)) {
             const properties = (body.argument as bt.ObjectExpression).properties.filter(
@@ -359,6 +376,7 @@ export function parseJavascript(
       const node = path.node
       const commentsRes: CommentResult = getComments(node)
       // Collect only methods that have @vuese annotations
+      debugger
       if (commentsRes.vuese) {
         const result: MethodResult = {
           name: (node.key as bt.Identifier).name,
@@ -463,54 +481,52 @@ export function parseJavascript(
     Program(path) {
       exportDefaultReferencePath = getExportDefaultReferencePath(path)
     },
-    Decorator(path) {
-      if (
-        bt.isCallExpression(path.node.expression) &&
-        bt.isIdentifier(path.node.expression.callee, { name: 'Component' }) &&
-        path.node.expression.arguments.length &&
-        bt.isExpression(path.node.expression.arguments[0])
-      ) {
-        path.traverse(vueComponentVisitor)
-      }
-    },
     ExportDefaultDeclaration(rootPath: NodePath<bt.ExportDefaultDeclaration>) {
       // Get a description of the component
-
+      debugger
       // if it is
       let traversePath:
         | NodePath<bt.VariableDeclarator>
-        | NodePath<bt.CallExpression>
+        | NodePath<bt.ReturnStatement>
         | NodePath<bt.ExportDefaultDeclaration> = rootPath
       if (
         isObject(exportDefaultReferencePath) &&
         (bt.isVariableDeclarator(exportDefaultReferencePath) ||
-          bt.isFunctionDeclaration(exportDefaultReferencePath))
+          bt.isReturnStatement(exportDefaultReferencePath))
       ) {
         traversePath = (exportDefaultReferencePath as any) as
           | NodePath<bt.VariableDeclarator>
-          | NodePath<bt.CallExpression>
+          | NodePath<bt.ReturnStatement>
       }
+
       if (bt.isExportDefaultDeclaration(traversePath) && options.onDesc)
         options.onDesc(getComponentDescribe(rootPath.node))
-
       traversePath.traverse({
-        ObjectExpression(path: NodePath<bt.ObjectExpression>) {
-          if (!isTheFirstObjectExpression) {
-            return
+        ObjectExpression: {
+          enter(path: NodePath<bt.ObjectExpression>): void {
+            componentLevel++
+            if (componentLevel === 1) {
+              if (bt.isVariableDeclarator(traversePath) && options.onDesc) {
+                const comments = getComments(traversePath.parentPath.node)
+                options.onDesc(comments)
+              }
+              path.traverse(vueComponentVisitor)
+            }
+          },
+          exit(): void {
+            componentLevel--
           }
-          if (bt.isVariableDeclarator(traversePath) && options.onDesc) {
-            const comments = getComments(traversePath.parentPath.node)
-            options.onDesc(comments)
-          }
-          isTheFirstObjectExpression = false
-          path.traverse(vueComponentVisitor)
         },
-        ClassBody(path: NodePath<bt.ClassBody>) {
-          if (!isTheFirstObjectExpression) {
-            return
+        ClassBody: {
+          enter(path: NodePath<bt.ClassBody>): void {
+            componentLevel++
+            if (componentLevel === 1) {
+              path.traverse(vueComponentVisitor)
+            }
+          },
+          exit(): void {
+            componentLevel--
           }
-          isTheFirstObjectExpression = false
-          path.traverse(vueComponentVisitor)
         }
       })
     }
@@ -559,8 +575,22 @@ function getExportDefaultReferencePath(
   let exportDefaultReferencePath: NodePath<bt.Node> | null = null
   Object.keys(bindings).forEach(key => {
     bindings[key].referencePaths.forEach(path => {
-      if (bt.isExportDefaultDeclaration(path.parent)) {
+      if (
+        bt.isExportDefaultDeclaration(path.parent) ||
+        (bt.isCallExpression(path.parentPath) &&
+          bt.isExportDefaultDeclaration(path.parentPath.parentPath))
+      ) {
         exportDefaultReferencePath = bindings[key].path
+        // return ReturnStatement instead of FunctionDeclaration just keep consistency for a component, especially when extract
+        // its comments
+        if (bt.isFunctionDeclaration(exportDefaultReferencePath)) {
+          exportDefaultReferencePath.traverse({
+            ReturnStatement(path) {
+              exportDefaultReferencePath = path
+              path.skip()
+            }
+          })
+        }
       }
     })
   })
