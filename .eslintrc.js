@@ -15,7 +15,9 @@ module.exports = {
   plugins: ['@typescript-eslint'],
   rules: {
     '@typescript-eslint/no-use-before-define': 0,
-    '@typescript-eslint/member-delimiter-style': 0 // set to off, because it is conflict with prettier
+    '@typescript-eslint/member-delimiter-style': 0, // set to off, because it is conflict with prettier,
+    '@typescript-eslint/no-explicit-any': 0
   },
-  ignorePatterns: ['*.vue', '*.js']
+
+  ignorePatterns: ['*.vue', '*.js', '**/dist/**/*.ts']
 }

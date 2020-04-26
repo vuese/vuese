@@ -204,6 +204,5 @@ export function parser(
   if (astRes.templateAst) {
     parseTemplate(astRes.templateAst, seenEvent, finallyOptions)
   }
-
   return res
 }
