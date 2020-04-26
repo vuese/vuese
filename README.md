@@ -6,7 +6,7 @@
 <p align="center">One-stop solution for vue component documentation</p>
 <p align="center">This project is supported by our <a href="./BACKERS.md">Backers</a></p>
 <p align="center">
-  <a href="https://github.com/shuidi-fed/vuese/actions"><img src="https://github.com/shuidi-fed/vuese/workflows/Node%20CI/badge.svg" alt="build status"/></a>
+  <a href="https://github.com/vuese/vuese/actions"><img src="https://github.com/vuese/vuese/workflows/Node%20CI/badge.svg" alt="build status"/></a>
   <a href="https://github.com/vue-contrib/vuese/blob/monorepo/LICENSE"><img src="https://img.shields.io/github/license/vuese/vuese.svg" alt="License"/></a>
   <a href="https://github.com/vue-contrib/vuese/pull/new"><img src="https://img.shields.io/badge/PRs%20-welcome-brightgreen.svg" alt="PRs Welcome" /></a>
   <a href="http://commitizen.github.io/cz-cli/"><img src="https://img.shields.io/badge/commitizen-friendly-brightgreen.svg" alt="Commitizen friendly"/></a>
