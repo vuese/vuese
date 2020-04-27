@@ -16,6 +16,7 @@ export function parseTemplate(
   options: ParserOptions
 ): void {
   const parent = templateAst.parent
+  // parse event in template
   if (templateAst.attrsMap) {
     for (const [attr, value] of Object.entries(templateAst.attrsMap)) {
       if (
@@ -33,6 +34,7 @@ export function parseTemplate(
       }
     }
   }
+  debugger
   if (templateAst.type === 1) {
     if (templateAst.tag === 'slot') {
       const slot: SlotResult = {

@@ -76,3 +76,25 @@ test('Named slot with slot description and bingdings', () => {
   const seen = new Seen()
   parseTemplate(sfc.templateAst, seen, options)
 })
+
+test('slot inside Component with v-slot directive', () => {
+  const sfc: AstResult = getAST('vslot.vue')
+  const mockOnSlot = jest.fn(() => {})
+  const options: ParserOptions = {
+    onSlot: mockOnSlot
+  }
+  const seen = new Seen()
+  parseTemplate(sfc.templateAst, seen, options)
+  expect(mockOnSlot.mock.calls.length).toBe(1)
+
+  const arg1 = mockOnSlot.mock.calls[0][0]
+
+  expect(arg1).toBe({
+    name: 'header',
+    describe: 'Some header',
+    backerDesc: '',
+    bindings: {},
+    scoped: false,
+    target: 'template'
+  })
+})
