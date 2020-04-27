@@ -34,7 +34,6 @@ export function parseTemplate(
       }
     }
   }
-  debugger
   if (templateAst.type === 1) {
     if (templateAst.tag === 'slot') {
       const slot: SlotResult = {
