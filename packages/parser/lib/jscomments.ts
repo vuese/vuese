@@ -53,7 +53,7 @@ export function getComments(cnode: bt.Node, trailing?: boolean): CommentResult {
         .split('\n')
       comments = filterBlockComments(comments)
       let currentKey = 'default'
-      ;(comments as string[]).forEach(c => {
+      comments.forEach(c => {
         if ((matchs = c.match(leadRE))) {
           currentKey = matchs[1]
           res[currentKey] = res[currentKey] || []

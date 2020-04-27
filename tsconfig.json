@@ -2,8 +2,7 @@
 {
   "compilerOptions": {
     "baseUrl": ".",
-    "outDir": "dist",
-    "sourceMap": false,
+    "sourceMap": true,
     "target": "esnext",
     "module": "esnext",
     "allowJs": false,

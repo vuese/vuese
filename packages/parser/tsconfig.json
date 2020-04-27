@@ -1,0 +1,17 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "rootDir": ".",
+    "module": "CommonJS",
+    "outDir": "dist",
+    "moduleResolution": "node",
+    "noUnusedLocals": false,
+    "noUnusedParameters": false,
+    "allowSyntheticDefaultImports": true,
+    "sourceMap": true,
+    "target": "es2017",
+    "esModuleInterop": true,
+    "incremental": false
+  },
+  "include": ["lib", "../declarations.d.ts", "__test__"],
+}
