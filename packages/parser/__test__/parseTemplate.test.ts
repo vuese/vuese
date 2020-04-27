@@ -85,13 +85,22 @@ test('slot inside Component with v-slot directive', () => {
   }
   const seen = new Seen()
   parseTemplate(sfc.templateAst, seen, options)
-  expect(mockOnSlot.mock.calls.length).toBe(1)
-
+  expect(mockOnSlot.mock.calls.length).toBe(2)
   const arg1 = mockOnSlot.mock.calls[0][0]
+  const arg2 = mockOnSlot.mock.calls[1][0]
 
-  expect(arg1).toBe({
+  expect(arg2).toEqual({
     name: 'header',
     describe: 'Some header',
+    backerDesc: '',
+    bindings: {},
+    scoped: false,
+    target: 'template'
+  })
+
+  expect(arg1).toEqual({
+    name: 'searchSlot',
+    describe: 'search slot',
     backerDesc: '',
     bindings: {},
     scoped: false,
