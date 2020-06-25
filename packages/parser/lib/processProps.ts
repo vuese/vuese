@@ -71,9 +71,9 @@ export function processPropValue(
           }
         } else {
           if (bt.isObjectMethod(node)) {
-            result.default = generate(node).code
+            result.default = generate(node as any).code
           } else if (bt.isFunction(node.value)) {
-            result.default = generate(node.value).code
+            result.default = generate(node.value as any).code
           }
         }
 
@@ -88,9 +88,9 @@ export function processPropValue(
         }
       } else if (n === 'validator') {
         if (bt.isObjectMethod(node)) {
-          result.validator = generate(node).code
+          result.validator = generate(node as any).code
         } else {
-          result.validator = generate(node.value).code
+          result.validator = generate(node.value as any).code
         }
 
         // Get descriptions of the validator
