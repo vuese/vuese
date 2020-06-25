@@ -1,6 +1,6 @@
 import generate from '@babel/generator'
 import { NodePath, Node } from '@babel/traverse'
-import * as bt from '@babel/types'
+import * as bt from '@babel/traverse/node_modules/@babel/types'
 
 /**
  * If a node satisfies the following conditions, then we will use this node as a Vue component.
@@ -24,7 +24,7 @@ function isValidObjectProperty(node: Node): boolean {
 }
 
 export function isVueOption(
-  path: NodePath<bt.ObjectProperty | bt.ObjectMethod>,
+  path: NodePath<bt.ObjectProperty> | NodePath<bt.ObjectMethod>,
   optionsName: string,
   componentLevel: number
 ): boolean {
@@ -52,7 +52,7 @@ export function isVueOption(
   return false
 }
 
-export function runFunction(fnCode: bt.Node): any {
+export function runFunction(fnCode: any): any {
   const { code: genCode } = generate(fnCode)
   const code = `return (${genCode})()`
   try {

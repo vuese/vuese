@@ -1,5 +1,5 @@
 import traverse, { NodePath } from '@babel/traverse'
-import * as bt from '@babel/types'
+import * as bt from '@babel/traverse/node_modules/@babel/types'
 import { getComments, CommentResult, getComponentDescribe } from './jscomments'
 import {
   PropsResult,
@@ -247,7 +247,7 @@ export function parseJavascript(
         isVueOption(path, 'render', componentLevel) &&
         !seenSlot.seen('default')
       ) {
-        const functionPath = path.get('value')
+        const functionPath = path.get('value') as NodePath<bt.Node>
         determineChildren(functionPath, onSlot)
       }
     },
@@ -259,7 +259,7 @@ export function parseJavascript(
         isVueOption(path, 'render', componentLevel) &&
         !seenSlot.seen('default')
       ) {
-        determineChildren(path, options.onSlot)
+        determineChildren(path as NodePath<bt.Node>, options.onSlot)
       }
 
       // Data can be represented as a component or a method
@@ -390,7 +390,7 @@ export function parseJavascript(
         node.key.name === 'render' &&
         !seenSlot.seen('default')
       ) {
-        determineChildren(path, options.onSlot)
+        determineChildren(path as NodePath<bt.Node>, options.onSlot)
       }
 
       // @Emit
@@ -411,7 +411,7 @@ export function parseJavascript(
         }
         if (!result.name || seenEvent.seen(result.name)) return
 
-        processEventName(result.name, path, result)
+        processEventName(result.name, path as NodePath<bt.Node>, result)
         // trigger onEvent if options has an onEvent callback function and
         // if excludeSyncEvent, should `result.isSync` be true, otherwise just call the callback
         if (options.onEvent && (!!options.includeSyncEvent || !result.isSync)) {
@@ -590,7 +590,7 @@ function getExportDefaultReferencePath(
         if (bt.isFunctionDeclaration(exportDefaultReferencePath)) {
           exportDefaultReferencePath.traverse({
             ReturnStatement(path) {
-              exportDefaultReferencePath = path
+              exportDefaultReferencePath = path as NodePath<bt.Node>
               path.skip()
             }
           })

@@ -32,11 +32,14 @@
     "extractDts": true
   },
   "dependencies": {
-    "@babel/generator": "~7.4.4",
-    "@babel/parser": "~7.4.4",
-    "@babel/traverse": "~7.4.4",
-    "@babel/types": "~7.4.4",
+    "@babel/generator": "^7.0.0",
+    "@babel/parser": "^7.4.4",
+    "@babel/traverse": "^7.3.4",
+    "@babel/types": "^7.3.0",
     "vue-template-compiler": "^2.6.10"
   },
-  "gitHead": "2bc1b0691aaf9480fa6fc0ad59ff1bc991b81efe"
+  "gitHead": "2bc1b0691aaf9480fa6fc0ad59ff1bc991b81efe",
+  "devDependencies": {
+    "@types/babel__traverse": "^7.0.12"
+  }
 }

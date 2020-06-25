@@ -3,7 +3,7 @@
 import { parseComponent, compile } from 'vue-template-compiler/build'
 import { BabelParserPlugins } from '@vuese/parser'
 import { parse as babelParse } from '@babel/parser'
-import * as bt from '@babel/types'
+import * as bt from '@babel/traverse/node_modules/@babel/types'
 import * as path from 'path'
 import * as fs from 'fs'
 
