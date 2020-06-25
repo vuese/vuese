@@ -1,6 +1,6 @@
 {
   "name": "@vuese/parser",
-  "version": "2.7.0",
+  "version": "2.8.0",
   "description": "Vue file parser for automatic document generation",
   "keywords": [
     "parser",
