@@ -9,7 +9,7 @@
     "build": "yarn lint && node ./scripts/build.js",
     "prepublishOnly": "yarn toc && yarn build",
     "toc": "markdown-toc -i README.md",
-    "lint": "eslint packages/** --ext .ts --fix",
+    "lint": "eslint --ext .ts --fix packages",
     "commit": "git-cz",
     "changelog": "conventional-changelog -i CHANGELOG.md -s",
     "contributors:add": "all-contributors add",

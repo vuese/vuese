@@ -19,5 +19,5 @@ module.exports = {
     '@typescript-eslint/no-explicit-any': 0
   },
 
-  ignorePatterns: ['*.vue', '*.js', '**/dist/**/*.ts']
+  ignorePatterns: ['*.vue', '*.js', '**/dist/**/*.ts', '**/node_modules/**']
 }

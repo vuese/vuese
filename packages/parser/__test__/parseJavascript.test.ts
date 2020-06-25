@@ -910,3 +910,13 @@ test('The seperated block should be handled correctly', () => {
     name: 'a'
   })
 })
+
+test('typescript AsConstantAssertionSyntax should be parsing correctly', () => {
+  const sfc: AstResult = getAST('tsAsConstantAssertion.vue')
+  const mockOnProp = jest.fn(() => {})
+  const options: ParserOptions = {
+    onProp: mockOnProp
+  }
+  const seen = new Seen()
+  parseJavascript(sfc.jsAst as bt.File, seen, options)
+})
