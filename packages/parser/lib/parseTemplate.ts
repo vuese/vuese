@@ -6,7 +6,7 @@ import {
 } from '@vuese/parser'
 import { parse as babelParse } from '@babel/parser'
 import { Seen } from './seen'
-import { File } from '@babel/types'
+
 import traverse, { NodePath } from '@babel/traverse'
 import * as bt from '@babel/types'
 
@@ -128,7 +128,7 @@ function extractAndFilterAttr(attrsMap: AttrsMap): AttrsMap {
 }
 
 function parseExpression(
-  astFile: File,
+  astFile: bt.File,
   seenEvent: Seen,
   options: ParserOptions
 ): void {

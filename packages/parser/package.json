@@ -32,11 +32,6 @@
     "extractDts": true
   },
   "dependencies": {
-    "@babel/generator": "^7.0.0",
-    "@babel/parser": "7.2.3",
-    "@babel/traverse": "^7.1.0",
-    "@babel/types": "^7.1.3",
-    "vue-template-compiler": "^2.6.10"
   },
   "gitHead": "2bc1b0691aaf9480fa6fc0ad59ff1bc991b81efe"
 }
