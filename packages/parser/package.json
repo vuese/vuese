@@ -10,7 +10,7 @@
   "author": "HcySunYang <HcySunYang@outlook.com>",
   "homepage": "https://github.com/vuese/vuese/tree/master/packages/parser#readme",
   "license": "MIT",
-  "main": "dist/lib/index.js",
+  "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "files": [
     "dist"
