@@ -9,10 +9,10 @@ function getAST(fileName: string, jsFile: boolean): AstResult {
   return sfcToAST(source, { jsx: false }, undefined, jsFile)
 }
 
-test('The type of `jsAst` should be File', () => {
+test('The type of `jsAst` should be not be js', () => {
   const sfc = getAST('common.vue', false)
   expect(bt.isFile(sfc.jsAst as object)).toBe(true)
-  expect(sfc.sourceType).toBe('js')
+  expect(sfc.sourceType).toBe(undefined)
   expect((sfc.templateAst as any).type).toBe(1)
   expect((sfc.templateAst as any).tag).toBe('div')
 })
