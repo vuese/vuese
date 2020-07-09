@@ -26,7 +26,7 @@ export function sfcToAST(
   const plugins = getBabelParserPlugins(babelParserPlugins)
   const sfc = parseComponent(source)
   const res: AstResult = { jsSource: '', templateSource: '' }
-  if (sfc.script) {
+  if (sfc.script || jsFile) {
     if (!sfc.script.content && sfc.script.src) {
       // Src Imports
       if (basedir) {
@@ -42,13 +42,12 @@ export function sfcToAST(
       }
     }
     res.jsSource = sfc.script.content || ''
+    res.sourceType = sfc.script.lang ? sfc.script.lang : 'js'
+    res.jsAst = babelParse(jsFile ? source : sfc.script.content, {
+      sourceType: 'module',
+      plugins
+    })
   }
-
-  res.sourceType = sfc.script && sfc.script.lang ? sfc.script.lang : 'js'
-  res.jsAst = babelParse(jsFile ? source : sfc.script.content, {
-    sourceType: 'module',
-    plugins
-  })
 
   if (sfc.template) {
     if (!sfc.template.content && sfc.template.src) {

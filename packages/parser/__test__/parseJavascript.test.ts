@@ -928,7 +928,8 @@ test('data in a mixin', () => {
   const options: ParserOptions = {
     onData: mockOnData
   }
-  parseJavascript(sfc.jsAst as bt.File, options)
+  const seen = new Seen()
+  parseJavascript(sfc.jsAst as bt.File, seen, options)
 
   expect(mockOnData.mock.calls.length).toBe(3)
   const arg1 = mockOnData.mock.calls[0][0]
