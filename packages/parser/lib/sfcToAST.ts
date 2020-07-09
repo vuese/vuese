@@ -41,8 +41,8 @@ export function sfcToAST(
         }
       }
     }
-    res.jsSource = sfc.script.content || ''
-    res.sourceType = sfc.script.lang ? sfc.script.lang : 'js'
+    res.jsSource = jsFile ? '' : sfc.script.content || ''
+    res.sourceType = jsFile ? 'js' : sfc.script.lang
     res.jsAst = babelParse(jsFile ? source : sfc.script.content, {
       sourceType: 'module',
       plugins
