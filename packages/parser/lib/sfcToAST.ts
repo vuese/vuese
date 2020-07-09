@@ -27,7 +27,7 @@ export function sfcToAST(
   const sfc = parseComponent(source)
   const res: AstResult = { jsSource: '', templateSource: '' }
   if (sfc.script || jsFile) {
-    if (!sfc.script.content && sfc.script.src) {
+    if (sfc.script && (!sfc.script.content && sfc.script.src)) {
       // Src Imports
       if (basedir) {
         try {
