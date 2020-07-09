@@ -1,6 +1,6 @@
 {
   "name": "@vuese/parser",
-  "version": "2.4.1",
+  "version": "2.9.1",
   "description": "Vue file parser for automatic document generation",
   "keywords": [
     "parser",
@@ -15,6 +15,9 @@
   "files": [
     "dist"
   ],
+  "scripts": {
+    "tsc": "rm -rf dist && tsc"
+  },
   "publishConfig": {
     "access": "public"
   },
@@ -27,13 +30,6 @@
   },
   "buildOptions": {
     "extractDts": true
-  },
-  "dependencies": {
-    "@babel/generator": "^7.0.0",
-    "@babel/parser": "7.2.3",
-    "@babel/traverse": "^7.1.0",
-    "@babel/types": "^7.1.3",
-    "vue-template-compiler": "^2.6.10"
   },
   "gitHead": "2bc1b0691aaf9480fa6fc0ad59ff1bc991b81efe"
 }

@@ -2,8 +2,7 @@
 {
   "compilerOptions": {
     "baseUrl": ".",
-    "outDir": "dist",
-    "sourceMap": false,
+    "sourceMap": true,
     "target": "esnext",
     "module": "esnext",
     "allowJs": false,
@@ -27,6 +26,7 @@
   },
   "include": [
     "packages/declarations.d.ts",
+    "packages/**/index.d.ts",
     "packages/*/lib",
     "packages/*/__test__"
   ]

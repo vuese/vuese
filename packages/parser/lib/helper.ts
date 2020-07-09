@@ -1,29 +1,37 @@
 import generate from '@babel/generator'
 import { NodePath, Node } from '@babel/traverse'
 import * as bt from '@babel/types'
-
 /**
  * If a node satisfies the following conditions, then we will use this node as a Vue component.
  * 1. It is a default export
  * 2. others...
  */
-export function isVueComponent(node: bt.Node): boolean {
-  return bt.isExportDefaultDeclaration(node)
+export function isVueComponent(
+  path: NodePath,
+  componentLevel: number
+): boolean {
+  const node = path.node
+  return (
+    bt.isExportDefaultDeclaration(node) ||
+    bt.isVariableDeclarator(node) ||
+    (bt.isReturnStatement(node) && componentLevel === 1)
+  )
 }
 
-function isValidObjectProperty(node: Node) {
+function isValidObjectProperty(node: Node): boolean {
   return bt.isObjectProperty(node) || bt.isObjectMethod(node)
 }
 
 export function isVueOption(
-  path: NodePath<bt.ObjectProperty | bt.ObjectMethod>,
-  optionsName: string
+  path: NodePath<bt.ObjectProperty> | NodePath<bt.ObjectMethod>,
+  optionsName: string,
+  componentLevel: number
 ): boolean {
   if (
     isValidObjectProperty(path.node) &&
     path.parentPath &&
     path.parentPath.parentPath &&
-    isVueComponent(path.parentPath.parentPath.node)
+    isVueComponent(path.parentPath.parentPath, componentLevel)
   ) {
     // General component options
     return path.node.key.name === optionsName
@@ -44,7 +52,7 @@ export function isVueOption(
 }
 
 export function runFunction(fnCode: bt.Node): any {
-  const { code: genCode } = generate(fnCode)
+  const { code: genCode } = generate(fnCode as any)
   const code = `return (${genCode})()`
   try {
     const fn = new Function(code)
@@ -57,8 +65,8 @@ export function runFunction(fnCode: bt.Node): any {
   }
 }
 
-export function getValueFromGenerate(node: any) {
-  let code: string = 'return'
+export function getValueFromGenerate(node: any): any {
+  let code = 'return'
   const { code: genCode } = generate(node)
   code += genCode
   const fn = new Function(code)

@@ -4,7 +4,11 @@ import { getComments } from './jscomments'
 import { PropType, PropsResult } from './index'
 import { runFunction } from './helper'
 
-export function processPropValue(propValueNode: bt.Node, result: PropsResult) {
+export function processPropValue(
+  propValueNode: bt.Node,
+  result: PropsResult,
+  source: string
+): void {
   if (isAllowPropsType(propValueNode)) {
     result.type = getTypeByTypeNode(propValueNode)
   } else if (bt.isObjectExpression(propValueNode)) {
@@ -36,27 +40,40 @@ export function processPropValue(propValueNode: bt.Node, result: PropsResult) {
       }
     }
     // Processing props's default value
-    otherNodes.forEach((node: any) => {
+    otherNodes.forEach(node => {
+      if (bt.isSpreadElement(node)) {
+        return
+      }
       const n = node.key.name
       if (n === 'default') {
         if (!hasFunctionTypeDef(result.type)) {
           if (bt.isObjectMethod(node)) {
             // Using functionExpression instead of ObjectMethod
-            let params = node.params || []
+            const params = node.params || []
             let body = node.body
             if (!bt.isBlockStatement(body)) {
               body = bt.blockStatement(body)
             }
-            let r = bt.functionExpression(null, params, body, false, false)
+            const r = bt.functionExpression(null, params, body, false, false)
             result.default = runFunction(r)
           } else if (bt.isFunction(node.value)) {
             result.default = runFunction(node.value)
+          } else {
+            let start = node.value.start || 0
+            let end = node.value.end || 0
+            // if node.value is stringliteral , e.g: "string literal" need to exclude quote
+            if (bt.isStringLiteral(node.value)) {
+              start++
+              end--
+            }
+            // type sucks, fix it use any...
+            result.default = source.slice(start, end) || undefined
           }
         } else {
           if (bt.isObjectMethod(node)) {
-            result.default = generate(node).code
+            result.default = generate(node as any).code
           } else if (bt.isFunction(node.value)) {
-            result.default = generate(node.value).code
+            result.default = generate(node.value as any).code
           }
         }
 
@@ -66,14 +83,14 @@ export function processPropValue(propValueNode: bt.Node, result: PropsResult) {
           result.defaultDesc = defaultDesc
         }
       } else if (n === 'required') {
-        if (bt.isBooleanLiteral(node.value)) {
+        if (bt.isObjectProperty(node) && bt.isBooleanLiteral(node.value)) {
           result.required = node.value.value
         }
       } else if (n === 'validator') {
         if (bt.isObjectMethod(node)) {
-          result.validator = generate(node).code
+          result.validator = generate(node as any).code
         } else {
-          result.validator = generate(node.value).code
+          result.validator = generate(node.value as any).code
         }
 
         // Get descriptions of the validator

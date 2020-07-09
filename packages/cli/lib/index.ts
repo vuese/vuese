@@ -9,6 +9,7 @@ import genMarkdown from './genMarkdown'
 import server from './server'
 
 // Gotta fix after https://github.com/tabrindle/envinfo/pull/105 gets merged (type-definitions)
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 const envinfo = require('envinfo')
 
 const logger = Log.create()
@@ -18,7 +19,7 @@ const joycon = new JoyCon({
 })
 joycon.addLoader({
   test: /\.vueserc$/,
-  async load(filePath) {
+  async load(filePath: string) {
     const source = await fs.readFile(filePath, 'utf-8')
     return JSON.parse(source)
   }
@@ -37,10 +38,13 @@ export type CliOptions = {
   open: boolean
   port: number
   host: string
+  keepFolderStructure: boolean
 }
 type PartialCliOptions = Partial<CliOptions>
 
-async function getConfig(flags: PartialCliOptions) {
+async function getConfig(
+  flags: PartialCliOptions
+): Promise<Partial<CliOptions>> {
   const { path, data } = await joycon.load([
     'vuese.config.js',
     '.vueserc',
@@ -54,7 +58,8 @@ async function getConfig(flags: PartialCliOptions) {
     outDir: 'website',
     markdownDir: 'components',
     markdownFile: '',
-    host: '127.0.0.1'
+    host: '127.0.0.1',
+    keepFolderStructure: false
   }
   if (path) Object.assign(config, data, flags)
   Object.assign(config, flags || {})
@@ -68,7 +73,7 @@ cli.command('').action(() => {
 cli
   .command('preview [file]', 'Preview a vue component as a document')
   .example('vuese preview path-to-the-component.vue')
-  .action(async (file, flags) => {
+  .action(async (file: string, flags: Partial<CliOptions>) => {
     if (!file) {
       logger.error('Missing component path.')
       cli.outputHelp()
@@ -81,8 +86,9 @@ cli
 
 cli
   .command('gen', 'Generate target resources')
+  .option('-k, --keepFolderStructure', 'keep original folder structure')
   .allowUnknownOptions()
-  .action(async flags => {
+  .action(async (flags: Partial<CliOptions>) => {
     const config = await getConfig(flags)
     if (!['docute', 'markdown'].includes(config.genType as string)) {
       logger.error(`Please provide the correct genType: ${config.genType}`)
@@ -97,7 +103,7 @@ cli
   .option('--host [host]', 'Host name')
   .option('--port [port]', 'The port number')
   .allowUnknownOptions()
-  .action(async flags => {
+  .action(async (flags: PartialCliOptions) => {
     const config = await getConfig(flags)
     server(config as CliOptions)
   })

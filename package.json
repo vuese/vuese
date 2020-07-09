@@ -9,22 +9,35 @@
     "build": "yarn lint && node ./scripts/build.js",
     "prepublishOnly": "yarn toc && yarn build",
     "toc": "markdown-toc -i README.md",
-    "lint": "tslint --project tsconfig.json --fix",
+    "lint": "eslint packages --ext .ts --fix",
     "commit": "git-cz",
     "changelog": "conventional-changelog -i CHANGELOG.md -s",
     "contributors:add": "all-contributors add",
-    "contributors:generate": "all-contributors generate"
+    "contributors:generate": "all-contributors generate",
+    "vuese-cli": "./packages/cli/bin/index.js",
+    "lerna-tsc": "lerna run tsc"
+  },
+  "dependencies": {
+    "@babel/generator": "^7.10.3",
+    "@babel/parser": "^7.10.3",
+    "@babel/traverse": "^7.10.3",
+    "@babel/types": "^7.3.0",
+    "vue-template-compiler": "^2.6.11"
   },
   "devDependencies": {
-    "@types/babel__generator": "^7.0.0",
-    "@types/babel__traverse": "^7.0.0",
+    "@types/babel__generator": "^7.6.1",
+    "@types/babel__traverse": "^7.0.12",
+    "@types/fs-extra": "^8.1.0",
     "@types/jest": "^23.3.2",
     "@types/node": "^10.11.0",
+    "@typescript-eslint/eslint-plugin": "^2.28.0",
+    "@typescript-eslint/parser": "^2.28.0",
     "all-contributors-cli": "^5.6.0",
     "chalk": "^2.4.2",
     "conventional-changelog-cli": "^2.0.11",
     "cz-emoji": "^1.1.2",
     "dts-bundle": "^0.7.3",
+    "eslint": "^6.8.0",
     "execa": "^1.0.0",
     "fs-extra": "^7.0.1",
     "husky": "^1.0.0",
@@ -34,14 +47,11 @@
     "lint-staged": "^7.3.0",
     "markdown-toc": "^1.2.0",
     "prettier": "^1.14.3",
-    "prettier-tslint": "^0.4.0",
     "rollup": "^1.1.0",
     "rollup-plugin-auto-external": "^2.0.0",
     "rollup-plugin-typescript2": "^0.19.0",
     "ts-jest": "^23.10.1",
-    "tslint": "^5.11.0",
-    "tslint-plugin-prettier": "^2.0.0",
-    "typescript": "^3.0.3"
+    "typescript": "^3.8.3"
   },
   "lint-staged": {
     "*.ts": [

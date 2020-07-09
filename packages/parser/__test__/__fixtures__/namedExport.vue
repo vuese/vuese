@@ -5,14 +5,19 @@
 <script>
 // This is a description of the component
 /* eslint-disable camelcase */
-export default {
+const namedComponent = {
   name: 'compName',
+  data() {
+    return {
+      // @vuese
+      a: 1
+    }
+  },
   props: {
-    name: 'xxx'
+    a: String
   }
 }
+export default namedComponent
 </script>
 
-<style>
-
-</style>
+<style></style>

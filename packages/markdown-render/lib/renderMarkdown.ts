@@ -21,7 +21,7 @@ export default function(
   if (!mdTemplate) return null
 
   let str = mdTemplate
-  let compName = parserRes.name
+  const compName = parserRes.name
   const groupName =
     parserRes.componentDesc && parserRes.componentDesc.group
       ? parserRes.componentDesc.group[0]

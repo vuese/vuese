@@ -1,6 +1,6 @@
 {
   "projectName": "vuese",
-  "projectOwner": "HcySunYang",
+  "projectOwner": "shuidi-fed",
   "contributors": [
     {
       "login": "HcySunYang",
@@ -81,7 +81,24 @@
         "code",
         "doc"
       ]
+    },
+    {
+      "login": "IWANABETHATGUY",
+      "name": "IWANABETHATGUY",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/17974631?v=4",
+      "profile": "https://github.com/IWANABETHATGUY",
+      "contributions": [
+        "code",
+        "test",
+        "doc"
+      ]
     }
   ],
-  "repoType": "github"
+  "repoType": "github",
+  "repoHost": "https://github.com",
+  "skipCi": true,
+  "files": [
+    "README.md"
+  ],
+  "contributorsPerLine": 7
 }

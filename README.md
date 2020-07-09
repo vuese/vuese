@@ -6,7 +6,7 @@
 <p align="center">One-stop solution for vue component documentation</p>
 <p align="center">This project is supported by our <a href="./BACKERS.md">Backers</a></p>
 <p align="center">
-  <a href="https://circleci.com/gh/vue-contrib/vuese/tree/master"><img src="https://img.shields.io/circleci/project/github/vue-contrib/vuese/monorepo.svg" alt="build status"/></a>
+  <a href="https://github.com/vuese/vuese/actions"><img src="https://github.com/vuese/vuese/workflows/Node%20CI/badge.svg" alt="build status"/></a>
   <a href="https://github.com/vue-contrib/vuese/blob/monorepo/LICENSE"><img src="https://img.shields.io/github/license/vuese/vuese.svg" alt="License"/></a>
   <a href="https://github.com/vue-contrib/vuese/pull/new"><img src="https://img.shields.io/badge/PRs%20-welcome-brightgreen.svg" alt="PRs Welcome" /></a>
   <a href="http://commitizen.github.io/cz-cli/"><img src="https://img.shields.io/badge/commitizen-friendly-brightgreen.svg" alt="Commitizen friendly"/></a>
@@ -123,10 +123,26 @@ Get started immediately in a free online dev environment:
 Thanks goes to these wonderful people:
 
 <!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
-<!-- prettier-ignore -->
-| [<img src="https://avatars2.githubusercontent.com/u/14146560?v=4" width="100px;" alt="HcySunYang"/><br /><sub><b>HcySunYang</b></sub>](http://hcysun.me/homepage)<br />[💻](https://github.com/HcySunYang/vuese/commits?author=HcySunYang "Code") [⚠️](https://github.com/HcySunYang/vuese/commits?author=HcySunYang "Tests") [📖](https://github.com/HcySunYang/vuese/commits?author=HcySunYang "Documentation") [💡](#example-HcySunYang "Examples") | [<img src="https://avatars1.githubusercontent.com/u/5592465?v=4" width="100px;" alt="Barthélémy Ledoux"/><br /><sub><b>Barthélémy Ledoux</b></sub>](https://github.com/elevatebart)<br />[🐛](https://github.com/HcySunYang/vuese/issues?q=author%3Aelevatebart "Bug reports") [💻](https://github.com/HcySunYang/vuese/commits?author=elevatebart "Code") | [<img src="https://avatars1.githubusercontent.com/u/17594215?v=4" width="100px;" alt="Bernhard Wittmann"/><br /><sub><b>Bernhard Wittmann</b></sub>](http://bernhardwittmann.com)<br />[💻](https://github.com/HcySunYang/vuese/commits?author=BerniWittmann "Code") [🤔](#ideas-BerniWittmann "Ideas, Planning, & Feedback") | [<img src="https://avatars2.githubusercontent.com/u/11501493?v=4" width="100px;" alt="Steve Young"/><br /><sub><b>Steve Young</b></sub>](https://buptsteve.github.io)<br />[🐛](https://github.com/HcySunYang/vuese/issues?q=author%3ABuptStEve "Bug reports") [💻](https://github.com/HcySunYang/vuese/commits?author=BuptStEve "Code") | [<img src="https://avatars3.githubusercontent.com/u/15170275?v=4" width="100px;" alt="wulunyi"/><br /><sub><b>wulunyi</b></sub>](https://github.com/wulunyi)<br />[💻](https://github.com/HcySunYang/vuese/commits?author=wulunyi "Code") | [<img src="https://avatars2.githubusercontent.com/u/5432828?v=4" width="100px;" alt="Estelle00"/><br /><sub><b>Estelle00</b></sub>](https://github.com/Estelle00)<br />[💻](https://github.com/HcySunYang/vuese/commits?author=Estelle00 "Code") | [<img src="https://avatars2.githubusercontent.com/u/8364818?v=4" width="100px;" alt="Matt Roxburgh"/><br /><sub><b>Matt Roxburgh</b></sub>](https://github.com/roxburghm)<br />[🐛](https://github.com/HcySunYang/vuese/issues?q=author%3Aroxburghm "Bug reports") [💻](https://github.com/HcySunYang/vuese/commits?author=roxburghm "Code") |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| [<img src="https://avatars2.githubusercontent.com/u/25279263?v=4" width="100px;" alt="James George"/><br /><sub><b>James George</b></sub>](https://ghuser.io/jamesgeorge007)<br />[💻](https://github.com/HcySunYang/vuese/commits?author=jamesgeorge007 "Code") [📖](https://github.com/HcySunYang/vuese/commits?author=jamesgeorge007 "Documentation") |
+<!-- prettier-ignore-start -->
+<!-- markdownlint-disable -->
+<table>
+  <tr>
+    <td align="center"><a href="http://hcysun.me/homepage"><img src="https://avatars2.githubusercontent.com/u/14146560?v=4" width="100px;" alt=""/><br /><sub><b>HcySunYang</b></sub></a><br /><a href="https://github.com/shuidi-fed/vuese/commits?author=HcySunYang" title="Code">💻</a> <a href="https://github.com/shuidi-fed/vuese/commits?author=HcySunYang" title="Tests">⚠️</a> <a href="https://github.com/shuidi-fed/vuese/commits?author=HcySunYang" title="Documentation">📖</a> <a href="#example-HcySunYang" title="Examples">💡</a></td>
+    <td align="center"><a href="https://github.com/elevatebart"><img src="https://avatars1.githubusercontent.com/u/5592465?v=4" width="100px;" alt=""/><br /><sub><b>Barthélémy Ledoux</b></sub></a><br /><a href="https://github.com/shuidi-fed/vuese/issues?q=author%3Aelevatebart" title="Bug reports">🐛</a> <a href="https://github.com/shuidi-fed/vuese/commits?author=elevatebart" title="Code">💻</a></td>
+    <td align="center"><a href="http://bernhardwittmann.com"><img src="https://avatars1.githubusercontent.com/u/17594215?v=4" width="100px;" alt=""/><br /><sub><b>Bernhard Wittmann</b></sub></a><br /><a href="https://github.com/shuidi-fed/vuese/commits?author=BerniWittmann" title="Code">💻</a> <a href="#ideas-BerniWittmann" title="Ideas, Planning, & Feedback">🤔</a></td>
+    <td align="center"><a href="https://buptsteve.github.io"><img src="https://avatars2.githubusercontent.com/u/11501493?v=4" width="100px;" alt=""/><br /><sub><b>Steve Young</b></sub></a><br /><a href="https://github.com/shuidi-fed/vuese/issues?q=author%3ABuptStEve" title="Bug reports">🐛</a> <a href="https://github.com/shuidi-fed/vuese/commits?author=BuptStEve" title="Code">💻</a></td>
+    <td align="center"><a href="https://github.com/wulunyi"><img src="https://avatars3.githubusercontent.com/u/15170275?v=4" width="100px;" alt=""/><br /><sub><b>wulunyi</b></sub></a><br /><a href="https://github.com/shuidi-fed/vuese/commits?author=wulunyi" title="Code">💻</a></td>
+    <td align="center"><a href="https://github.com/Estelle00"><img src="https://avatars2.githubusercontent.com/u/5432828?v=4" width="100px;" alt=""/><br /><sub><b>Estelle00</b></sub></a><br /><a href="https://github.com/shuidi-fed/vuese/commits?author=Estelle00" title="Code">💻</a></td>
+    <td align="center"><a href="https://github.com/roxburghm"><img src="https://avatars2.githubusercontent.com/u/8364818?v=4" width="100px;" alt=""/><br /><sub><b>Matt Roxburgh</b></sub></a><br /><a href="https://github.com/shuidi-fed/vuese/issues?q=author%3Aroxburghm" title="Bug reports">🐛</a> <a href="https://github.com/shuidi-fed/vuese/commits?author=roxburghm" title="Code">💻</a></td>
+  </tr>
+  <tr>
+    <td align="center"><a href="https://ghuser.io/jamesgeorge007"><img src="https://avatars2.githubusercontent.com/u/25279263?v=4" width="100px;" alt=""/><br /><sub><b>James George</b></sub></a><br /><a href="https://github.com/shuidi-fed/vuese/commits?author=jamesgeorge007" title="Code">💻</a> <a href="https://github.com/shuidi-fed/vuese/commits?author=jamesgeorge007" title="Documentation">📖</a></td>
+    <td align="center"><a href="https://github.com/IWANABETHATGUY"><img src="https://avatars1.githubusercontent.com/u/17974631?v=4" width="100px;" alt=""/><br /><sub><b>IWANABETHATGUY</b></sub></a><br /><a href="https://github.com/shuidi-fed/vuese/commits?author=IWANABETHATGUY" title="Code">💻</a> <a href="https://github.com/shuidi-fed/vuese/commits?author=IWANABETHATGUY" title="Tests">⚠️</a> <a href="https://github.com/shuidi-fed/vuese/commits?author=IWANABETHATGUY" title="Documentation">📖</a></td>
+  </tr>
+</table>
+
+<!-- markdownlint-enable -->
+<!-- prettier-ignore-end -->
 <!-- ALL-CONTRIBUTORS-LIST:END -->
 
 ## Author
@@ -134,4 +150,4 @@ Thanks goes to these wonderful people:
 **Vuese** © [HcySunYang](https://github.com/HcySunYang), Released under the [MIT](./LICENSE) License.<br>
 Authored and maintained by HcySunYang.
 
-> [homepage](http://hcysun.me/homepage/) · GitHub [@HcySunYang](https://github.com/HcySunYang) · Twitter [@HcySunYang](https://twitter.com/HcySunYang)
+> [homepage](http://hcysun.me/homepage/) · GitHub [@HcySunYang](https://github.com/HcySunYang) · Twitter [@HcySunYang](https://twitter.com/HcySunYang).

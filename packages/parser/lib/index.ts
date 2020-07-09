@@ -2,6 +2,7 @@ import { sfcToAST } from './sfcToAST'
 import { parseJavascript } from './parseJavascript'
 import { parseTemplate } from './parseTemplate'
 import { CommentResult } from './jscomments'
+import { Seen } from './seen'
 
 export * from './sfcToAST'
 export * from './parseJavascript'
@@ -96,9 +97,7 @@ export interface WatchResult {
   argumentsDesc?: string[]
 }
 
-export type AttrsMap = {
-  [key: string]: string
-}
+export type AttrsMap = Record<string, string>
 
 export interface SlotResult {
   name: string
@@ -143,6 +142,7 @@ export interface ParserOptions {
   babelParserPlugins?: BabelParserPlugins
   basedir?: string
   jsFile?: any
+  includeSyncEvent?: boolean
 }
 
 export interface ParserResult {
@@ -202,13 +202,13 @@ export function parser(
     }
   }
 
-  const finallyOptions: ParserOptions = Object.assign(defaultOptions, options)
+  const finallyOptions: ParserOptions = { ...defaultOptions, ...options }
+  const seenEvent = new Seen()
   if (astRes.jsAst) {
-    parseJavascript(astRes.jsAst, finallyOptions)
+    parseJavascript(astRes.jsAst, seenEvent, finallyOptions, astRes.jsSource)
   }
   if (astRes.templateAst) {
-    parseTemplate(astRes.templateAst, finallyOptions)
+    parseTemplate(astRes.templateAst, seenEvent, finallyOptions)
   }
-
   return res
 }

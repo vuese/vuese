@@ -6,7 +6,7 @@ import { CliOptions } from './'
 
 const logger = Log.create()
 
-export default async (config: CliOptions) => {
+export default async (config: CliOptions): Promise<void> => {
   try {
     const componentsPromise = await genMarkdown(config)
     const componentRes = await Promise.all(componentsPromise)

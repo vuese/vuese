@@ -53,7 +53,7 @@ export function getComments(cnode: bt.Node, trailing?: boolean): CommentResult {
         .split('\n')
       comments = filterBlockComments(comments)
       let currentKey = 'default'
-      ;(comments as string[]).forEach(c => {
+      comments.forEach(c => {
         if ((matchs = c.match(leadRE))) {
           currentKey = matchs[1]
           res[currentKey] = res[currentKey] || []
@@ -63,6 +63,9 @@ export function getComments(cnode: bt.Node, trailing?: boolean): CommentResult {
         }
       })
     }
+  })
+  Object.keys(res).forEach(k => {
+    res[k] = res[k].filter(comment => !comment.includes('eslint-disable'))
   })
   return res
 }
@@ -99,7 +102,7 @@ export function isCommentBlock(node: { type: string }): boolean {
 }
 
 export function isCodeBlockDeclaration(value: string): boolean {
-  return value.indexOf('```') > -1
+  return value.includes('```')
 }
 
 export function filterBlockComments(comments: string[]): string[] {
