@@ -21,7 +21,7 @@ import { Seen } from '../lib/seen'
 function getAST(
   fileName: string,
   babelParserPlugins?: BabelParserPlugins,
-  jsFile?: boolean
+  jsFile = false
 ): AstResult {
   const p = path.resolve(__dirname, `./__fixtures__/${fileName}`)
   const source = fs.readFileSync(p, 'utf-8')
