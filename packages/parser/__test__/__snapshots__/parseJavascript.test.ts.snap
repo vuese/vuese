@@ -263,6 +263,36 @@ Array [
 
 exports[`computed in the object 6`] = `true`;
 
+exports[`data in a mixin 1`] = `"Number"`;
+
+exports[`data in a mixin 2`] = `
+Array [
+  "Is a value",
+]
+`;
+
+exports[`data in a mixin 3`] = `"5"`;
+
+exports[`data in a mixin 4`] = `"String"`;
+
+exports[`data in a mixin 5`] = `
+Array [
+  "Is a string variable",
+]
+`;
+
+exports[`data in a mixin 6`] = `"A String"`;
+
+exports[`data in a mixin 7`] = `"Array"`;
+
+exports[`data in a mixin 8`] = `
+Array [
+  "Is an array variable",
+]
+`;
+
+exports[`data in a mixin 9`] = `"[An,Array]"`;
+
 exports[`data in the object 1`] = `"Number"`;
 
 exports[`data in the object 2`] = `

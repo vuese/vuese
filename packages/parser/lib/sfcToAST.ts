@@ -20,13 +20,14 @@ export interface AstResult {
 export function sfcToAST(
   source: string,
   babelParserPlugins?: BabelParserPlugins,
-  basedir?: string
+  basedir?: string,
+  jsFile?: boolean
 ): AstResult {
   const plugins = getBabelParserPlugins(babelParserPlugins)
   const sfc = parseComponent(source)
   const res: AstResult = { jsSource: '', templateSource: '' }
-  if (sfc.script) {
-    if (!sfc.script.content && sfc.script.src) {
+  if (sfc.script || jsFile) {
+    if (sfc.script && (!sfc.script.content && sfc.script.src)) {
       // Src Imports
       if (basedir) {
         try {
@@ -40,13 +41,14 @@ export function sfcToAST(
         }
       }
     }
-    res.sourceType = sfc.script.lang || 'js'
-    res.jsSource = sfc.script.content || ''
-    res.jsAst = babelParse(sfc.script.content, {
+    res.jsSource = jsFile ? '' : sfc.script.content || ''
+    res.sourceType = jsFile ? 'js' : sfc.script.lang
+    res.jsAst = babelParse(jsFile ? source : sfc.script.content, {
       sourceType: 'module',
       plugins
     })
   }
+
   if (sfc.template) {
     if (!sfc.template.content && sfc.template.src) {
       // Src Imports
