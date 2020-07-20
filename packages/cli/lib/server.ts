@@ -29,7 +29,7 @@ function getFirstPath(config: CliOptions): string {
   }
 }
 
-export default async (config: CliOptions) => {
+export default async (config: CliOptions): Promise<void> => {
   const http = require('http')
   const handler = require('serve-handler')
   const server = http.createServer((req: any, res: any) => {

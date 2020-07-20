@@ -10,7 +10,7 @@ import { CliOptions } from '.'
 
 const logger = Log.create()
 
-export default async (config: CliOptions) => {
+export default async (config: CliOptions): Promise<void> => {
   const sfc = config.include as string
   if (!sfc) {
     logger.error('Must provide the path to the .vue file.')
@@ -19,7 +19,7 @@ export default async (config: CliOptions) => {
   const vueFile = path.resolve(sfc)
 
   if (fs.existsSync(vueFile)) {
-    async function generate() {
+    async function generate(): Promise<any> {
       const componentsPromise = await genMarkdown(config)
       const componentsRes = await Promise.all(componentsPromise)
       const content = componentsRes
