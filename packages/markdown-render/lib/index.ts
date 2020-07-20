@@ -96,7 +96,7 @@ export class Render {
     return md
   }
 
-  propRender(propsRes: PropsResult[]) {
+  propRender(propsRes: PropsResult[]): string {
     const propConfig = (this.options as RenderOptions).props
     let code = this.renderTabelHeader(propConfig)
     propsRes.forEach((prop: PropsResult) => {
@@ -160,7 +160,7 @@ export class Render {
     return code
   }
 
-  slotRender(slotsRes: SlotResult[]) {
+  slotRender(slotsRes: SlotResult[]): string {
     const slotConfig = (this.options as RenderOptions).slots
     let code = this.renderTabelHeader(slotConfig)
 
@@ -210,7 +210,7 @@ export class Render {
     return code
   }
 
-  eventRender(propsRes: EventResult[]) {
+  eventRender(propsRes: EventResult[]): string {
     const eventConfig = (this.options as RenderOptions).events
     let code = this.renderTabelHeader(eventConfig)
     propsRes.forEach((event: EventResult) => {
@@ -240,7 +240,7 @@ export class Render {
     return code
   }
 
-  methodRender(methodsRes: MethodResult[]) {
+  methodRender(methodsRes: MethodResult[]): string {
     const methodConfig = (this.options as RenderOptions).methods
     let code = this.renderTabelHeader(methodConfig)
     methodsRes.forEach((method: MethodResult) => {
@@ -270,7 +270,7 @@ export class Render {
     return code
   }
 
-  computedRender(computedRes: ComputedResult[]) {
+  computedRender(computedRes: ComputedResult[]): string {
     const computedConfig = (this.options as RenderOptions).computed
     let code = this.renderTabelHeader(computedConfig)
     computedRes.forEach((computed: ComputedResult) => {
@@ -307,7 +307,7 @@ export class Render {
     return code
   }
 
-  mixInRender(mixInsRes: MixInResult[]) {
+  mixInRender(mixInsRes: MixInResult[]): string {
     const mixInsConfig = (this.options as RenderOptions).mixIns
     let code = this.renderTabelHeader(mixInsConfig)
     mixInsRes.forEach((mixIn: MixInResult) => {
@@ -325,7 +325,7 @@ export class Render {
     return code
   }
 
-  dataRender(dataRes: DataResult[]) {
+  dataRender(dataRes: DataResult[]): string {
     const dataConfig = (this.options as RenderOptions).data
     let code = this.renderTabelHeader(dataConfig)
     dataRes.forEach((data: DataResult) => {
@@ -361,7 +361,7 @@ export class Render {
     return code
   }
 
-  watchRender(watchRes: WatchResult[]) {
+  watchRender(watchRes: WatchResult[]): string {
     const watchConfig = (this.options as RenderOptions).watch
     let code = this.renderTabelHeader(watchConfig)
     watchRes.forEach((watch: WatchResult) => {

@@ -7,7 +7,7 @@ import markded from 'marked'
 import Prism from 'prismjs'
 import loadLanguages from 'prismjs/components'
 
-function parse(content: string) {
+function parse(content: string): any {
   markded.setOptions({
     highlight: function(code: any, lang: any) {
       if (!Prism.languages[lang]) {

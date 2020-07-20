@@ -1,6 +1,6 @@
 import { ParserResult } from '@vuese/parser'
 
-export default function(parserRes: ParserResult) {
+export default function(parserRes: ParserResult): string {
   const desc = parserRes.componentDesc
   let templateStr = '# [name]\n\n'
 
@@ -22,13 +22,13 @@ export default function(parserRes: ParserResult) {
   return !forceGenerate && original === templateStr ? '' : templateStr
 }
 
-function genBaseTemplate(label: string) {
+function genBaseTemplate(label: string): string {
   let str = `## ${upper(label)}\n\n`
   str += `<!-- @vuese:[name]:${label}:start -->\n`
   str += `<!-- @vuese:[name]:${label}:end -->\n\n`
   return str
 }
 
-function upper(word: string) {
+function upper(word: string): string {
   return word[0].toUpperCase() + word.slice(1)
 }
