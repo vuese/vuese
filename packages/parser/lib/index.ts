@@ -156,6 +156,7 @@ export interface ParserResult {
   watch?: WatchResult[]
   name?: string
   componentDesc?: CommentResult
+  extraDocs?: string
 }
 
 export function parser(
@@ -177,28 +178,28 @@ export function parser(
       res.componentDesc = desc
     },
     onProp(propsRes: PropsResult) {
-      ;(res.props || (res.props = [])).push(propsRes)
+      ; (res.props || (res.props = [])).push(propsRes)
     },
     onEvent(eventsRes: EventResult) {
-      ;(res.events || (res.events = [])).push(eventsRes)
+      ; (res.events || (res.events = [])).push(eventsRes)
     },
     onSlot(slotRes: SlotResult) {
-      ;(res.slots || (res.slots = [])).push(slotRes)
+      ; (res.slots || (res.slots = [])).push(slotRes)
     },
     onMixIn(mixInRes: MixInResult) {
-      ;(res.mixIns || (res.mixIns = [])).push(mixInRes)
+      ; (res.mixIns || (res.mixIns = [])).push(mixInRes)
     },
     onMethod(methodRes: MethodResult) {
-      ;(res.methods || (res.methods = [])).push(methodRes)
+      ; (res.methods || (res.methods = [])).push(methodRes)
     },
     onComputed(computedRes: ComputedResult) {
-      ;(res.computed || (res.computed = [])).push(computedRes)
+      ; (res.computed || (res.computed = [])).push(computedRes)
     },
     onData(dataRes: DataResult) {
-      ;(res.data || (res.data = [])).push(dataRes)
+      ; (res.data || (res.data = [])).push(dataRes)
     },
     onWatch(watchRes: WatchResult) {
-      ;(res.watch || (res.watch = [])).push(watchRes)
+      ; (res.watch || (res.watch = [])).push(watchRes)
     }
   }
 
@@ -210,5 +211,9 @@ export function parser(
   if (astRes.templateAst) {
     parseTemplate(astRes.templateAst, seenEvent, finallyOptions)
   }
+  if (astRes.docSource) {
+    res.extraDocs = astRes.docSource;
+  }
+
   return res
 }
