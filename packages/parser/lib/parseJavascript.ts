@@ -339,8 +339,8 @@ export function parseJavascript(
     },
     // Class style component
     ClassProperty(path: NodePath<bt.ClassProperty>): void {
-      const propDeco = getPropDecorator(path.node)
-      if (propDeco) {
+      const propDecorator = getPropDecorator(path.node)
+      if (propDecorator) {
         let typeAnnotationStart = 0
         let typeAnnotationEnd = 0
         /**
@@ -356,13 +356,17 @@ export function parseJavascript(
           typeAnnotationStart = start || 0
           typeAnnotationEnd = end || 0
         }
+        const {
+          propName,
+          options: propDecoratorArg
+        } = getArgumentFromPropDecorator(propDecorator)
         const result: PropsResult = {
-          name: (path.node.key as bt.Identifier).name,
+          name: propName ? propName : (path.node.key as bt.Identifier).name,
           //null for backward compatibility,
           type: source.slice(typeAnnotationStart, typeAnnotationEnd) || null,
           describe: getComments(path.node).default
         }
-        const propDecoratorArg = getArgumentFromPropDecorator(propDeco)
+
         if (propDecoratorArg) {
           processPropValue(propDecoratorArg, result, source)
         }
