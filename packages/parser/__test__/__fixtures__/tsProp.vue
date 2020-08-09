@@ -33,5 +33,13 @@ export default class Child extends Vue {
   @Action g: string // Non prop
 
   @PropSync('foo', { type: String }) fooSync: any
+
+  @PropSync('propC', {
+    type: Number,
+    // The default value is 1
+    default: 1,
+    required: true
+  })
+  propSyncC: number
 }
 </script>
