@@ -3,8 +3,10 @@
 </template>
 
 <script lang="ts">
+import { PropSync, Prop, Component } from 'vue-property-decorator';
+
 @Component
-export default class Child extends Vue {
+export default class Child extends Vue { 
   // Description of prop
   @Prop(Number)
   a: number = 1
@@ -29,5 +31,7 @@ export default class Child extends Vue {
   
   comment!: CommentType
   @Action g: string // Non prop
+
+  @PropSync('foo', { type: String }) fooSync: any
 }
 </script>

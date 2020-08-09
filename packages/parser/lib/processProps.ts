@@ -61,7 +61,7 @@ export function processPropValue(
           } else {
             let start = node.value.start || 0
             let end = node.value.end || 0
-            // if node.value is stringliteral , e.g: "string literal" need to exclude quote
+            // if node.value is string literal , e.g: "string literal" need to exclude quote
             if (bt.isStringLiteral(node.value)) {
               start++
               end--
@@ -121,9 +121,10 @@ export function getPropDecorator(
       // @Prop()
       (bt.isCallExpression(deco.expression) &&
         bt.isIdentifier(deco.expression.callee) &&
-        deco.expression.callee.name === 'Prop') ||
+        ['Prop', 'PropSync'].includes(deco.expression.callee.name)) ||
       // @Prop
-      (bt.isIdentifier(deco.expression) && deco.expression.name === 'Prop')
+      (bt.isIdentifier(deco.expression) &&
+        ['Prop', 'PropSync'].includes(deco.expression.name))
   )
 }
 
@@ -133,11 +134,24 @@ type PropDecoratorArgument =
   | bt.ObjectExpression
   | null
 export function getArgumentFromPropDecorator(
-  deco: bt.Decorator
-): PropDecoratorArgument {
-  return bt.isCallExpression(deco.expression)
-    ? (deco.expression.arguments[0] as PropDecoratorArgument)
-    : null
+  decorator: bt.Decorator
+): { propName: string; options: PropDecoratorArgument } {
+  const expression = decorator.expression
+  if (bt.isCallExpression(expression) && bt.isIdentifier(expression.callee)) {
+    const calleeName = expression.callee.name
+    if (calleeName === 'Prop') {
+      return {
+        propName: '',
+        options: expression.arguments[0] as PropDecoratorArgument
+      }
+    } else if (calleeName === 'PropSync') {
+      return {
+        propName: (expression.arguments[0] as bt.StringLiteral).value,
+        options: expression.arguments[1] as PropDecoratorArgument
+      }
+    }
+  }
+  return { propName: '', options: null }
 }
 
 function getTypeByTypeNode(typeNode: bt.Node): PropType {

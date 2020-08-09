@@ -482,8 +482,9 @@ test('@Prop decorator', () => {
   const arg4 = mockOnProp.mock.calls[3][0]
   const arg5 = mockOnProp.mock.calls[4][0]
   const arg6 = mockOnProp.mock.calls[5][0]
+  const arg7 = mockOnProp.mock.calls[6][0]
 
-  expect(mockOnProp.mock.calls.length).toBe(6)
+  expect(mockOnProp.mock.calls.length).toBe(7)
   expect((arg1 as PropsResult).name).toBe('a')
   expect((arg1 as PropsResult).type).toBe('Number')
   expect((arg1 as PropsResult).describe).toMatchSnapshot()
@@ -504,6 +505,9 @@ test('@Prop decorator', () => {
 
   expect((arg6 as PropsResult).name).toBe('comment')
   expect((arg6 as PropsResult).type).toBe('CommentType')
+
+  expect((arg7 as PropsResult).name).toBe('foo')
+  expect((arg7 as PropsResult).type).toBe('String')
 })
 
 test('Class method', () => {
