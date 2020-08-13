@@ -47,7 +47,7 @@
     "marked": "^0.7.0",
     "open": "^6.4.0",
     "prismjs": "^1.15.0",
-    "sao": "^0.22.17",
+    "sao": "^2.0.0",
     "serve-handler": "^5.0.7"
   },
   "gitHead": "2bc1b0691aaf9480fa6fc0ad59ff1bc991b81efe"
