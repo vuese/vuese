@@ -1,6 +1,7 @@
+/**@type{import("ts-jest")} */
 module.exports = {
   transform: {
-    '^.+\\.tsx?$': 'ts-jest'
+    '^.+\\.tsx?$': '@swc-node/jest'
   },
   testRegex: '(/__test__/.*|(\\.|/)(test|spec))\\.tsx?$',
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json', 'node'],

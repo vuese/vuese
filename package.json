@@ -50,8 +50,8 @@
     "rollup": "^1.1.0",
     "rollup-plugin-auto-external": "^2.0.0",
     "rollup-plugin-typescript2": "^0.19.0",
-    "ts-jest": "^23.10.1",
-    "typescript": "^3.8.3"
+    "typescript": "^3.8.3",
+    "@swc-node/jest": "^1.0.0"
   },
   "lint-staged": {
     "*.ts": [
