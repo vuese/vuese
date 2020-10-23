@@ -1,3 +1,4 @@
+/**@type{import("ts-jest")} */
 module.exports = {
   transform: {
     '^.+\\.tsx?$': 'ts-jest'
@@ -6,5 +7,10 @@ module.exports = {
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json', 'node'],
   moduleNameMapper: {
     '^@vuese/(.*?)$': '<rootDir>/packages/$1/lib'
+  },
+  globals: {
+    'ts-jest': {
+      diagnostics: false
+    }
   }
 }
