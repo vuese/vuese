@@ -47,7 +47,7 @@ export default async (config: CliOptions): Promise<void> => {
     // get all of browser tab
     const pages = await browser.pages()
     // use default or create a browser tab
-    const page = pages?.length ? pages[0] : await browser.newPage()
+    const page = pages && pages.length > 0 ? pages[0] : await browser.newPage()
     const filePath = path.join(__dirname, HTML_TPL_FOR_PREVIEW)
     // open the default inner html template
     await page.goto(encodeURI(`file://${filePath}`))
