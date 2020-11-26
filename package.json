@@ -149,5 +149,9 @@
         "markdown-render"
       ]
     }
+  },
+  "resolutions": {
+    "fsevents": "1.2.9",
+    "**/fsevents": "1.2.9"
   }
 }

@@ -36,7 +36,6 @@
     "@vuese/markdown-render": "^2.11.0",
     "@vuese/parser": "^2.10.0",
     "cac": "^6.4.0",
-    "carlo": "^0.9.10",
     "chokidar": "^2.0.4",
     "envinfo": "^7.3.1",
     "fast-glob": "^2.2.6",
