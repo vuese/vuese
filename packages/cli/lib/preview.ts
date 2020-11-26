@@ -21,7 +21,7 @@ export default async (config: CliOptions) => {
   const vueFile = path.resolve(sfc)
 
   if (fs.existsSync(vueFile)) {
-    async function generate() {
+    async function generate(): Promise<any> {
       const componentsPromise = await genMarkdown(config)
       const componentsRes = await Promise.all(componentsPromise)
       const content = componentsRes
