@@ -1,4 +1,5 @@
-import { EventEmitter } from 'events'
+import * as events from 'events';
+const { EventEmitter } = events;
 import path from 'path'
 import carlo from 'carlo'
 import fs from 'fs-extra'
