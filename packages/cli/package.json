@@ -33,14 +33,15 @@
     "extractDts": false
   },
   "devDependencies": {
-    "@types/marked": "^1.2.0"
+    "@types/marked": "^1.2.0",
+    "@types/puppeteer-core": "^2.0.0"
   },
   "dependencies": {
     "@vuese/markdown-render": "^2.11.0",
     "@vuese/parser": "^2.10.0",
     "cac": "^6.4.0",
-    "carlo": "^0.9.10",
     "chokidar": "^2.0.4",
+    "chrome-launcher": "^0.13.4",
     "envinfo": "^7.3.1",
     "fast-glob": "^2.2.6",
     "fs-extra": "^7.0.1",
@@ -50,6 +51,7 @@
     "marked": "^0.7.0",
     "open": "^6.4.0",
     "prismjs": "^1.15.0",
+    "puppeteer-core": "^5.5.0",
     "sao": "^0.22.17",
     "serve-handler": "^5.0.7"
   },

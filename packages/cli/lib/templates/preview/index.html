@@ -8,20 +8,5 @@
   </head>
   <body>
     <div class="markdown-body" id="content"></div>
-    <script>
-        async function main () {
-          async function render () {
-            const html = await window.generate()
-            document.getElementById('content').innerHTML = html
-          }
-          render()
-
-          const event = await window.event()
-          event.on('update', () => {
-            render()
-          })
-        }
-        window.onload = main
-      </script>
   </body>
 </html>

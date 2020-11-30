@@ -1,14 +1,16 @@
-import { EventEmitter } from 'events'
 import path from 'path'
-import carlo from 'carlo'
 import fs from 'fs-extra'
 import parser from './markedParser'
 import genMarkdown from './genMarkdown'
 import chokidar from 'chokidar'
 import Log from 'log-horizon'
 import { CliOptions } from '.'
+import puppeteer from 'puppeteer-core'
+import { Launcher } from 'chrome-launcher'
 
 const logger = Log.create()
+const HTML_TPL_FOR_PREVIEW = './templates/preview/index.html'
+const HTML_CONTAINER_ID = '#content'
 
 export default async (config: CliOptions): Promise<void> => {
   const sfc = config.include as string
@@ -28,25 +30,47 @@ export default async (config: CliOptions): Promise<void> => {
       return parser(content)
     }
 
-    const app = await carlo.launch()
-    app.on('exit', () => process.exit())
-    app.serveFolder(__dirname + '/templates/preview')
-
-    class Events extends EventEmitter {}
-    const event = new Events()
-    await app.exposeFunction('event', () => event)
-    await app.exposeFunction('generate', async () => {
-      return await generate()
+    // get the Chromium path
+    const executablePath = Launcher.getFirstInstallation()
+    const browser = await puppeteer.launch({
+      executablePath,
+      headless: false,
+      defaultViewport: null,
+      ignoreDefaultArgs: ['--disable-extensions'],
+      args: [
+        '--start-maximized',
+        `--app=data:text/html,<title>${encodeURIComponent('Vuese CLI')}</title>`
+      ],
     })
+    await browser.target().createCDPSession()
 
-    await app.load('index.html')
+    // get all of browser tab
+    const pages = await browser.pages()
+    // use default or create a browser tab
+    const page = pages && pages.length > 0 ? pages[0] : await browser.newPage()
+    const filePath = path.join(__dirname, HTML_TPL_FOR_PREVIEW)
+    // open the default inner html template
+    await page.goto(encodeURI(`file://${filePath}`))
+
+
+    // Generate html content for the preview
+    const renderer = async () => {
+      const html = await generate()
+      const container = await page.$(HTML_CONTAINER_ID)
+      await page.evaluate((html: any, container: any) => container.innerHTML = html, html, container)
+    }
+    // init
+    renderer()
+
+    page.on('close', () => process.exit())
 
     chokidar
       .watch(vueFile, {
         ignoreInitial: true
       })
       .on('change', () => {
-        event.emit('update')
+        // re render the html content
+        renderer()
       })
   }
 }
