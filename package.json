@@ -25,6 +25,7 @@
     "vue-template-compiler": "^2.6.11"
   },
   "devDependencies": {
+    "@swc-node/jest": "^1.0.0",
     "@types/babel__generator": "^7.6.1",
     "@types/babel__traverse": "^7.0.12",
     "@types/fs-extra": "^8.1.0",
@@ -42,7 +43,7 @@
     "fs-extra": "^7.0.1",
     "husky": "^1.0.0",
     "is-builtin-module": "^3.0.0",
-    "jest": "^24.5.0",
+    "jest": "^24.9.0",
     "lerna": "^3.10.5",
     "lint-staged": "^7.3.0",
     "markdown-toc": "^1.2.0",
@@ -50,8 +51,7 @@
     "rollup": "^1.1.0",
     "rollup-plugin-auto-external": "^2.0.0",
     "rollup-plugin-typescript2": "^0.19.0",
-    "typescript": "^3.8.3",
-    "@swc-node/jest": "^1.0.0"
+    "typescript": "^3.8.3"
   },
   "lint-staged": {
     "*.ts": [
@@ -149,9 +149,5 @@
         "markdown-render"
       ]
     }
-  },
-  "resolutions": {
-    "fsevents": "1.2.9",
-    "**/fsevents": "1.2.9"
   }
 }

@@ -33,7 +33,8 @@
     "extractDts": false
   },
   "devDependencies": {
-    "@types/marked": "^1.2.0"
+    "@types/marked": "^1.2.0",
+    "@types/puppeteer-core": "^2.0.0"
   },
   "dependencies": {
     "@vuese/markdown-render": "^2.11.0",
