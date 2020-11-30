@@ -32,6 +32,9 @@
   "buildOptions": {
     "extractDts": false
   },
+  "devDependencies": {
+    "@types/marked": "^1.2.0"
+  },
   "dependencies": {
     "@vuese/markdown-render": "^2.11.0",
     "@vuese/parser": "^2.10.0",
