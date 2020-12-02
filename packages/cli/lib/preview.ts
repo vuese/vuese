@@ -40,7 +40,7 @@ export default async (config: CliOptions): Promise<void> => {
       args: [
         '--start-maximized',
         `--app=data:text/html,<title>${encodeURIComponent('Vuese CLI')}</title>`
-      ],
+      ]
     })
     await browser.target().createCDPSession()
 
@@ -52,12 +52,15 @@ export default async (config: CliOptions): Promise<void> => {
     // open the default inner html template
     await page.goto(encodeURI(`file://${filePath}`))
 
-
     // Generate html content for the preview
-    const renderer = async () => {
+    const renderer = async (): Promise<void> => {
       const html = await generate()
       const container = await page.$(HTML_CONTAINER_ID)
-      await page.evaluate((html: any, container: any) => container.innerHTML = html, html, container)
+      await page.evaluate(
+        (html: any, container: any) => (container.innerHTML = html),
+        html,
+        container
+      )
     }
     // init
     renderer()

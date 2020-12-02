@@ -971,3 +971,21 @@ test('data in a mixin', () => {
   expect((arg3 as DataResult).describe).toMatchSnapshot()
   expect((arg3 as DataResult).default).toMatchSnapshot()
 })
+
+test('should pass when export default Vue.extend CallExpression', () => {
+  const sfc1: AstResult = getAST('vueExtend.vue')
+  const mockOnProp = jest.fn(() => {})
+  const options: ParserOptions = {
+    onProp: mockOnProp
+  }
+  const seen = new Seen()
+  parseJavascript(sfc1.jsAst as bt.File, seen, options)
+  const arg = mockOnProp.mock.calls[0][0]
+
+  expect(mockOnProp.mock.calls.length).toBe(1)
+  expect(arg as PropsResult).toEqual({
+    name: 'a',
+    type: 'Number',
+    describe: ['String to display']
+  })
+})
