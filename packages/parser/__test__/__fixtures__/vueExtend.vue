@@ -4,12 +4,8 @@
 
 <script>
 export default Vue.extend({
-  data () {
-    return {
-      a: 1
-    }
-  },
   props: {
+    // String to display
     value: String
   }
 })

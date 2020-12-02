@@ -14,6 +14,12 @@ export function isVueComponent(
   return (
     bt.isExportDefaultDeclaration(node) ||
     bt.isVariableDeclarator(node) ||
+    (bt.isCallExpression(node) &&
+      bt.isMemberExpression(node.callee) &&
+      bt.isIdentifier(node.callee.object) &&
+      bt.isIdentifier(node.callee.property) &&
+      node.callee.object.name === 'Vue' &&
+      node.callee.property.name === 'extend') ||
     (bt.isReturnStatement(node) && componentLevel === 1)
   )
 }
