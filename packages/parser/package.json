@@ -23,7 +23,7 @@
     "vue-template-compiler": "^2.6.11"
   },
   "scripts": {
-    "tsc": "rm -rf dist && tsc"
+    "tsc": "rimraf dist && tsc"
   },
   "publishConfig": {
     "access": "public"
