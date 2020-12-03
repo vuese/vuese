@@ -353,6 +353,64 @@ Array [
 
 exports[`data in the object, arrow function with returnStatement. 9`] = `"[An,Array]"`;
 
+exports[`should pass when export default is Vue.extend CallExpression 1`] = `"name"`;
+
+exports[`should pass when export default is Vue.extend CallExpression 2`] = `
+Array [
+  "String",
+  "Number",
+]
+`;
+
+exports[`should pass when export default is Vue.extend CallExpression 3`] = `
+Array [
+  "The name of the form, up to 8 characters",
+]
+`;
+
+exports[`should pass when export default is Vue.extend CallExpression 4`] = `"a"`;
+
+exports[`should pass when export default is Vue.extend CallExpression 5`] = `"Number"`;
+
+exports[`should pass when export default is Vue.extend CallExpression 6`] = `Array []`;
+
+exports[`should pass when export default is Vue.extend CallExpression 7`] = `"clear"`;
+
+exports[`should pass when export default is Vue.extend CallExpression 8`] = `
+Array [
+  "Used to manually clear the form",
+]
+`;
+
+exports[`should pass when export default is Vue.extend CallExpression in js file 1`] = `"name"`;
+
+exports[`should pass when export default is Vue.extend CallExpression in js file 2`] = `
+Array [
+  "String",
+  "Number",
+]
+`;
+
+exports[`should pass when export default is Vue.extend CallExpression in js file 3`] = `
+Array [
+  "The name of the form, up to 8 characters",
+]
+`;
+
+exports[`should pass when export default is Vue.extend CallExpression in js file 4`] = `"a"`;
+
+exports[`should pass when export default is Vue.extend CallExpression in js file 5`] = `"Number"`;
+
+exports[`should pass when export default is Vue.extend CallExpression in js file 6`] = `Array []`;
+
+exports[`should pass when export default is Vue.extend CallExpression in js file 7`] = `"clear"`;
+
+exports[`should pass when export default is Vue.extend CallExpression in js file 8`] = `
+Array [
+  "Used to manually clear the form",
+]
+`;
+
 exports[`watch in the object 1`] = `
 Array [
   "Stores paths in store",

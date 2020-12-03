@@ -975,17 +975,87 @@ test('data in a mixin', () => {
 test('should pass when export default is Vue.extend CallExpression', () => {
   const sfc1: AstResult = getAST('vueExtend.vue')
   const mockOnProp = jest.fn(() => {})
+  const mockOnData = jest.fn(() => {})
+  const mockOnMixin = jest.fn(() => {})
+  const mockOnMethod = jest.fn(() => {})
   const options: ParserOptions = {
-    onProp: mockOnProp
+    onProp: mockOnProp,
+    onMixIn: mockOnMixin,
+    onData: mockOnData,
+    onMethod: mockOnMethod
   }
   const seen = new Seen()
   parseJavascript(sfc1.jsAst as bt.File, seen, options)
-  const arg = mockOnProp.mock.calls[0][0]
+  const prop1 = mockOnProp.mock.calls[0][0]
+  const data1 = mockOnData.mock.calls[0][0]
+  const method1 = mockOnMethod.mock.calls[0][0]
+  const mixin1 = mockOnMixin.mock.calls[0][0]
+  const mixin2 = mockOnMixin.mock.calls[1][0]
+  const mixin3 = mockOnMixin.mock.calls[2][0]
 
   expect(mockOnProp.mock.calls.length).toBe(1)
-  expect(arg as PropsResult).toEqual({
-    name: 'value',
-    type: 'String',
-    describe: ['String to display']
-  })
+  expect(mockOnData.mock.calls.length).toBe(1)
+  expect(mockOnMethod.mock.calls.length).toBe(1)
+  expect(mockOnMixin.mock.calls.length).toBe(3)
+
+  expect((prop1 as DataResult).name).toMatchSnapshot()
+  expect((prop1 as DataResult).type).toMatchSnapshot()
+  expect((prop1 as DataResult).describe).toMatchSnapshot()
+
+  expect((data1 as DataResult).name).toMatchSnapshot()
+  expect((data1 as DataResult).type).toMatchSnapshot()
+  expect((data1 as DataResult).describe).toMatchSnapshot()
+
+  expect((method1 as DataResult).name).toMatchSnapshot()
+  expect((method1 as DataResult).describe).toMatchSnapshot()
+
+  expect((mixin1 as MixInResult).mixIn).toBe('MixinA')
+  expect((mixin2 as MixInResult).mixIn).toBe('MixinB')
+  expect((mixin3 as MixInResult).mixIn).toBe('MixinC')
+
+  // expect((prop1 as DataResult).name).toMatchSnapshot()
+})
+
+test('should pass when export default is Vue.extend CallExpression in js file', () => {
+  const sfc1: AstResult = getAST('vueExtend.js', { jsx: false }, true)
+  const mockOnProp = jest.fn(() => {})
+  const mockOnData = jest.fn(() => {})
+  const mockOnMixin = jest.fn(() => {})
+  const mockOnMethod = jest.fn(() => {})
+  const options: ParserOptions = {
+    onProp: mockOnProp,
+    onMixIn: mockOnMixin,
+    onData: mockOnData,
+    onMethod: mockOnMethod
+  }
+  const seen = new Seen()
+  parseJavascript(sfc1.jsAst as bt.File, seen, options)
+  const prop1 = mockOnProp.mock.calls[0][0]
+  const data1 = mockOnData.mock.calls[0][0]
+  const method1 = mockOnMethod.mock.calls[0][0]
+  const mixin1 = mockOnMixin.mock.calls[0][0]
+  const mixin2 = mockOnMixin.mock.calls[1][0]
+  const mixin3 = mockOnMixin.mock.calls[2][0]
+
+  expect(mockOnProp.mock.calls.length).toBe(1)
+  expect(mockOnData.mock.calls.length).toBe(1)
+  expect(mockOnMethod.mock.calls.length).toBe(1)
+  expect(mockOnMixin.mock.calls.length).toBe(3)
+
+  expect((prop1 as DataResult).name).toMatchSnapshot()
+  expect((prop1 as DataResult).type).toMatchSnapshot()
+  expect((prop1 as DataResult).describe).toMatchSnapshot()
+
+  expect((data1 as DataResult).name).toMatchSnapshot()
+  expect((data1 as DataResult).type).toMatchSnapshot()
+  expect((data1 as DataResult).describe).toMatchSnapshot()
+
+  expect((method1 as DataResult).name).toMatchSnapshot()
+  expect((method1 as DataResult).describe).toMatchSnapshot()
+
+  expect((mixin1 as MixInResult).mixIn).toBe('MixinA')
+  expect((mixin2 as MixInResult).mixIn).toBe('MixinB')
+  expect((mixin3 as MixInResult).mixIn).toBe('MixinC')
+
+  // expect((prop1 as DataResult).name).toMatchSnapshot()
 })
