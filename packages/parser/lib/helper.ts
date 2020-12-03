@@ -14,6 +14,7 @@ export function isVueComponent(
   return (
     bt.isExportDefaultDeclaration(node) ||
     bt.isVariableDeclarator(node) ||
+    // this branch for determine if the component is Vue.extend CallExpression
     (bt.isCallExpression(node) &&
       bt.isMemberExpression(node.callee) &&
       bt.isIdentifier(node.callee.object) &&
