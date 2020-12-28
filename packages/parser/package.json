@@ -16,7 +16,7 @@
     "dist"
   ],
   "dependencies": {
-    "@babel/generator": "^7.10.3",
+    "@babel/generator": "^7.12.10",
     "@babel/parser": "^7.10.3",
     "@babel/traverse": "^7.10.3",
     "@babel/types": "^7.3.0",

@@ -158,7 +158,7 @@ exports[`Slots in script 8`] = `"Default content of sidebar"`;
 
 exports[`The default value of Props 1`] = `"{\\"val\\":1}"`;
 
-exports[`The default value of Props 2`] = `undefined`;
+exports[`The default value of Props 2`] = `"{\\"val\\":1,\\"a\\":2}"`;
 
 exports[`The default value of Props 3`] = `"{\\"val\\":1}"`;
 
@@ -179,6 +179,10 @@ Array [
   "\`{ val: 1}\`",
 ]
 `;
+
+exports[`The default value of Props 7`] = `"{}"`;
+
+exports[`The default value of Props 8`] = `"Object"`;
 
 exports[`The options in @Component should be parsed correctly 1`] = `
 Array [

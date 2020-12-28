@@ -8,7 +8,7 @@ export default {
     a: {
       type: Object,
       // `{ val: 1 }`
-      default: function () {
+      default: function() {
         return {
           val: 1
         }
@@ -22,7 +22,7 @@ export default {
     c: {
       type: Object,
       // `{ val: 1}`
-      default(){
+      default() {
         return { val: 1 }
       }
     },
@@ -45,6 +45,11 @@ export default {
     h: {
       type: RegExp,
       default: /test/
+    },
+    i: {
+      type: Object,
+      // `{}`
+      default: () => ({})
     },
   }
 }
