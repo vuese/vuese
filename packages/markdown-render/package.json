@@ -1,6 +1,6 @@
 {
   "name": "@vuese/markdown-render",
-  "version": "2.11.1",
+  "version": "2.11.2",
   "description": "Render raw markdown string according to AST",
   "keywords": [
     "markdown",
@@ -29,7 +29,7 @@
     "extractDts": true
   },
   "devDependencies": {
-    "@vuese/parser": "^2.10.1"
+    "@vuese/parser": "^2.10.2"
   },
   "gitHead": "2bc1b0691aaf9480fa6fc0ad59ff1bc991b81efe"
 }

@@ -1,6 +1,6 @@
 {
   "name": "@vuese/cli",
-  "version": "2.14.1",
+  "version": "2.14.2",
   "description": "Automatically generate markdown documents based on your vue file",
   "keywords": [
     "markdown",
@@ -37,8 +37,8 @@
     "@types/puppeteer-core": "^2.0.0"
   },
   "dependencies": {
-    "@vuese/markdown-render": "^2.11.1",
-    "@vuese/parser": "^2.10.1",
+    "@vuese/markdown-render": "^2.11.2",
+    "@vuese/parser": "^2.10.2",
     "cac": "^6.4.0",
     "chokidar": "^2.0.4",
     "chrome-launcher": "^0.13.4",
