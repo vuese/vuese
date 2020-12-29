@@ -1,6 +1,6 @@
 {
   "projectName": "vuese",
-  "projectOwner": "shuidi-fed",
+  "projectOwner": "vuese",
   "contributors": [
     {
       "login": "HcySunYang",
@@ -103,7 +103,8 @@
         "code",
         "test",
         "doc",
-        "bug"
+        "bug",
+        "infra"
       ]
     }
   ],
