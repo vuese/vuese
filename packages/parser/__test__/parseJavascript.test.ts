@@ -872,7 +872,7 @@ test('The default value of Props', () => {
   const seen = new Seen()
   parseJavascript(sfc.jsAst as bt.File, seen, options, sfc.jsSource)
 
-  expect(mockOnProp.mock.calls.length).toBe(8)
+  expect(mockOnProp.mock.calls.length).toBe(9)
   const arg1 = mockOnProp.mock.calls[0][0]
   const arg2 = mockOnProp.mock.calls[1][0]
   const arg3 = mockOnProp.mock.calls[2][0]
@@ -881,6 +881,7 @@ test('The default value of Props', () => {
   const arg6 = mockOnProp.mock.calls[5][0]
   const arg7 = mockOnProp.mock.calls[6][0]
   const arg8 = mockOnProp.mock.calls[7][0]
+  const arg9 = mockOnProp.mock.calls[8][0]
 
   expect((arg1 as PropsResult).default).toMatchSnapshot()
   expect((arg2 as PropsResult).default).toMatchSnapshot()
@@ -904,6 +905,9 @@ test('The default value of Props', () => {
 
   expect((arg8 as PropsResult).default).toEqual('/test/')
   expect((arg8 as PropsResult).type).toEqual('RegExp')
+
+  expect((arg9 as PropsResult).default).toMatchSnapshot()
+  expect((arg9 as PropsResult).type).toMatchSnapshot()
 })
 
 test('The seperated block should be handled correctly', () => {
