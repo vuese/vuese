@@ -4,7 +4,8 @@ import * as bt from '@babel/types'
 /**
  * If a node satisfies the following conditions, then we will use this node as a Vue component.
  * 1. It is a default export
- * 2. others...
+ * 2. defineComponent
+ * 3. others...
  */
 export function isVueComponent(
   path: NodePath,
@@ -21,7 +22,13 @@ export function isVueComponent(
       bt.isIdentifier(node.callee.property) &&
       node.callee.object.name === 'Vue' &&
       node.callee.property.name === 'extend') ||
-    (bt.isReturnStatement(node) && componentLevel === 1)
+    (bt.isReturnStatement(node) && componentLevel === 1) ||
+    // this branch for defineComponent
+    (
+      bt.isCallExpression(node) &&
+      bt.isExportDefaultDeclaration(path.parentPath) &&
+      (path as any).__isVue3__
+    )
   )
 }
 
@@ -48,7 +55,7 @@ export function isVueOption(
     path.parentPath.parentPath &&
     bt.isCallExpression(path.parentPath.parentPath.node) &&
     (path.parentPath.parentPath.node.callee as bt.Identifier).name ===
-      'Component' &&
+    'Component' &&
     path.parentPath.parentPath.parentPath &&
     bt.isDecorator(path.parentPath.parentPath.parentPath.node)
   ) {

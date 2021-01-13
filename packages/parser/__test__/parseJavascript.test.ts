@@ -1063,3 +1063,29 @@ test('should pass when export default is Vue.extend CallExpression in js file', 
 
   // expect((prop1 as DataResult).name).toMatchSnapshot()
 })
+
+test.only('support defineComponent', () => {
+  const sfc: AstResult = getAST('vue3/defineComponent.vue')
+  const mockOnName = jest.fn(() => {})
+  const mockOnDesc = jest.fn(() => {})
+  const mockOnProp = jest.fn(() => {})
+  const mockOnData = jest.fn(() => {})
+
+  const options: ParserOptions = {
+    onDesc: mockOnDesc,
+    onName: mockOnName,
+    onProp: mockOnProp,
+    onData: mockOnData,
+  }
+  const seen = new Seen()
+  parseJavascript(sfc.jsAst as bt.File, seen, options, sfc.jsSource)
+  const desc = mockOnDesc.mock.calls[0][0]
+  const name = mockOnName.mock.calls[0][0]
+  const props1 = mockOnProp.mock.calls[0][0]
+  // const data = mockOnData.mock.calls[0][0]
+
+  console.log(' desc : ', desc)
+  console.log(' name : ', name)
+  console.log(' props1 : ', props1)
+  // console.log(' data : ', data)
+})

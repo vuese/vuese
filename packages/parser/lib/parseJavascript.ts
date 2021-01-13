@@ -122,8 +122,8 @@ export function parseJavascript(
       ) {
         const properties = (path.node
           .value as bt.ObjectExpression).properties.filter(
-          n => bt.isObjectMethod(n) || bt.isObjectProperty(n)
-        ) as (bt.ObjectMethod | bt.ObjectProperty)[]
+            n => bt.isObjectMethod(n) || bt.isObjectProperty(n)
+          ) as (bt.ObjectMethod | bt.ObjectProperty)[]
 
         properties.forEach(node => {
           const commentsRes: CommentResult = getComments(node)
@@ -199,8 +199,8 @@ export function parseJavascript(
       if (onMethod && isVueOption(path, 'methods', componentLevel)) {
         const properties = (path.node
           .value as bt.ObjectExpression).properties.filter(
-          n => bt.isObjectMethod(n) || bt.isObjectProperty(n)
-        ) as (bt.ObjectMethod | bt.ObjectProperty)[]
+            n => bt.isObjectMethod(n) || bt.isObjectProperty(n)
+          ) as (bt.ObjectMethod | bt.ObjectProperty)[]
 
         properties.forEach(node => {
           const commentsRes: CommentResult = getComments(node)
@@ -224,8 +224,8 @@ export function parseJavascript(
       ) {
         const properties = (path.node
           .value as bt.ObjectExpression).properties.filter(
-          n => bt.isObjectMethod(n) || bt.isObjectProperty(n)
-        ) as (bt.ObjectMethod | bt.ObjectProperty)[]
+            n => bt.isObjectMethod(n) || bt.isObjectProperty(n)
+          ) as (bt.ObjectMethod | bt.ObjectProperty)[]
 
         properties.forEach(node => {
           const commentsRes: CommentResult = getComments(node)
@@ -488,23 +488,31 @@ export function parseJavascript(
       let traversePath:
         | NodePath<bt.VariableDeclarator>
         | NodePath<bt.ReturnStatement>
-        | NodePath<bt.ExportDefaultDeclaration> = rootPath
+        | NodePath<bt.ExportDefaultDeclaration>
+        | NodePath<bt.ObjectExpression> = rootPath
       if (
         isObject(exportDefaultReferencePath) &&
-        (bt.isVariableDeclarator(exportDefaultReferencePath) ||
-          bt.isReturnStatement(exportDefaultReferencePath))
+        (
+          bt.isVariableDeclarator(exportDefaultReferencePath) ||
+          bt.isReturnStatement(exportDefaultReferencePath) ||
+          bt.isObjectExpression(exportDefaultReferencePath)
+        )
       ) {
         traversePath = (exportDefaultReferencePath as any) as
           | NodePath<bt.VariableDeclarator>
           | NodePath<bt.ReturnStatement>
+          | NodePath<bt.ObjectExpression>
       }
 
+      // Capture comments before traverse object options
       if (bt.isExportDefaultDeclaration(traversePath) && options.onDesc)
         options.onDesc(getComponentDescribe(rootPath.node))
+      // Start traversing object options
       traversePath.traverse({
         ObjectExpression: {
           enter(path: NodePath<bt.ObjectExpression>): void {
             componentLevel++
+            let optionsPath: NodePath<bt.ObjectExpression> = path
             if (componentLevel === 1) {
               if (bt.isVariableDeclarator(traversePath) && options.onDesc) {
                 const comments = getComments(traversePath.parentPath.node)
@@ -512,8 +520,13 @@ export function parseJavascript(
               } else if (bt.isReturnStatement(traversePath) && options.onDesc) {
                 const comments = getComments(traversePath.node)
                 options.onDesc(comments)
+              } else if (bt.isObjectExpression(traversePath) && options.onDesc) {
+                const comments = getComments(traversePath.node)
+                options.onDesc(comments)
+                // the traversePath of defineComponent is the vueComponentVisitor path
+                optionsPath = traversePath as NodePath<bt.ObjectExpression>
               }
-              path.traverse(vueComponentVisitor)
+              optionsPath.traverse(vueComponentVisitor)
             }
           },
           exit(): void {
@@ -589,8 +602,7 @@ function getExportDefaultReferencePath(
           bt.isExportDefaultDeclaration(path.parentPath.parentPath))
       ) {
         exportDefaultReferencePath = bindings[key].path
-        // return ReturnStatement instead of FunctionDeclaration just keep consistency for a component, especially when extract
-        // its comments
+        // callExpressionExport: return ReturnStatement instead of FunctionDeclaration just keep consistency for a component, especially when extract its comments
         if (bt.isFunctionDeclaration(exportDefaultReferencePath)) {
           exportDefaultReferencePath.traverse({
             ReturnStatement(path) {
@@ -598,6 +610,18 @@ function getExportDefaultReferencePath(
               path.skip()
             }
           })
+        } else if (bt.isImportSpecifier(exportDefaultReferencePath)) {
+          // vue3 defineComponent
+          exportDefaultReferencePath = path.parentPath.get('arguments.0') as NodePath<bt.Node>
+          /**
+           * Avoid efficiency problems caused by repeated judgments
+           * inject a __isVue3__ marker to identify the case where the function returns a component
+           *  const callExpression = () => {
+           *    return { name: ' vue component ', props: [] }
+           *  }
+           *  export default callExpression()
+           */
+          (exportDefaultReferencePath.parentPath as any).__isVue3__ = true
         }
       }
     })

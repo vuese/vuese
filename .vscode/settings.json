@@ -1,4 +1,7 @@
 {
+  // Do not add spaces between the braces of an empty function
+  "javascript.format.insertSpaceBeforeFunctionParenthesis": false,
+  "typescript.format.insertSpaceAfterOpeningAndBeforeClosingEmptyBraces": false,
   "[typescript]": {
     "editor.formatOnSave": true
   },
