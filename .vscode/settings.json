@@ -1,4 +1,6 @@
 {
+  "javascript.format.insertSpaceBeforeFunctionParenthesis": false,
+  "typescript.format.insertSpaceAfterOpeningAndBeforeClosingEmptyBraces": false,
   "[typescript]": {
     "editor.formatOnSave": true
   },
