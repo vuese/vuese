@@ -5,19 +5,20 @@
 <script>
 import { defineComponent } from '@vue/composition-api'
 
-
 export default defineComponent(
-  // here is a commet
+  // Here is a description of the component
   {
-  name: 'MyComponent',
-  props: {
-    name: {
-      type: [String, Number],
-      required: true,
-      validator() {}
+    name: 'MyComponent',
+    props: {
+      // The name of the form, up to 8 characters
+      name: {
+        type: [String, Number],
+        required: true,
+        validator() {}
+      }
     }
   }
-})
+)
 </script>
 
 <style></style>

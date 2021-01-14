@@ -1064,28 +1064,82 @@ test('should pass when export default is Vue.extend CallExpression in js file', 
   // expect((prop1 as DataResult).name).toMatchSnapshot()
 })
 
-test.only('support defineComponent', () => {
+test('Support defineComponent', () => {
   const sfc: AstResult = getAST('vue3/defineComponent.vue')
   const mockOnName = jest.fn(() => {})
   const mockOnDesc = jest.fn(() => {})
   const mockOnProp = jest.fn(() => {})
-  const mockOnData = jest.fn(() => {})
 
   const options: ParserOptions = {
     onDesc: mockOnDesc,
     onName: mockOnName,
     onProp: mockOnProp,
-    onData: mockOnData,
   }
   const seen = new Seen()
   parseJavascript(sfc.jsAst as bt.File, seen, options, sfc.jsSource)
   const desc = mockOnDesc.mock.calls[0][0]
   const name = mockOnName.mock.calls[0][0]
   const props1 = mockOnProp.mock.calls[0][0]
-  // const data = mockOnData.mock.calls[0][0]
 
-  console.log(' desc : ', desc)
-  console.log(' name : ', name)
-  console.log(' props1 : ', props1)
-  // console.log(' data : ', data)
+  expect(name).toBe('MyComponent')
+  expect(desc).toEqual({ default: ['Here is a description of the component'] })
+  expect(props1).toEqual({
+    describe: [
+      'The name of the form, up to 8 characters'
+    ],
+    name: 'name',
+    required: true,
+    type: [
+      'String',
+      'Number'
+    ],
+    validator: 'validator() {}',
+  })
+})
+
+test.only('Support defineComponent as an import alias', () => {
+  const sfc: AstResult = getAST('vue3/defineAlias.vue')
+  const mockOnDesc = jest.fn(() => {})
+  const mockOnName = jest.fn(() => {})
+  const mockOnProp = jest.fn(() => {})
+  const mockOnMethod = jest.fn(() => {})
+  const mockOnEvent = jest.fn(() => {})
+
+  const options: ParserOptions = {
+    onDesc: mockOnDesc,
+    onName: mockOnName,
+    onProp: mockOnProp,
+    onMethod: mockOnMethod,
+    onEvent: mockOnEvent
+  }
+  const seen = new Seen()
+  parseJavascript(sfc.jsAst as bt.File, seen, options, sfc.jsSource)
+  const desc = mockOnDesc.mock.calls[0][0]
+  const name = mockOnName.mock.calls[0][0]
+  const props1 = mockOnProp.mock.calls[0][0]
+  const method1 = mockOnMethod.mock.calls[0][0]
+  const event1 = mockOnEvent.mock.calls[0][0]
+
+  expect(desc).toEqual({ default: ['This is a description of the component'] })
+  expect(name).toBe('MyComponent')
+  expect(props1).toEqual({
+    name: 'name',
+    type: ['String', 'Number'],
+    describe: ['The name of the form, up to 8 characters'],
+    required: true,
+    validator: 'validator() {}'
+  })
+
+  expect(method1).toEqual({
+    name: 'clear',
+    describe: ['Used to manually clear the form']
+  })
+
+  expect(event1).toEqual({
+    name: 'onclear',
+    isSync: false,
+    syncProp: '',
+    describe: ['Fire when the form is cleared'],
+    argumentsDesc: ['The argument is a boolean value representing xxx']
+  })
 })
