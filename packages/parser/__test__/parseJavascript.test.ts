@@ -1097,7 +1097,7 @@ test('Support defineComponent', () => {
   })
 })
 
-test.only('Support defineComponent as an import alias', () => {
+test('Support defineComponent as an import alias', () => {
   const sfc: AstResult = getAST('vue3/defineAlias.vue')
   const mockOnDesc = jest.fn(() => {})
   const mockOnName = jest.fn(() => {})
@@ -1112,6 +1112,7 @@ test.only('Support defineComponent as an import alias', () => {
     onMethod: mockOnMethod,
     onEvent: mockOnEvent
   }
+
   const seen = new Seen()
   parseJavascript(sfc.jsAst as bt.File, seen, options, sfc.jsSource)
   const desc = mockOnDesc.mock.calls[0][0]
@@ -1129,17 +1130,61 @@ test.only('Support defineComponent as an import alias', () => {
     required: true,
     validator: 'validator() {}'
   })
-
   expect(method1).toEqual({
     name: 'clear',
     describe: ['Used to manually clear the form']
   })
-
   expect(event1).toEqual({
     name: 'onclear',
     isSync: false,
     syncProp: '',
     describe: ['Fire when the form is cleared'],
     argumentsDesc: ['The argument is a boolean value representing xxx']
+  })
+})
+
+test('Support for using defineComponent in the typescript', () => {
+  const sfc: AstResult = getAST('vue3/tsDefine.vue')
+  const mockOnDesc = jest.fn(() => {})
+  const mockOnName = jest.fn(() => {})
+  const mockOnProp = jest.fn(() => {})
+  const mockOnMethod = jest.fn(() => {})
+  const mockOnEvent = jest.fn(() => {})
+
+  const options: ParserOptions = {
+    onDesc: mockOnDesc,
+    onName: mockOnName,
+    onProp: mockOnProp,
+    onMethod: mockOnMethod,
+    onEvent: mockOnEvent
+  }
+
+  const seen = new Seen()
+  parseJavascript(sfc.jsAst as bt.File, seen, options, sfc.jsSource)
+  const desc = mockOnDesc.mock.calls[0][0]
+  const name = mockOnName.mock.calls[0][0]
+  const props1 = mockOnProp.mock.calls[0][0]
+  const method1 = mockOnMethod.mock.calls[0][0]
+  const event1 = mockOnEvent.mock.calls[0][0]
+
+  expect(desc).toEqual({ default: [] })
+  expect(name).toBe('auto-table')
+  expect(props1).toEqual({
+    name: 'columns',
+    type: 'Array',
+    describe: [],
+    validator: 'validator() {}',
+    default: '[]'
+  })
+  expect(method1).toEqual({
+    name: 'clear',
+    describe: [`the description of 'clear' methods`]
+  })
+  expect(event1).toEqual({
+    name: 'onclear',
+    isSync: false,
+    syncProp: '',
+    describe: [`the description of 'onClear' event`],
+    argumentsDesc: [`The argument description of 'onclear'`]
   })
 })

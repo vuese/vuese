@@ -1,5 +1,11 @@
 <template>
-  <div></div>
+  <div>
+    <!-- Form header -->
+    <slot name="header">
+      <!-- `<th>title</th>` -->
+      <th>title</th>
+    </slot>
+  </div>
 </template>
 
 <script lang="ts">
@@ -35,8 +41,9 @@ export default defineComponent<AutoTableProps>({
   props: {
     columns: {
       type: Array,
-      default: () => [],
-    },
+      validator () {},
+      default: () => []
+    }
   },
   setup(props, context) {
     console.log(props)
@@ -45,6 +52,15 @@ export default defineComponent<AutoTableProps>({
       age: 12
     }
   },
+  methods: {
+    // @vuese
+    // the description of 'clear' methods
+    clear() {
+      // the description of 'onClear' event
+      // @arg The argument description of 'onclear'
+      this.$emit('onclear', true)
+    }
+  }
 })
 </script>
 
