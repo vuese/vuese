@@ -57,6 +57,7 @@ This is a description of the component
 ## Props
 
 <!-- @vuese:MyComponent:props:start -->
+
 |Name|Description|Type|Required|Default|
 |---|---|---|---|---|
 |someProp|Represents the direction of the arrow|\`TOP\` / \`BOTTOM\`|\`true\`|\`TOP\`|
@@ -67,6 +68,7 @@ This is a description of the component
 ## Events
 
 <!-- @vuese:MyComponent:events:start -->
+
 |Event Name|Description|Parameters|
 |---|---|---|
 |click|Triggered when clicked|a boolean value|
@@ -77,6 +79,7 @@ This is a description of the component
 ## Slots
 
 <!-- @vuese:MyComponent:slots:start -->
+
 |Name|Description|Default Slot Content|
 |---|---|---|
 |header|Table header|\`<th>{{title}}</th>\`|
@@ -87,6 +90,7 @@ This is a description of the component
 ## Methods
 
 <!-- @vuese:MyComponent:methods:start -->
+
 |Method|Description|Parameters|
 |---|---|---|
 |clear|Clear form|a boolean value|
@@ -97,6 +101,7 @@ This is a description of the component
 ## MixIns
 
 <!-- @vuese:MyComponent:mixIns:start -->
+
 |MixIn|
 |---|
 |MixIn|
@@ -107,6 +112,7 @@ This is a description of the component
 ## Data
 
 <!-- @vuese:MyComponent:data:start -->
+
 |Name|Type|Description|Default|
 |---|---|---|---|
 |someVariable|\`String\`|Does something|-|
@@ -117,6 +123,7 @@ This is a description of the component
 ## Watch
 
 <!-- @vuese:MyComponent:watch:start -->
+
 |Name|Description|Parameters|
 |---|---|---|
 |question|Something about a question|a string value|
