@@ -24,7 +24,7 @@ export default function(parserRes: ParserResult): string {
 
 function genBaseTemplate(label: string): string {
   let str = `## ${upper(label)}\n\n`
-  str += `<!-- @vuese:[name]:${label}:start -->\n`
+  str += `<!-- @vuese:[name]:${label}:start -->\n\n`
   str += `<!-- @vuese:[name]:${label}:end -->\n\n`
   return str
 }

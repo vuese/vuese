@@ -46,7 +46,7 @@ export default function(
       )
       str = str.replace(currentHtmlCommentRE, (s, c1, c2) => {
         if (renderRes[type]) {
-          let code = `<!-- @vuese:${c1}:${c2}:start -->\n`
+          let code = `<!-- @vuese:${c1}:${c2}:start -->\n\n`
           code += renderRes[type]
           code += `\n<!-- @vuese:${c1}:${c2}:end -->\n`
           return code
