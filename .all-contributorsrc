@@ -106,6 +106,17 @@
         "bug",
         "infra"
       ]
+    },
+    {
+      "login": "michelegirini",
+      "name": "Michele Girini",
+      "avatar_url": "https://avatars.githubusercontent.com/u/13649775?v=4",
+      "profile": "https://www.migitech.it",
+      "contributions": [
+        "test",
+        "bug",
+        "code"
+      ]
     }
   ],
   "repoType": "github",
