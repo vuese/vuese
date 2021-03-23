@@ -272,7 +272,7 @@ export function parseJavascript(
 
             properties.forEach(node => {
               const commentsRes: CommentResult = getComments(node)
-              // Collect only data that have @vuese annotations for backward compability
+              // Collect only data that have @vuese annotations for backward compatibility
               if (commentsRes.vuese) {
                 const result: DataResult = {
                   name: node.key.name,

@@ -910,8 +910,8 @@ test('The default value of Props', () => {
   expect((arg9 as PropsResult).type).toMatchSnapshot()
 })
 
-test('The seperated block should be handled correctly', () => {
-  const sfc: AstResult = getAST('seperate/seperate.vue')
+test('The separated block should be handled correctly', () => {
+  const sfc: AstResult = getAST('separate/separate.vue')
   const mockOnProp = jest.fn(() => {})
   const options: ParserOptions = {
     onProp: mockOnProp
