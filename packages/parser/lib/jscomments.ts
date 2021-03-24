@@ -21,7 +21,7 @@ export function getComments(cnode: bt.Node, trailing?: boolean): CommentResult {
   if (!commentNodes || !commentNodes.length) return res
 
   let comments: string | string[] = '',
-    matchs: RegExpMatchArray | null,
+    matches: RegExpMatchArray | null,
     codeBlockStarted: boolean
   ;(commentNodes as []).forEach((node: bt.Comment) => {
     if (isCommentLine(node)) {
@@ -38,9 +38,9 @@ export function getComments(cnode: bt.Node, trailing?: boolean): CommentResult {
       )
         codeBlockStarted = true
 
-      matchs = comments.match(leadRE)
-      if (matchs) {
-        const key: string = matchs[1]
+      matches = comments.match(leadRE)
+      if (matches) {
+        const key: string = matches[1]
         res[key] = res[key] || []
         res[key].push(comments.replace(leadRE, '').trim())
       } else {
@@ -54,8 +54,8 @@ export function getComments(cnode: bt.Node, trailing?: boolean): CommentResult {
       comments = filterBlockComments(comments)
       let currentKey = 'default'
       comments.forEach(c => {
-        if ((matchs = c.match(leadRE))) {
-          currentKey = matchs[1]
+        if ((matches = c.match(leadRE))) {
+          currentKey = matches[1]
           res[currentKey] = res[currentKey] || []
           res[currentKey].push(c.replace(leadRE, '').trim())
         } else {

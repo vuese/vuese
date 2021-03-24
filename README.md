@@ -83,7 +83,7 @@ In root directory of your Vuese project:
 1. Run `yarn run build`
 2. Run `yarn link`
 
-In project that you want to use the libaries:
+In project that you want to use the libraries:
 
 1. If `@vuese/cli` is not yet installed, add it: `yarn add @vuese/cli`
 2. Run `yarn link vuese-monorepo`
