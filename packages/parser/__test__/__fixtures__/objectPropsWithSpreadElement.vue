@@ -4,8 +4,29 @@
 
 <script>
 
+const rootProps = {
+  root: {
+    type: Boolean,
+    default: true,
+  }
+}
+
+const commonProps = {
+  type: {
+    type: String,
+    required: true,
+  },
+  ...rootProps,
+}
+
+const baseProps = {
+  base: String,
+  ...commonProps,
+}
+
 const anotherProps = {
   c: String,
+  ...baseProps,
 }
 
 const otherProps = {
@@ -15,7 +36,9 @@ const otherProps = {
 
 export default {
   props: {
-    a: String,
+    a: {
+      type: String,
+    },
     ...otherProps,
   }
 }

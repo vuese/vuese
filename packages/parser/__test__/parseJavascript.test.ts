@@ -265,10 +265,10 @@ test('SpreadElement in props object, get props not in SpreadElement', () => {
     onProp: mockOnProp
   }
   const seen = new Seen()
-  parseJavascript(sfc2.jsAst as bt.File, seen, options)
+  parseJavascript(sfc2.jsAst as bt.File, seen, options, sfc2.jsSource)
   const arg = mockOnProp.mock.calls[0][0]
 
-  expect(mockOnProp.mock.calls.length).toBe(3)
+  expect(mockOnProp.mock.calls.length).toBe(6)
   expect(arg as PropsResult).toEqual({
     name: 'a',
     type: 'String',
@@ -282,10 +282,10 @@ test('SpreadElement in props object, get props in SpreadElement', () => {
     onProp: mockOnProp
   }
   const seen = new Seen()
-  parseJavascript(sfc2.jsAst as bt.File, seen, options)
+  parseJavascript(sfc2.jsAst as bt.File, seen, options, sfc2.jsSource)
   const arg = mockOnProp.mock.calls[1][0]
 
-  expect(mockOnProp.mock.calls.length).toBe(3)
+  expect(mockOnProp.mock.calls.length).toBe(6)
   expect(arg as PropsResult).toEqual({
     name: 'b',
     type: 'Number',
@@ -299,14 +299,34 @@ test('SpreadElement in props object, get props in recursive SpreadElement', () =
     onProp: mockOnProp
   }
   const seen = new Seen()
-  parseJavascript(sfc2.jsAst as bt.File, seen, options)
+  parseJavascript(sfc2.jsAst as bt.File, seen, options, sfc2.jsSource)
   const arg = mockOnProp.mock.calls[2][0]
+  const arg1 = mockOnProp.mock.calls[3][0]
+  const arg2 = mockOnProp.mock.calls[4][0]
+  const arg3 = mockOnProp.mock.calls[5][0]
 
-  expect(mockOnProp.mock.calls.length).toBe(3)
+  expect(mockOnProp.mock.calls.length).toBe(6)
   expect(arg as PropsResult).toEqual({
     name: 'c',
     type: 'String',
     describe: []
+  })
+  expect(arg1 as PropsResult).toEqual({
+    name: 'base',
+    type: 'String',
+    describe: []
+  })
+  expect(arg2 as PropsResult).toEqual({
+    name: 'type',
+    type: 'String',
+    describe: [],
+    required: true,
+  })
+  expect(arg3 as PropsResult).toEqual({
+    name: 'root',
+    type: 'Boolean',
+    default: 'true',
+    describe: [],
   })
 })
 
