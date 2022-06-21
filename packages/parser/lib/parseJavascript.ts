@@ -1,4 +1,4 @@
-import traverse, { NodePath } from '@babel/traverse'
+import traverse, { NodePath, Visitor } from '@babel/traverse'
 import * as bt from '@babel/types'
 import { getComments, CommentResult, getComponentDescribe } from './jscomments'
 import {
@@ -78,26 +78,50 @@ export function parseJavascript(
             if (onProp) onProp(prop)
           })
         } else if (bt.isObjectExpression(valuePath.node)) {
+          const processObjectProperty = (propPath: NodePath<bt.ObjectProperty>): void => {
+            const name = bt.isIdentifier(propPath.node.key)
+              ? propPath.node.key.name
+              : propPath.node.key.value
+            const propValueNode = propPath.node.value
+            const result: PropsResult = {
+              name,
+              type: null,
+              describe: getComments(propPath.node).default
+            }
+
+            processPropValue(propValueNode, result, source)
+
+            onProp(result)
+          }
+
+          const createSpreadElementVisitor = (valuePathOrNode: any): Visitor => {
+            return {
+              SpreadElement(propPath: NodePath<bt.SpreadElement>): void {
+                if (propPath.parentPath === valuePathOrNode || propPath.parentPath.node === valuePathOrNode) {
+                  const objectName = (propPath.node.argument as bt.Identifier).name;
+                  const propsPath = propPath.scope.bindings[objectName].path;
+                  const objectNode = (propsPath.node as bt.VariableDeclarator).init;
+                  propsPath.traverse({
+                    ObjectProperty(propPath: NodePath<bt.ObjectProperty>) {
+                      if (propPath.parent === objectNode) {
+                        processObjectProperty(propPath);
+                      }
+                    },
+                    ...createSpreadElementVisitor(objectNode)
+                  })
+                }
+              }
+            }
+          }
           // An object
           valuePath.traverse({
             ObjectProperty(propPath: NodePath<bt.ObjectProperty>) {
               // Guarantee that this is the prop definition
               if (propPath.parentPath === valuePath) {
-                const name = bt.isIdentifier(propPath.node.key)
-                  ? propPath.node.key.name
-                  : propPath.node.key.value
-                const propValueNode = propPath.node.value
-                const result: PropsResult = {
-                  name,
-                  type: null,
-                  describe: getComments(propPath.node).default
-                }
-
-                processPropValue(propValueNode, result, source)
-
-                onProp(result)
+                processObjectProperty(propPath);
               }
-            }
+            },
+            ...createSpreadElementVisitor(valuePath)
           })
         }
       }
@@ -122,8 +146,8 @@ export function parseJavascript(
       ) {
         const properties = (path.node
           .value as bt.ObjectExpression).properties.filter(
-          n => bt.isObjectMethod(n) || bt.isObjectProperty(n)
-        ) as (bt.ObjectMethod | bt.ObjectProperty)[]
+            n => bt.isObjectMethod(n) || bt.isObjectProperty(n)
+          ) as (bt.ObjectMethod | bt.ObjectProperty)[]
 
         properties.forEach(node => {
           const commentsRes: CommentResult = getComments(node)
@@ -199,8 +223,8 @@ export function parseJavascript(
       if (onMethod && isVueOption(path, 'methods', componentLevel)) {
         const properties = (path.node
           .value as bt.ObjectExpression).properties.filter(
-          n => bt.isObjectMethod(n) || bt.isObjectProperty(n)
-        ) as (bt.ObjectMethod | bt.ObjectProperty)[]
+            n => bt.isObjectMethod(n) || bt.isObjectProperty(n)
+          ) as (bt.ObjectMethod | bt.ObjectProperty)[]
 
         properties.forEach(node => {
           const commentsRes: CommentResult = getComments(node)
@@ -224,8 +248,8 @@ export function parseJavascript(
       ) {
         const properties = (path.node
           .value as bt.ObjectExpression).properties.filter(
-          n => bt.isObjectMethod(n) || bt.isObjectProperty(n)
-        ) as (bt.ObjectMethod | bt.ObjectProperty)[]
+            n => bt.isObjectMethod(n) || bt.isObjectProperty(n)
+          ) as (bt.ObjectMethod | bt.ObjectProperty)[]
 
         properties.forEach(node => {
           const commentsRes: CommentResult = getComments(node)

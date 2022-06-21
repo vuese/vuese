@@ -30,10 +30,10 @@ function getAST(
 
 test('get namedExport component metadata correctly', () => {
   const sfc: AstResult = getAST('namedExport.vue')
-  const mockOnName = jest.fn(() => {})
-  const mockOnDesc = jest.fn(() => {})
-  const mockOnData = jest.fn(() => {})
-  const mockOnProp = jest.fn(() => {})
+  const mockOnName = jest.fn(() => { })
+  const mockOnDesc = jest.fn(() => { })
+  const mockOnData = jest.fn(() => { })
+  const mockOnProp = jest.fn(() => { })
 
   const options: ParserOptions = {
     onName: mockOnName,
@@ -67,10 +67,10 @@ test('get namedExport component metadata correctly', () => {
 
 test('get component metadata that generated from a callExpression  correctly', () => {
   const sfc: AstResult = getAST('callExpressionExport.vue')
-  const mockOnName = jest.fn(() => {})
-  const mockOnDesc = jest.fn(() => {})
-  const mockOnData = jest.fn(() => {})
-  const mockOnProp = jest.fn(() => {})
+  const mockOnName = jest.fn(() => { })
+  const mockOnDesc = jest.fn(() => { })
+  const mockOnData = jest.fn(() => { })
+  const mockOnProp = jest.fn(() => { })
 
   const options: ParserOptions = {
     onName: mockOnName,
@@ -104,8 +104,8 @@ test('get component metadata that generated from a callExpression  correctly', (
 
 test('Get the component name correctly', () => {
   const sfc: AstResult = getAST('name.vue')
-  const mockOnName = jest.fn(() => {})
-  const mockOnDesc = jest.fn(() => {})
+  const mockOnName = jest.fn(() => { })
+  const mockOnDesc = jest.fn(() => { })
   const options: ParserOptions = {
     onName: mockOnName,
     onDesc: mockOnDesc
@@ -123,7 +123,7 @@ test('Get the component name correctly', () => {
 
 test('Ability to correctly handle props that is an array of string', () => {
   const sfc: AstResult = getAST('arrayProps.vue')
-  const mockOnProp = jest.fn(() => {})
+  const mockOnProp = jest.fn(() => { })
   const options: ParserOptions = {
     onProp: mockOnProp
   }
@@ -140,7 +140,7 @@ test('Ability to correctly handle props that is an array of string', () => {
 
 const sfc1: AstResult = getAST('objectProps.vue')
 test('Is a prop using a shorthand type', () => {
-  const mockOnProp = jest.fn(() => {})
+  const mockOnProp = jest.fn(() => { })
   const options: ParserOptions = {
     onProp: mockOnProp
   }
@@ -157,7 +157,7 @@ test('Is a prop using a shorthand type', () => {
 })
 
 test('`prop` defined using a type array', () => {
-  const mockOnProp = jest.fn(() => {})
+  const mockOnProp = jest.fn(() => { })
   const options: ParserOptions = {
     onProp: mockOnProp
   }
@@ -174,7 +174,7 @@ test('`prop` defined using a type array', () => {
 })
 
 test('Execute the default function and get the default value correctly', () => {
-  const mockOnProp = jest.fn(() => {})
+  const mockOnProp = jest.fn(() => { })
   const options: ParserOptions = {
     onProp: mockOnProp
   }
@@ -188,7 +188,7 @@ test('Execute the default function and get the default value correctly', () => {
 })
 
 test('Get the `required` value correctly', () => {
-  const mockOnProp = jest.fn(() => {})
+  const mockOnProp = jest.fn(() => { })
   const options: ParserOptions = {
     onProp: mockOnProp
   }
@@ -201,7 +201,7 @@ test('Get the `required` value correctly', () => {
 })
 
 test('The validator function should be used as a string representation', () => {
-  const mockOnProp = jest.fn(() => {})
+  const mockOnProp = jest.fn(() => { })
   const options: ParserOptions = {
     onProp: mockOnProp
   }
@@ -214,7 +214,7 @@ test('The validator function should be used as a string representation', () => {
 })
 
 test('The `prop` that does not satisfy the `prop` writing specification should be treated as no type', () => {
-  const mockOnProp = jest.fn(() => {})
+  const mockOnProp = jest.fn(() => { })
   const options: ParserOptions = {
     onProp: mockOnProp
   }
@@ -231,7 +231,7 @@ test('The `prop` that does not satisfy the `prop` writing specification should b
 })
 
 test('When the `type` definition contains `Function`, should get a string representation of the `default` function.', () => {
-  const mockOnProp = jest.fn(() => {})
+  const mockOnProp = jest.fn(() => { })
   const options: ParserOptions = {
     onProp: mockOnProp
   }
@@ -245,7 +245,7 @@ test('When the `type` definition contains `Function`, should get a string repres
 })
 
 test('Props: gets correct name for a quoted property', () => {
-  const mockOnProp = jest.fn(() => {})
+  const mockOnProp = jest.fn(() => { })
   const options: ParserOptions = {
     onProp: mockOnProp
   }
@@ -258,9 +258,61 @@ test('Props: gets correct name for a quoted property', () => {
   expect(arg.default).toBe('HELLO')
 })
 
+const sfc2: AstResult = getAST('objectPropsWithSpreadElement.vue')
+test('SpreadElement in props object, get props not in SpreadElement', () => {
+  const mockOnProp = jest.fn(() => { })
+  const options: ParserOptions = {
+    onProp: mockOnProp
+  }
+  const seen = new Seen()
+  parseJavascript(sfc2.jsAst as bt.File, seen, options)
+  const arg = mockOnProp.mock.calls[0][0]
+
+  expect(mockOnProp.mock.calls.length).toBe(3)
+  expect(arg as PropsResult).toEqual({
+    name: 'a',
+    type: 'String',
+    describe: []
+  })
+})
+
+test('SpreadElement in props object, get props in SpreadElement', () => {
+  const mockOnProp = jest.fn(() => { })
+  const options: ParserOptions = {
+    onProp: mockOnProp
+  }
+  const seen = new Seen()
+  parseJavascript(sfc2.jsAst as bt.File, seen, options)
+  const arg = mockOnProp.mock.calls[1][0]
+
+  expect(mockOnProp.mock.calls.length).toBe(3)
+  expect(arg as PropsResult).toEqual({
+    name: 'b',
+    type: 'Number',
+    describe: []
+  })
+})
+
+test('SpreadElement in props object, get props in recursive SpreadElement', () => {
+  const mockOnProp = jest.fn(() => { })
+  const options: ParserOptions = {
+    onProp: mockOnProp
+  }
+  const seen = new Seen()
+  parseJavascript(sfc2.jsAst as bt.File, seen, options)
+  const arg = mockOnProp.mock.calls[2][0]
+
+  expect(mockOnProp.mock.calls.length).toBe(3)
+  expect(arg as PropsResult).toEqual({
+    name: 'c',
+    type: 'String',
+    describe: []
+  })
+})
+
 test('Get comments as a description', () => {
   const sfc: AstResult = getAST('commentProps.vue')
-  const mockOnProp = jest.fn(() => {})
+  const mockOnProp = jest.fn(() => { })
   const options: ParserOptions = {
     onProp: mockOnProp
   }
@@ -275,7 +327,7 @@ test('Get comments as a description', () => {
 
 test('Get comments maintaining markdown code blocks original indentation', () => {
   const sfc: AstResult = getAST('markdownCodeBlocks.vue')
-  const mockOnDesc = jest.fn(() => {})
+  const mockOnDesc = jest.fn(() => { })
   const options: ParserOptions = {
     onDesc: mockOnDesc
   }
@@ -290,7 +342,7 @@ test('Get comments maintaining markdown code blocks original indentation', () =>
 
 test('Get comments maintaining markdown code blocks original indentation with block comment', () => {
   const sfc: AstResult = getAST('markdownCodeBlocksWithBlockComment.vue')
-  const mockOnDesc = jest.fn(() => {})
+  const mockOnDesc = jest.fn(() => { })
   const options: ParserOptions = {
     onDesc: mockOnDesc
   }
@@ -305,7 +357,7 @@ test('Get comments maintaining markdown code blocks original indentation with bl
 
 test('Gets a description of the default value and a description of the validator', () => {
   const sfc: AstResult = getAST('propFieldComment.vue')
-  const mockOnProp = jest.fn(() => {})
+  const mockOnProp = jest.fn(() => { })
   const options: ParserOptions = {
     onProp: mockOnProp
   }
@@ -326,7 +378,7 @@ test('Gets a description of the default value and a description of the validator
 
 test('Correct handling of events', () => {
   const sfc: AstResult = getAST('emit.vue')
-  const mockOnEvent = jest.fn(() => {})
+  const mockOnEvent = jest.fn(() => { })
   const options: ParserOptions = {
     onEvent: mockOnEvent,
     includeSyncEvent: true
@@ -373,7 +425,7 @@ test('Correct handling of events', () => {
 
 test('Correct handling of events, but exclude syncEvent', () => {
   const sfc: AstResult = getAST('emit.vue')
-  const mockOnEvent = jest.fn(() => {})
+  const mockOnEvent = jest.fn(() => { })
   const options: ParserOptions = {
     onEvent: mockOnEvent
   }
@@ -395,7 +447,7 @@ test('Correct handling of events, but exclude syncEvent', () => {
 
 test('Only call onEvent once for the same event', () => {
   const sfc: AstResult = getAST('repeatEmit.vue')
-  const mockOnEvent = jest.fn(() => {})
+  const mockOnEvent = jest.fn(() => { })
   const options: ParserOptions = {
     onEvent: mockOnEvent
   }
@@ -407,7 +459,7 @@ test('Only call onEvent once for the same event', () => {
 
 test('Correct handling of methods', () => {
   const sfc: AstResult = getAST('methods.vue')
-  const mockOnMethod = jest.fn(() => {})
+  const mockOnMethod = jest.fn(() => { })
   const options: ParserOptions = {
     onMethod: mockOnMethod
   }
@@ -429,10 +481,10 @@ test('Correct handling of methods', () => {
 
 test('The options in @Component should be parsed correctly', () => {
   const sfc: AstResult = getAST('tsBase.vue')
-  const mockOnMethod = jest.fn(() => {})
-  const mockOnEvent = jest.fn(() => {})
-  const mockOnProp = jest.fn(() => {})
-  const mockOnDesc = jest.fn(() => {})
+  const mockOnMethod = jest.fn(() => { })
+  const mockOnEvent = jest.fn(() => { })
+  const mockOnProp = jest.fn(() => { })
+  const mockOnDesc = jest.fn(() => { })
   const options: ParserOptions = {
     onMethod: mockOnMethod,
     onEvent: mockOnEvent,
@@ -469,7 +521,7 @@ test('The options in @Component should be parsed correctly', () => {
 test('@Prop decorator', () => {
   const sfc: AstResult = getAST('tsProp.vue')
 
-  const mockOnProp = jest.fn(() => {})
+  const mockOnProp = jest.fn(() => { })
   const options: ParserOptions = {
     onProp: mockOnProp
   }
@@ -519,7 +571,7 @@ test('@Prop decorator', () => {
 
 test('Class method', () => {
   const sfc: AstResult = getAST('tsMethod.vue')
-  const mockOnMethod = jest.fn(() => {})
+  const mockOnMethod = jest.fn(() => { })
   const options: ParserOptions = {
     onMethod: mockOnMethod
   }
@@ -537,7 +589,7 @@ test('Class method', () => {
 
 test('@Emit decorator', () => {
   const sfc: AstResult = getAST('tsEmit.vue')
-  const mockOnEvent = jest.fn(() => {})
+  const mockOnEvent = jest.fn(() => { })
   const options: ParserOptions = {
     onEvent: mockOnEvent,
     includeSyncEvent: true
@@ -565,7 +617,7 @@ test('@Emit decorator', () => {
 
 test('@Emit decorator, exclude syncEvent', () => {
   const sfc: AstResult = getAST('tsEmit.vue')
-  const mockOnEvent = jest.fn(() => {})
+  const mockOnEvent = jest.fn(() => { })
   const options: ParserOptions = {
     onEvent: mockOnEvent
   }
@@ -583,7 +635,7 @@ test('@Emit decorator, exclude syncEvent', () => {
 
 test('Slots in script', () => {
   const sfc: AstResult = getAST('slotsInScript.vue')
-  const mockOnSlot = jest.fn(() => {})
+  const mockOnSlot = jest.fn(() => { })
   const options: ParserOptions = {
     onSlot: mockOnSlot
   }
@@ -615,7 +667,7 @@ test('Slots in script', () => {
 
 test('Scoped slots in script', () => {
   const sfc: AstResult = getAST('scopedSlotsInScript.vue')
-  const mockOnSlot = jest.fn(() => {})
+  const mockOnSlot = jest.fn(() => { })
   const options: ParserOptions = {
     onSlot: mockOnSlot
   }
@@ -637,7 +689,7 @@ test('Scoped slots in script', () => {
 
 test('Functional children', () => {
   const sfc: AstResult = getAST('functionalChildren.vue')
-  const mockOnSlot = jest.fn(() => {})
+  const mockOnSlot = jest.fn(() => { })
   const options: ParserOptions = {
     onSlot: mockOnSlot
   }
@@ -654,7 +706,7 @@ test('Functional children', () => {
 
 test('@Component: Functional children', () => {
   const sfc: AstResult = getAST('functionalChildrenDecorator.vue')
-  const mockOnSlot = jest.fn(() => {})
+  const mockOnSlot = jest.fn(() => { })
   const options: ParserOptions = {
     onSlot: mockOnSlot
   }
@@ -671,7 +723,7 @@ test('@Component: Functional children', () => {
 
 test('Render function in class method: Functional children', () => {
   const sfc: AstResult = getAST('functionalChildrenClassMethod.vue')
-  const mockOnSlot = jest.fn(() => {})
+  const mockOnSlot = jest.fn(() => { })
   const options: ParserOptions = {
     onSlot: mockOnSlot
   }
@@ -688,7 +740,7 @@ test('Render function in class method: Functional children', () => {
 
 test('Mixin in the object', () => {
   const sfc: AstResult = getAST('mixins.vue')
-  const mockOnMixin = jest.fn(() => {})
+  const mockOnMixin = jest.fn(() => { })
   const options: ParserOptions = {
     onMixIn: mockOnMixin
   }
@@ -707,7 +759,7 @@ test('Mixin in the object', () => {
 
 test('data in the object', () => {
   const sfc: AstResult = getAST('data.vue')
-  const mockOnData = jest.fn(() => {})
+  const mockOnData = jest.fn(() => { })
   const options: ParserOptions = {
     onData: mockOnData
   }
@@ -746,7 +798,7 @@ test('data in the object', () => {
 
 test('data in the object, arrow function with returnStatement.', () => {
   const sfc: AstResult = getAST('data2.vue')
-  const mockOnData = jest.fn(() => {})
+  const mockOnData = jest.fn(() => { })
   const options: ParserOptions = {
     onData: mockOnData
   }
@@ -785,7 +837,7 @@ test('data in the object, arrow function with returnStatement.', () => {
 
 test('computed in the object', () => {
   const sfc: AstResult = getAST('computed.vue')
-  const mockOnComputed = jest.fn(() => {})
+  const mockOnComputed = jest.fn(() => { })
   const options: ParserOptions = {
     onComputed: mockOnComputed
   }
@@ -815,7 +867,7 @@ test('computed in the object', () => {
 
 test('watch in the object', () => {
   const sfc: AstResult = getAST('watch.vue')
-  const mockOnWatch = jest.fn(() => {})
+  const mockOnWatch = jest.fn(() => { })
   const options: ParserOptions = {
     onWatch: mockOnWatch
   }
@@ -847,7 +899,7 @@ test('watch in the object', () => {
 })
 
 test('Set jsx to false to use `<any>Var` in ts', () => {
-  const mockOnMethod = jest.fn(() => {})
+  const mockOnMethod = jest.fn(() => { })
   const options: ParserOptions = {
     onMethod: mockOnMethod,
     babelParserPlugins: {
@@ -864,7 +916,7 @@ test('Set jsx to false to use `<any>Var` in ts', () => {
 })
 
 test('The default value of Props', () => {
-  const mockOnProp = jest.fn(() => {})
+  const mockOnProp = jest.fn(() => { })
   const options: ParserOptions = {
     onProp: mockOnProp
   }
@@ -912,7 +964,7 @@ test('The default value of Props', () => {
 
 test('The separated block should be handled correctly', () => {
   const sfc: AstResult = getAST('separate/separate.vue')
-  const mockOnProp = jest.fn(() => {})
+  const mockOnProp = jest.fn(() => { })
   const options: ParserOptions = {
     onProp: mockOnProp
   }
@@ -929,7 +981,7 @@ test('The separated block should be handled correctly', () => {
 
 test('the Typescript const assertion should parsing correctly', () => {
   const sfc: AstResult = getAST('tsConstAssertion.vue')
-  const mockOnProp = jest.fn(() => {})
+  const mockOnProp = jest.fn(() => { })
   const options: ParserOptions = {
     onProp: mockOnProp
   }
@@ -939,7 +991,7 @@ test('the Typescript const assertion should parsing correctly', () => {
 
 test('data in a mixin', () => {
   const sfc: AstResult = getAST('common.js', { jsx: false }, true)
-  const mockOnData = jest.fn(() => {})
+  const mockOnData = jest.fn(() => { })
   const options: ParserOptions = {
     onData: mockOnData
   }
@@ -978,10 +1030,10 @@ test('data in a mixin', () => {
 
 test('should pass when export default is Vue.extend CallExpression', () => {
   const sfc1: AstResult = getAST('vueExtend.vue')
-  const mockOnProp = jest.fn(() => {})
-  const mockOnData = jest.fn(() => {})
-  const mockOnMixin = jest.fn(() => {})
-  const mockOnMethod = jest.fn(() => {})
+  const mockOnProp = jest.fn(() => { })
+  const mockOnData = jest.fn(() => { })
+  const mockOnMixin = jest.fn(() => { })
+  const mockOnMethod = jest.fn(() => { })
   const options: ParserOptions = {
     onProp: mockOnProp,
     onMixIn: mockOnMixin,
@@ -1022,10 +1074,10 @@ test('should pass when export default is Vue.extend CallExpression', () => {
 
 test('should pass when export default is Vue.extend CallExpression in js file', () => {
   const sfc1: AstResult = getAST('vueExtend.js', { jsx: false }, true)
-  const mockOnProp = jest.fn(() => {})
-  const mockOnData = jest.fn(() => {})
-  const mockOnMixin = jest.fn(() => {})
-  const mockOnMethod = jest.fn(() => {})
+  const mockOnProp = jest.fn(() => { })
+  const mockOnData = jest.fn(() => { })
+  const mockOnMixin = jest.fn(() => { })
+  const mockOnMethod = jest.fn(() => { })
   const options: ParserOptions = {
     onProp: mockOnProp,
     onMixIn: mockOnMixin,
