@@ -210,10 +210,10 @@ export class Render {
     return code
   }
 
-  eventRender(propsRes: EventResult[]): string {
+  eventRender(eventsRes: EventResult[]): string {
     const eventConfig = (this.options as RenderOptions).events
     let code = this.renderTabelHeader(eventConfig)
-    propsRes.forEach((event: EventResult) => {
+    eventsRes.forEach((event: EventResult) => {
       const row: string[] = []
       for (let i = 0; i < eventConfig.length; i++) {
         if (eventConfig[i] === 'Event Name') {
