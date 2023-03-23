@@ -1,7 +1,7 @@
 import cac from 'cac'
 import JoyCon from 'joycon'
 import fs from 'fs-extra'
-import { BabelParserPlugins } from '@vuese/parser'
+import { BabelParserPlugins, ParserOptions } from '@vuese/parser'
 import Log from 'log-horizon'
 import preview from './preview'
 import genDocute from './genDocute'
@@ -38,11 +38,12 @@ export type CliOptions = {
   open: boolean
   port: number
   host: string
-  keepFolderStructure: boolean
+  keepFolderStructure: boolean,
+  parserOptions: ParserOptions
 }
 type PartialCliOptions = Partial<CliOptions>
 
-async function getConfig(
+export async function getConfig(
   flags: PartialCliOptions
 ): Promise<Partial<CliOptions>> {
   const { path, data } = await joycon.load([
@@ -59,7 +60,8 @@ async function getConfig(
     markdownDir: 'components',
     markdownFile: '',
     host: '127.0.0.1',
-    keepFolderStructure: false
+    keepFolderStructure: false,
+    parserOptions: {}
   }
   if (path) Object.assign(config, data, flags)
   Object.assign(config, flags || {})
