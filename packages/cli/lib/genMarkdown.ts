@@ -3,7 +3,7 @@ import path from 'path'
 import fg from 'fast-glob'
 import fs from 'fs-extra'
 import Log from 'log-horizon'
-import { CliOptions } from '.'
+import { CliOptions, getConfig } from '.'
 import { parser } from '@vuese/parser'
 import Render from '@vuese/markdown-render'
 
@@ -45,11 +45,12 @@ export default async (config: CliOptions): MarkdownResult => {
     const abs = path.resolve(p)
     const source = await fs.readFile(abs, 'utf-8')
     try {
-      const parserRes = parser(source, {
+      const { parserOptions } = await getConfig({});
+      const parserRes = parser(source, Object.assign({
         babelParserPlugins,
         basedir: path.dirname(abs),
         jsFile: abs.endsWith('.js')
-      })
+      }, parserOptions))
       const r = new Render(parserRes)
       const markdownRes = r.renderMarkdown()
 
