@@ -85,7 +85,7 @@ export function getValueFromGenerate(node: any): any {
 }
 
 export function computesFromStore(node: any): boolean {
-  if (node === undefined) {
+  if (node === undefined || node === null) {
     return false
   }
 
