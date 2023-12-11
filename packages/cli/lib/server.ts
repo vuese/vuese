@@ -15,12 +15,12 @@ function getFirstPath(config: CliOptions): string {
   try {
     const regRes = (entrySourceStr as any).match(reg)[1]
     const routesConfig = new Function(`return ${regRes}`)()
-    const firstRoute = routesConfig.reduce((p: string, v: any, i: number) => {
-      if (i === 0) {
-        const { links } = v
-        return links[0] && links[0].link
+    const firstRoute = routesConfig.reduce((p: string, v: any) => {
+      if (!p && v.links && v.links.length > 0) {
+        return v.links[0].link;
       }
-    }, '')
+      return p;
+    }, '');
     // Read the first preview configuration injected when opening the browser.
     return `#${firstRoute}`
   } catch (e) {
